@@ -15,7 +15,6 @@ void functionTwo() {
 
 void functionThree() {
     cout << "Function Three" << endl;
-    // Add your code for Function Three here
 }
 
 int main() {
