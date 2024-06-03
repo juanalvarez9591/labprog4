@@ -8,18 +8,16 @@
 
 class Factory {
 public:
-    Factory();
-
-    IControlUsuario* getControlUsuario();
-    IControlPromocion* getControlPromocion();
-    IControlCompra* getControlCompra();
-    IControlSuscripciones* getControlSuscripciones();
+    static IControlUsuario* getControlUsuario();
+    static IControlPromocion* getControlPromocion();
+    static IControlCompra* getControlCompra();
+    static IControlSuscripciones* getControlSuscripciones();
 
 private:
-    IControlUsuario* controlUsuario;
-    IControlPromocion* controlPromocion;
-    IControlCompra* controlCompra;
-    IControlSuscripciones* controlSuscripciones;
+    static IControlUsuario* controlUsuario;
+    static IControlPromocion* controlPromocion;
+    static IControlCompra* controlCompra;
+    static IControlSuscripciones* controlSuscripciones;
 };
 
 #endif
