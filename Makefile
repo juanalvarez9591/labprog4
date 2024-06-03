@@ -3,14 +3,14 @@ PROG = programa
 
 # Compilador y banderas de compilación
 CXX = g++
-CXXFLAGS = -Wall -Wextra -pedantic -g -std=c++11 -std=c++0x
+CXXFLAGS = -Wall -Wextra -pedantic -g -std=c++11
 
 # Directorios de búsqueda de encabezados
 INC_DIR = -I./include
 
 # Archivos fuente y objeto
 SRCS = $(wildcard src/*.cpp)
-OBJS = $(SRCS:.cpp=.o) main.o
+OBJS = $(patsubst src/%.cpp,bin/%.o,$(SRCS)) bin/main.o
 
 # Archivos de encabezado
 HEADERS = $(wildcard include/*.h)
@@ -21,11 +21,13 @@ all: $(PROG)
 $(PROG): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(INC_DIR) $^ -o $@
 
-%.o: %.cpp $(HEADERS)
+bin/%.o: src/%.cpp $(HEADERS)
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INC_DIR) -c $< -o $@
 
-main.o: main.cpp $(HEADERS)
+bin/main.o: main.cpp $(HEADERS)
+	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INC_DIR) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(PROG)
+	rm -rf bin $(PROG)
