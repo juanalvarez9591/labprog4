@@ -5,17 +5,14 @@ using namespace std;
 
 void functionOne() {
     cout << "Function One" << endl;
-    // Add your code for Function One here
 }
 
 void functionTwo() {
     cout << "Function Two" << endl;
-    // Add your code for Function Two here
 }
 
 void functionThree() {
     cout << "Function Three" << endl;
-    // Add your code for Function Three here
 }
 
 int main() {
