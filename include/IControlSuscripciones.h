@@ -1,0 +1,20 @@
+#ifndef ICONTROL_SUSCRIPCIONES_H
+#define ICONTROL_SUSCRIPCIONES_H
+
+#include <string>
+#include <vector>
+#include "DTNotificacion"
+using namespace std;
+
+
+class IControlSuscripciones {
+public:
+    virtual vector<string> getVendedoresNoSuscritos(const string&) = 0; 
+    virtual vector<string> getVendedoresSuscritos(const string&) = 0; 
+    virtual void suscribirACliente(vector<string>, const string&) = 0; 
+    virtual void eliminarSuscripciones(vector<string>, const string&) = 0; 
+    virtual vector<DTNotificacion> listarNotificaciones(const string&) = 0; 
+    virtual ~IControlSuscripciones(){};
+
+};
+#endif

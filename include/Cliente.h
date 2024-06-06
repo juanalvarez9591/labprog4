@@ -4,18 +4,19 @@
 #include <string>
 #include <vector>
 #include "DTNotificacion.h"
+using namespace std;
 
 class Cliente {
 public:
-    Cliente(std::string nickname, std::string nombre, std::string apellido, std::string email, std::string password);
+    Cliente(string nickname, string nombre, string apellido, string email, string password);
 
 private:
-    std::string nickname;
-    std::string nombre;
-    std::string apellido;
-    std::string email;
-    std::string password;
-    std::vector<DTNotificacion> notificaciones;
+    string nickname;
+    string nombre;
+    string apellido;
+    string email;
+    string password;
+    vector<DTNotificacion> notificaciones;
 };
 
 #endif
