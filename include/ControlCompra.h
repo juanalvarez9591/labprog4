@@ -10,9 +10,10 @@
 #include "Cantidad.h"
 #include "DTInfoProducto.h"
 #include "DTDetalleProducto.h"
+#include "IControlCompra.h"
 using namespace std;
 
-class IControlCompra {
+class ControlCompra public: IControlCompra {
 
 private:
     string nickname;

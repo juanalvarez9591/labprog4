@@ -11,6 +11,7 @@
 #include "ControlUsuario.h"
 #include "Vendedor.h"
 #include "DTFecha.h"
+#include "IControlPromocion.h"
 using namespace std;
 
 class ControlPromocion public: IControlPromocion {
