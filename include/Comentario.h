@@ -19,6 +19,8 @@ public:
 
     //Devuelve el puntero a la primera respuesta, y puedes navegar al resto luego
     Comentario* borrarRespuestas();
+    //Crea y devuelve un DTComentario de este comentario
+    DTComentario getDTComentario()
 
 private:
     DTFecha date;

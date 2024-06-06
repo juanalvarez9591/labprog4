@@ -20,6 +20,15 @@ Comentario* borrarRespuestas(){
 	return this->Respuesta;
 }
 
+Comentario* getResp(){
+	return this->Respuesta;
+}
+
+Comentario* getSig(){
+	return this->Sigcomenario;
+}
+
+
 string obtenerTexto(){
 
 	return this->texto;
