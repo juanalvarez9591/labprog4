@@ -2,8 +2,7 @@
 #include "DTComentario.h"
 #include "DTFecha.h"
 
-Comentario Comentario(std::string autor, std::string texto){
-	this->autor = autor;
+Comentario Comentario(std::string texto){
 	this->texto = texto;
 	this->date = getDTFechaNow();
 	this->Sigcomenario = NULL;
@@ -28,6 +27,12 @@ Comentario* getSig(){
 	return this->Sigcomenario;
 }
 
+void setSig(Comentario* Sig){
+	this->Sig = Sig;
+}
+void setRes(Comentario* Res){
+	this->Res = Res;
+}
 
 string obtenerTexto(){
 
