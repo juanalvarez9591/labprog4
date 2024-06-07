@@ -2,14 +2,15 @@
 #define COMENTARIO_H
 
 #include <string>
+using namespace std;
 
 class Comentario {
 public:
-    Comentario(std::string autor, std::string texto);
+    Comentario(string autor, string texto);
 
 private:
-    std::string autor;
-    std::string texto;
+    string autor;
+    string texto;
 };
 
 #endif
