@@ -2,17 +2,18 @@
 #define VENDEDOR_H
 
 #include <string>
+using namespace std;
 
 class Vendedor {
 public:
-    Vendedor(std::string nickname, std::string nombre, std::string apellido, std::string email, std::string password);
+    Vendedor(string nickname, string nombre, string apellido, string email, string password);
 
 private:
-    std::string nickname;
-    std::string nombre;
-    std::string apellido;
-    std::string email;
-    std::string password;
+    string nickname;
+    string nombre;
+    string apellido;
+    string email;
+    string password;
 };
 
 #endif
