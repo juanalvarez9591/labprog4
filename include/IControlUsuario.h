@@ -3,24 +3,21 @@
 
 #include <string>
 #include <vector>
+#include "DTFecha.h"
+/*
 #include "DTComentario.h"
+*/
 using namespace std;
 
 class IControlUsuario {
 public:
-    virtual bool darDeAltaCliente(const string&, const string&, Date, const string&,const string&) = 0;
-    virtual bool darDeAltaVendedor(const string&,const string&, Date, int) = 0;
+    virtual bool darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) = 0;
+    virtual bool darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) = 0;
     virtual vector<string> listarNicknamesUsuarios() = 0;
-    virtual vector<string> listarClientes() = 0;
-    virtual vector<DTComentario> listarComentariosUsuario(const string& nickname) = 0;
-    virtual void eliminarComentario(Comentario comentario) = 0;
-    virtual vector<string> listarNicknameVendedores() = 0;
-    virtual vector<string> ListaNicknamesVendedores(const string& nickname) = 0;
-    virtual void SeleccionarVendedores( const string& nickname, vector<string>) = 0;
-    virtual ~IControlUsuario(){};
-
-
-
+    virtual vector<string> listarNicknamesClientes() = 0;
+    virtual vector<string> listarNicknamesVendedores() = 0;
+    virtual ~IControlUsuario() {}
 };
+
 
 #endif
