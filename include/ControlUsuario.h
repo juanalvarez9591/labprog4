@@ -5,28 +5,26 @@
 #include "Vendedor.h"
 #include "Usuario.h"
 #include "Cliente.h"
+#include "DTFecha.h"
 #include <vector>
-#include "Comentario.h"
 using namespace std;
 
 class ControlUsuario : public IControlUsuario {
 public:
-    
-     bool darDeAltaCliente(const string&, const string&, Date, const string&,const string&) override;
-     bool darDeAltaVendedor(const string&,const string&, Date, int) override;
-     vector<string> listarNicknamesUsuarios() override;
-     vector<string> listarClientes() override;
-     vector<DTComentario> listarComentariosUsuario(const string& nickname) override;
-     void eliminarComentario(Comentario comentario) override;
-     vector<string> listarNicknameVendedores() override;
-     vector<string> ListaNicknamesVendedores(const string& nickname) override;
-     void SeleccionarVendedores( const string& nickname, vector<string>) override;
-     Usuario BuscarPorNick(const string& nickname) override;
-     virtual ~ControlUsuario();
+    ControlUsuario();
+    bool darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) override;
+    bool darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) override;
+    vector<string> listarNicknamesUsuarios() override;
+    vector<string> listarNicknamesClientes() override;
+    vector<string> listarNicknamesVendedores() override;
+    virtual ~ControlUsuario();
 
 private:
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
+    bool nicknameRepetido(string nickname);
 };
+
+
 
 #endif

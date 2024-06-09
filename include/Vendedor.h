@@ -2,18 +2,16 @@
 #define VENDEDOR_H
 
 #include <string>
+#include "Usuario.h"
+
 using namespace std;
 
-class Vendedor {
+class Vendedor : public Usuario {
 public:
-    Vendedor(string nickname, string nombre, string apellido, string email, string password);
+    Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut);
 
 private:
-    string nickname;
-    string nombre;
-    string apellido;
-    string email;
-    string password;
+    int rut;
 };
 
 #endif

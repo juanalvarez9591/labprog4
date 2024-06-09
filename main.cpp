@@ -1,14 +1,21 @@
 #include <iostream>
 #include <string>
-
+#include "Factory.h"
+#include "IControlUsuario.h"
+#include "DTFecha.h"
 using namespace std;
 
-void functionOne() {
-    cout << "Function One" << endl;
+void functionOne(IControlUsuario* controlador) {
+    cout << "Dar de alta cliente" << endl;
+    controlador->darDeAltaCliente("nickname", "password", DTFecha(1, 1, 2000), "direccion", "ciudad");
 }
 
-void functionTwo() {
-    cout << "Function Two" << endl;
+void functionTwo(IControlUsuario* controlador) {
+    cout << "Listar usuarios" << endl;
+    vector<string> nicknames = controlador->listarNicknamesUsuarios();
+    for (auto it = nicknames.begin(); it != nicknames.end(); it++) {
+        cout << *it << endl;
+    }
 }
 
 void functionThree() {
@@ -19,6 +26,9 @@ int main() {
     char choice;
 
     // aca irian todas las cosas que queremos inicializar si o si antes de ejecutar
+
+    Factory *factory = new Factory();
+    IControlUsuario *controlador = factory->getControlUsuario();
 
     do {
         // A partir de aca sumariamos funciones para mas opciones digamos
@@ -33,10 +43,10 @@ int main() {
 
         switch (choice) {
             case '1':
-                functionOne();
+                functionOne(controlador);
                 break;
             case '2':
-                functionTwo();
+                functionTwo(controlador);
                 break;
             case '3':
                 functionThree();

@@ -3,20 +3,22 @@
 
 #include <string>
 #include <vector>
+#include "Usuario.h"
+/*
 #include "DTNotificacion.h"
+*/
 using namespace std;
 
-class Cliente {
+class Cliente: public Usuario {
 public:
-    Cliente(string nickname, string nombre, string apellido, string email, string password);
+    Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
 
 private:
-    string nickname;
-    string nombre;
-    string apellido;
-    string email;
-    string password;
+    string direccion;
+    string ciudad;
+/*
     vector<DTNotificacion> notificaciones;
+*/
 };
 
 #endif
