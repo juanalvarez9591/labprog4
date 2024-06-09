@@ -2,3 +2,4 @@
 .idea
 programa
 bin/
+cmake-build-debug/
