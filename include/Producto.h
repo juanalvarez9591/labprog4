@@ -29,8 +29,8 @@ public:
 
     DTProducto GetDTProducto();
 
-    Comentario GetComentario(string Text);
-    void AgregarComentario(Comentario *Comenario);
+    Comentario* GetComentario(string Text);
+    void AgregarComentario(Comentario *Comentario);
     void AgregarRespuesta(Comentario *Comentario, string Text);
 
 private:
@@ -41,6 +41,8 @@ private:
     int Precio;
     CatProducto Categoria;
     Comentario Foro;
+
+    Comentario *Estecomentario(Comentario *It, string Text);
 };
 
 #endif

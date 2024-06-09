@@ -51,16 +51,62 @@ DTProducto GetDTProducto(){
 	//Volver a esto cuando haga DTProducto
 }
 
-Comentario GetComentario(string Text){
-	//
+Comentario *Estecomentario(Comentario *It, string Text){
+	if (It == NULL){
+		return NULL;
+	}else{
+		if (It.obtenerTexto() == Text){
+			return It;
+
+		}else{
+			Comentario *Catalejo = Estecomentario(this.getSig(), Text);
+			if (Catalejo != NULL){
+				return Catalejo;
+
+			}else{
+				Catalejo = Estecomentario(this.getResp(), Text);
+				return Catalejo;
+		}
+		}
+	}
 }
 
-void AgregarComentario(Comentario *Comenario){
-	//
+//Retorna un puntero al comentario, o en caso de no estar devuelve NULL
+Comentario *GetComentario(string Text){
+	Comentario* It = this->Foro;
+	if (this->Foro != NULL){
+		return Estecomentario(It, Text)
+	}else{
+		return NULL;
+	}
+}
+
+
+void AgregarComentario(Comentario *Comentario){
+	if (this->Foro == NULL){
+		this->Foro = Comentario;
+	}else{
+		Comentario* Catalejo = this->Foro;
+		while(Catalejo.getSig() != NULL){
+			Catalejo = Catalejo.getSig();
+		}
+		Catalejo.setSig(Comentario);
+	}
 }
 
 void AgregarRespuesta(Comentario *Comentario, string Text){
-	//
+	Comentario* It = Estecomentario(this->Foro , Text);
+	if (It != NULL){
+		if (It.getResp() == NULL){
+			It.setRes(Comentario);
+		}else{
+			It = It.getResp();
+			while(It.getSig != NULL){
+				It = It.getSig;
+			}
+			It.setSig(Comentario);
+		}
+	}
 }
 
 ~Producto(){
