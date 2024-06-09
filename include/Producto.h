@@ -16,8 +16,6 @@ public:
     Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria);
     ~Producto();
 
-    void GetDTProducto();
-    
     string GetNombre();
     string GetDescripcion();
     CatProducto GetCategoria();
@@ -28,6 +26,8 @@ public:
     bool RestarAStock(int Vendidos);
     //No se si se pide restock pero por las dudas
     // void Restock(int envio);
+
+    DTProducto GetDTProducto();
 
     Comentario GetComentario(string Text);
     void AgregarComentario(Comentario *Comenario);
