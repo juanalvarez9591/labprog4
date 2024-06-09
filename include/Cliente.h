@@ -12,9 +12,7 @@ using namespace std;
 
 class Cliente: public Usuario, public IObserver {
 private:
-    string nickname;
-    string password;
-    DTFecha* fechaNacimiento;
+
     string calle;
     string ciudad;
     int nroPuerta;
@@ -24,11 +22,11 @@ public:
     Cliente(string nickname, string password, string calle, string ciudad, DTFecha* fecha, int numPuerta, vector<DTNotificacion> notificaciones);
     ~Cliente();
     string getNombre();
-    string getPassword();
-    DTFecha* getFechaNacimiento();
+    string getPass();
     string getCalle();
     string getCiudad();
     int getNroPuerta();
+    DTFecha* getNacimiento();
     vector<DTNotificacion> getNotificaciones();
     void update(string nickVendedor, string nombrePromocion, vector<DTProducto> productos);  
     void clearNotificaciones();
