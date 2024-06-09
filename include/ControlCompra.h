@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "DTDetallesCompra"
+#include "DTDetallesCompra.h"
 #include "DTInfoProducto.h"
 #include "Producto.h"
 #include "Compra.h"
