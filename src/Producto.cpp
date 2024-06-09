@@ -48,7 +48,8 @@ void Restock(int envio){
 */
 
 DTProducto GetDTProducto(){
-	//Volver a esto cuando haga DTProducto
+	DTProducto salida = DTProducto(this->Nombre, this->Id);
+	return salida;
 }
 
 Comentario *Estecomentario(Comentario *It, string Text){
