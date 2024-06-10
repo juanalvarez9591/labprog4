@@ -1,3 +1,4 @@
+/*
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
@@ -41,4 +42,4 @@ string obtenerTexto(){
 
 DTComentario getDTComentario(){
 	return DTComentario(this->autor , this->texto);
-}
+}*/
