@@ -30,6 +30,10 @@ int GetStock(){
 	return this->stock;	
 }
 
+int GetId(){
+	return this->Id;	
+}
+
 bool RestarAStock(int Vendidos){
 	if (Vendidos <= this->stock)
 	{

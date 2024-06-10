@@ -21,6 +21,7 @@ public:
     CatProducto GetCategoria();
     int GetPrecio();
     int GetStock();
+    int GetId();
 
     //Medio para quitar del stock cosas vendidas + posible forma de ver si se pide mas de lo que se tiene
     bool RestarAStock(int Vendidos);
