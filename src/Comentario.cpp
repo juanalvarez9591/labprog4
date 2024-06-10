@@ -14,11 +14,29 @@ void Liberar(){
 	LiberarFecha(this->date);
 }
 
-//Devuelve el puntero a la primera respuesta
-Comentario* borrarRespuestas(){
-	return this->Respuesta;
+//Devuelve un set con las respuestas DIRECTAS del comentario
+set<Comentario> getRespuestas() {
+	std::set<Comentario> respuestas;
+	Comentario* i = this->Respuesta;
+	while(i != NULL) {
+		respuestas.insert(i);
+		i = i->Sigcomenario;
+	}
+	return respuestas;
 }
 
+//Tiene que borrar TODAS las respuestas del comentario
+void borrarRespuestas(){
+	auto respuestas = getRespuestas();
+	while (!(respuestas.empty())) {
+		Comentario* j = respuestas.begin();
+		respuestas.remove(j);
+		j->borrarRespuestas();
+	}
+	eliminarComentario(this->texto);
+}
+
+//Devuelve el puntero a la primera respuesta
 Comentario* getResp(){
 	return this->Respuesta;
 }
@@ -35,7 +53,6 @@ void setRes(Comentario* Res){
 }
 
 string obtenerTexto(){
-
 	return this->texto;
 }
 

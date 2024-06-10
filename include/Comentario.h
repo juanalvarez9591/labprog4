@@ -19,8 +19,11 @@ public:
     void setRes(Comentario* Res);
     DTFecha* getFecha();
 
-    //Devuelve el puntero a la primera respuesta, y puedes navegar al resto luego
-    Comentario* borrarRespuestas();
+    //Devuelve un set con las respuestas DIRECTAS del comentario
+    set<Comentario> getRespuestas();
+
+    //Borra TODAS las respuestas del comentario
+    void borrarRespuestas();
 
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario()
@@ -29,7 +32,7 @@ private:
     DTFecha date;
     string texto;
     Comentario* Sigcomenario;
-    Comentario* Respuesta
+    Comentario* Respuesta;
 };
 
 #endif
