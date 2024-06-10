@@ -6,7 +6,7 @@
 #include "DTFecha.h"
 using namespace std;
 
-void displaySystemDate(IControlFecha* controlFecha) {
+void fechaSistemaHandler(IControlFecha* controlFecha) {
     DTFecha currentDate = controlFecha->getFechaActual();
     cout << "La fecha actual del sistema es: " << currentDate.getString() << endl;
 
@@ -71,7 +71,7 @@ int main() {
 
         switch (choice) {
             case '1':
-                displaySystemDate(controlFecha);
+                fechaSistemaHandler(controlFecha);
                 break;
             case '2':
                 cout << "Saliendo..." << endl;

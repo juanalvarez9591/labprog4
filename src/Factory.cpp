@@ -2,16 +2,14 @@
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
 /*#include "ControlPromocion.h"
-#include "ControlCompra.h"
-#include "ControlSuscripciones.h"*/
+#include "ControlCompra.h"*/
+#include "ControlSuscripciones.h"
 
 IControlUsuario* Factory::controlUsuario = nullptr;
 IControlFecha* Factory::controlFecha = nullptr;
-/*
-    IControlPromocion* Factory::controlPromocion = nullptr;
-    IControlCompra* Factory::controlCompra = nullptr;
-    IControlSuscripciones* Factory::controlSuscripciones = nullptr;
-*/
+IControlSuscripciones* Factory::controlSuscripciones = nullptr;
+/*    IControlPromocion* Factory::controlPromocion = nullptr;
+    IControlCompra* Factory::controlCompra = nullptr;*/
 
 
 IControlUsuario* Factory::getControlUsuario() {
@@ -29,7 +27,6 @@ IControlFecha* Factory::getControlFecha() {
 }
 
 /*
-
 IControlPromocion* Factory::getControlPromocion() {
     if (controlPromocion == nullptr) {
         controlPromocion = new ControlPromocion();
@@ -42,11 +39,12 @@ IControlCompra* Factory::getControlCompra() {
         controlCompra = new ControlCompra();
     }
     return controlCompra;
-}
+}*/
 
 IControlSuscripciones* Factory::getControlSuscripciones() {
+    // momento inyeccion de dependencias
     if (controlSuscripciones == nullptr) {
-        controlSuscripciones = new ControlSuscripciones();
+        controlSuscripciones = new ControlSuscripciones(getControlUsuario());
     }
     return controlSuscripciones;
-}*/
+}
