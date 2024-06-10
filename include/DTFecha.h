@@ -10,10 +10,13 @@ private:
     int dia, mes, anio;
 
 public:
-    DTFecha(); // Making it public if you intend to create instances without parameters
+    DTFecha();
     DTFecha(int dia, int mes, int anio);
     string getString();
     bool operator>=(const DTFecha &F) const;
+    int getDia() const;
+    int getMes() const;
+    int getAnio() const;
 };
 
 #endif // DTFECHA_H

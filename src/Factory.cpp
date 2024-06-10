@@ -1,10 +1,12 @@
 #include "Factory.h"
 #include "ControlUsuario.h"
+#include "ControlFecha.h"
 /*#include "ControlPromocion.h"
 #include "ControlCompra.h"
 #include "ControlSuscripciones.h"*/
 
 IControlUsuario* Factory::controlUsuario = nullptr;
+IControlFecha* Factory::controlFecha = nullptr;
 /*
     IControlPromocion* Factory::controlPromocion = nullptr;
     IControlCompra* Factory::controlCompra = nullptr;
@@ -17,6 +19,13 @@ IControlUsuario* Factory::getControlUsuario() {
         controlUsuario = new ControlUsuario();
     }
     return controlUsuario;
+}
+
+IControlFecha* Factory::getControlFecha() {
+    if (controlFecha == nullptr) {
+        controlFecha = new ControlFecha();
+    }
+    return controlFecha;
 }
 
 /*
