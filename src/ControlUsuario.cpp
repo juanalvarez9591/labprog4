@@ -70,6 +70,21 @@ vector<string> ControlUsuario::listarNicknamesVendedores() {
     return nicknames;
 }
 
+Usuario* ControlUsuario::getUsuario(string nickname) {
+    for (auto it = clientes.begin(); it != clientes.end(); it++) {
+        if (it->getNickname() == nickname) {
+            return &(*it);
+        }
+    }
+    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+        if (it->getNickname() == nickname) {
+            return &(*it);
+        }
+    }
+
+    return nullptr;
+}
+
 ControlUsuario::~ControlUsuario() {
     // no hay que hacer nada aca, cuando se llama a este destructor por default
     // se llama al destructor de vector, que llama a cada destructor de cliente y vendedor

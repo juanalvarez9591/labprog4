@@ -1,13 +1,13 @@
 #include "../include/DTNotificacion.h"
 
-DTNotificacion::DTNotificacion()
-{
-    asunto = "";
-    texto = "";
+DTNotificacion::DTNotificacion() {
+    this->nombrePromo = "";
+    this->nickVendedor = "";
+    this->productosPromocion = vector<DTInfoProducto>();
 }
 
-DTNotificacion::DTNotificacion(string asunto, string texto)
-{
-    this->asunto = asunto;
-    this->texto = texto;
+DTNotificacion::DTNotificacion(string nombrePromo, string nickVendedor, vector<DTInfoProducto> productos) {
+    this->nombrePromo = nombrePromo;
+    this->nickVendedor = nickVendedor;
+    this->productosPromocion = productos;
 }

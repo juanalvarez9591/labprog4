@@ -10,11 +10,12 @@ class DTNotificacion
 {
 private:
     string nombrePromo;
-    vector<DTInfoProducto> productos;
+    string nickVendedor;
+    vector<DTInfoProducto> productosPromocion;
 
 public:
     DTNotificacion();
-    DTNotificacion(string nombrePromo, vector<DTInfoProducto> productos);
+    DTNotificacion(string nombrePromo, string nickVendedor, vector<DTInfoProducto> productos);
 };
 
 #endif // DTNOTIFICACION_H
