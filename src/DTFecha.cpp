@@ -23,3 +23,18 @@ string DTFecha::getString()
 {
     return to_string(this->dia) + "/" + to_string(this->mes) + "/" + to_string(this->anio);
 }
+
+int DTFecha::getDia() const
+{
+    return dia;
+}
+
+int DTFecha::getMes() const
+{
+    return mes;
+}
+
+int DTFecha::getAnio() const
+{
+    return anio;
+}
