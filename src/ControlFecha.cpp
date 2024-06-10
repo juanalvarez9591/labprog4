@@ -17,6 +17,15 @@ void ControlFecha::agregarDias(int dias) {
     int newMes = fechaActual.getMes();
     int newAnio = fechaActual.getAnio();
 
+    while (newDia <= 0) {
+        newMes--;
+        if (newMes == 0) {
+            newMes = 12;
+            newAnio--;
+        }
+        newDia += 31;
+    }
+
     while (newDia > 31) {
         newDia -= 31;
         newMes++;
@@ -32,6 +41,11 @@ void ControlFecha::agregarDias(int dias) {
 void ControlFecha::agregarMeses(int meses) {
     int newMes = fechaActual.getMes() + meses;
     int newAnio = fechaActual.getAnio();
+
+    while (newMes <= 0) {
+        newMes += 12;
+        newAnio--;
+    }
 
     while (newMes > 12) {
         newMes -= 12;

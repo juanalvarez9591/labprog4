@@ -2,66 +2,88 @@
 #include <string>
 #include "Factory.h"
 #include "IControlUsuario.h"
+#include "IControlFecha.h"
 #include "DTFecha.h"
 using namespace std;
 
-void functionOne(IControlUsuario* controlador) {
-    cout << "Dar de alta cliente" << endl;
-    controlador->darDeAltaCliente("nickname", "password", DTFecha(1, 1, 2000), "direccion", "ciudad");
-}
+void displaySystemDate(IControlFecha* controlFecha) {
+    DTFecha currentDate = controlFecha->getFechaActual();
+    cout << "La fecha actual del sistema es: " << currentDate.getString() << endl;
 
-void functionTwo(IControlUsuario* controlador) {
-    cout << "Listar usuarios" << endl;
-    vector<string> nicknames = controlador->listarNicknamesUsuarios();
-    for (auto it = nicknames.begin(); it != nicknames.end(); it++) {
-        cout << *it << endl;
-    }
-}
-
-void functionThree() {
-    cout << "Function Three" << endl;
-}
-
-int main() {
     char choice;
-
-    // aca irian todas las cosas que queremos inicializar si o si antes de ejecutar
-
-    Factory *factory = new Factory();
-    IControlUsuario *controlador = factory->getControlUsuario();
+    int value;
 
     do {
-        // A partir de aca sumariamos funciones para mas opciones digamos
-        system("clear");
-        cout << "Mercado Finger - Equipo 72" << endl;
-        cout << "1. Function One" << endl;
-        cout << "2. Function Two" << endl;
-        cout << "3. Function Three" << endl;
-        cout << "4. Exit" << endl;
+        cout << "Modificar fecha del sistema:" << endl;
+        cout << "1. Agregar dias" << endl;
+        cout << "2. Agregar meses" << endl;
+        cout << "3. Agregar anios" << endl;
+        cout << "4. Volver al menu principal" << endl;
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
             case '1':
-                functionOne(controlador);
+                cout << "Ingresa el numero de dias a avanzar (o retroceder): ";
+                cin >> value;
+                controlFecha->agregarDias(value);
                 break;
             case '2':
-                functionTwo(controlador);
+                cout << "Ingresa el numero de meses a avanzar (o retroceder): ";
+                cin >> value;
+                controlFecha->agregarMeses(value);
                 break;
             case '3':
-                functionThree();
+                cout << "Ingresa el numero de anios a avanzar (o retroceder): ";
+                cin >> value;
+                controlFecha->agregarAnios(value);
                 break;
             case '4':
+                break;
+            default:
+                cout << "Opcion invalida, intenta de nuevo" << endl;
+        }
+
+        currentDate = controlFecha->getFechaActual();
+        cout << "Fecha del sistema actualizada: " << currentDate.getString() << endl;
+
+        cout << "Presiona enter para continuar..." << endl;
+        cin.ignore();
+        cin.get();
+
+    } while (choice != '4');
+}
+
+int main() {
+    char choice;
+
+    Factory *factory = new Factory();
+    IControlUsuario *controlUsuario = factory->getControlUsuario();
+    IControlFecha *controlFecha = factory->getControlFecha();
+
+    do {
+        system("clear");
+        cout << "Mercado Finger - Equipo 72" << endl;
+        cout << "1. Ver y modificar fecha del sistema" << endl;
+        cout << "2. Salir" << endl;
+        cout << "Ingresa tu opcion: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                displaySystemDate(controlFecha);
+                break;
+            case '2':
                 cout << "Saliendo..." << endl;
                 break;
             default:
-                cout << "Opcion invalida, intente de nuevo" << endl;
+                cout << "Opcion invalida, intenta de nuevo" << endl;
         }
 
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '4');
+    } while (choice != '2');
 
     return 0;
 }
