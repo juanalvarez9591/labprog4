@@ -1,3 +1,4 @@
+/*
 #include "Producto.h"
 
 Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
@@ -41,11 +42,13 @@ bool RestarAStock(int Vendidos){
 	
 }
 
+*/
 /*
 void Restock(int envio){
 	this->stock = this->stock + envio;
 }
-*/
+*//*
+
 
 DTProducto GetDTProducto(){
 	DTProducto salida = DTProducto(this->Nombre, this->Id);
@@ -115,4 +118,4 @@ void AgregarRespuesta(Comentario *Comentario, string Text){
 	{
 		//Voy a ver como borrar un comentario primero
 	}
-}
+}*/

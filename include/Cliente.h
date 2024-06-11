@@ -3,35 +3,20 @@
 
 #include <string>
 #include <vector>
-#include "DTNotificacion.h"
 #include "Usuario.h"
+#include "DTNotificacion.h"
 #include "IObserver.h"
-#include "DTFecha.h"
-#include "DTProducto.h"
 using namespace std;
 
 class Cliente: public Usuario, public IObserver {
-private:
-
-    string calle;
-    string ciudad;
-    int nroPuerta;
-    vector<DTNotificacion> notificaciones;
-
 public:
-    Cliente(string nickname, string password, string calle, string ciudad, DTFecha* fecha, int numPuerta, vector<DTNotificacion> notificaciones);
-    ~Cliente();
-    string getNombre();
-    string getPass();
-    string getCalle();
-    string getCiudad();
-    int getNroPuerta();
-    DTFecha* getNacimiento();
+    Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
+    void update(string message) override;
+    string getNickname() override;
     vector<DTNotificacion> getNotificaciones();
-    void update(string nickVendedor, string nombrePromocion, vector<DTProducto> productos);  
-    void clearNotificaciones();
-
-
+private:
+    string direccion;
+    string ciudad;
+    vector<DTNotificacion> notificaciones;
 };
-
 #endif

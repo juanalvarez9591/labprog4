@@ -1,48 +1,20 @@
-#include "../include/Cliente.h"
+#include "Cliente.h"
 
-    Cliente::Cliente(string nickname, string password, string calle, string ciudad, DTFecha* fecha, int numPuerta, vector<DTNotificacion> notificaciones) :
-    Usuario(nickname,password,fecha, null){
+Cliente::Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) : Usuario(nickname, password, fechaNacimiento) {
+    this->direccion = direccion;
+    this->ciudad = ciudad;
+    this->notificaciones = vector<DTNotificacion>();
+}
 
-        this->calle = calle;
-        this->ciudad = ciudad;
-        this->nroPuerta = numPuerta;
-        this->notificaciones = notificaciones;
-    }
-    ~Cliente(){
+void Cliente::update(string message) {
+    DTNotificacion notificacion = DTNotificacion(message, "test", vector<DTInfoProducto>());
+    notificaciones.push_back(notificacion);
+}
 
-    };
+vector<DTNotificacion> Cliente::getNotificaciones() {
+    return notificaciones;
+}
 
-    string Cliente::getNombre(){
-        return this->getNickname();
-    };
-    string Cliente::getPass(){
-        return this->getPassword();
-    };
-    DTFecha* Cliente::getNacimiento(){
-        return this->getFechaNacimiento();
-    
-
-    };
-    string Cliente::getCalle(){
-        return this->calle;
-    };
-    string Cliente::getCiudad(){
-        return this->ciudad;
-    };
-
-    int Cliente::getNroPuerta(){
-        return this->nroPuerta;
-    };
-
-    vector<DTNotificacion> Cliente::getNotificaciones()[
-        return this->notificaciones;
-    ];
-
-
-    void Cliente::update(string nickVendedor, string nombrePromocion, vector<DTProducto> productos){
-
-    };  
-
-    void Cliente::clearNotificaciones(){
-
-    };
+string Cliente::getNickname() {
+    return nickname;
+}

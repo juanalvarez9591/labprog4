@@ -2,22 +2,14 @@
 #define FACTORY_H
 
 #include "IControlUsuario.h"
-#include "IControlPromocion.h"
-#include "IControlCompra.h"
+#include "IControlFecha.h"
 #include "IControlSuscripciones.h"
 
 class Factory {
 public:
     static IControlUsuario* getControlUsuario();
-    static IControlPromocion* getControlPromocion();
-    static IControlCompra* getControlCompra();
+    static IControlFecha* getControlFecha();
     static IControlSuscripciones* getControlSuscripciones();
-
-private:
-    static IControlUsuario* controlUsuario;
-    static IControlPromocion* controlPromocion;
-    static IControlCompra* controlCompra;
-    static IControlSuscripciones* controlSuscripciones;
 };
 
 #endif
