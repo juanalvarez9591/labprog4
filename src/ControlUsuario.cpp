@@ -1,4 +1,3 @@
-// ControlUsuario.cpp
 #include "ControlUsuario.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;
@@ -93,6 +92,10 @@ Usuario* ControlUsuario::getUsuario(string nickname) {
     }
 
     return nullptr;
+}
+
+vector<Vendedor> ControlUsuario::getVendedores() {
+    return vendedores;
 }
 
 ControlUsuario::~ControlUsuario() {

@@ -14,6 +14,8 @@ public:
     void agregarObserver(IObserver* observer);
     void eliminarObserver(IObserver* observer);
     void notificarObservers(std::string message);
+    bool estaSuscrito(Usuario* usuario);
+    string getNickname();
 
 private:
     int rut;
