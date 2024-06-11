@@ -1,5 +1,14 @@
 #include "ControlFecha.h"
 
+ControlFecha* ControlFecha::instance = nullptr;
+
+ControlFecha* ControlFecha::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlFecha();
+    }
+    return instance;
+}
+
 ControlFecha::ControlFecha() {
     fechaActual = DTFecha(1, 1, 2023); // Set default date
 }
