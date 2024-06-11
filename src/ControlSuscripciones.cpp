@@ -1,7 +1,15 @@
 #include "ControlSuscripciones.h"
 
-ControlSuscripciones::ControlSuscripciones(IControlUsuario* controlUsuario) {
-    this->controlUsuario = controlUsuario;
+ControlSuscripciones* ControlSuscripciones::instance = nullptr;
+
+ControlSuscripciones* ControlSuscripciones::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlSuscripciones();
+    }
+    return instance;
+}
+
+ControlSuscripciones::ControlSuscripciones() {
 }
 
 vector<string> ControlSuscripciones::getVendedoresNoSuscritos(const string& cliente) {

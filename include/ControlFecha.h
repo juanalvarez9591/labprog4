@@ -5,7 +5,7 @@
 
 class ControlFecha : public IControlFecha {
 public:
-    ControlFecha();
+    static ControlFecha* getInstance();
     DTFecha getFechaActual() override;
     void setFechaActual(DTFecha fecha) override;
     void agregarDias(int dias) override;
@@ -13,6 +13,8 @@ public:
     void agregarAnios(int anios) override;
 
 private:
+    ControlFecha();
+    static ControlFecha* instance;
     DTFecha fechaActual;
 };
 

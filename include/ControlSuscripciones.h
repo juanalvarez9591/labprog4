@@ -6,13 +6,12 @@
 #include "Cliente.h"
 #include "Vendedor.h"
 #include "IControlSuscripciones.h"
-#include "IControlUsuario.h"
 #include "DTNotificacion.h"
 using namespace std;
 
 class ControlSuscripciones : public IControlSuscripciones {
 public:
-    ControlSuscripciones(IControlUsuario* controlUsuario);
+    static ControlSuscripciones* getInstance();
     vector<string> getVendedoresNoSuscritos(const string&) override;
     vector<string> getVendedoresSuscritos(const string&) override;
     void suscribirACliente(vector<string>, const string&) override;
@@ -21,7 +20,8 @@ public:
     virtual ~ControlSuscripciones();
 
 private:
-    IControlUsuario* controlUsuario;
+    ControlSuscripciones();
+    static ControlSuscripciones* instance;
 };
 
 #endif

@@ -11,7 +11,7 @@ using namespace std;
 
 class ControlUsuario : public IControlUsuario {
 public:
-    ControlUsuario();
+    static ControlUsuario* getInstance();
     bool darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) override;
     bool darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) override;
     vector<string> listarNicknamesUsuarios() override;
@@ -21,11 +21,11 @@ public:
     virtual ~ControlUsuario();
 
 private:
+    ControlUsuario();
+    static ControlUsuario* instance;
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
 };
-
-
 
 #endif

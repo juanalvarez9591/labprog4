@@ -1,50 +1,16 @@
 #include "Factory.h"
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
-/*#include "ControlPromocion.h"
-#include "ControlCompra.h"*/
 #include "ControlSuscripciones.h"
 
-IControlUsuario* Factory::controlUsuario = nullptr;
-IControlFecha* Factory::controlFecha = nullptr;
-IControlSuscripciones* Factory::controlSuscripciones = nullptr;
-/*    IControlPromocion* Factory::controlPromocion = nullptr;
-    IControlCompra* Factory::controlCompra = nullptr;*/
-
-
 IControlUsuario* Factory::getControlUsuario() {
-    if (controlUsuario == nullptr) {
-        controlUsuario = new ControlUsuario();
-    }
-    return controlUsuario;
+    return ControlUsuario::getInstance();
 }
 
 IControlFecha* Factory::getControlFecha() {
-    if (controlFecha == nullptr) {
-        controlFecha = new ControlFecha();
-    }
-    return controlFecha;
+    return ControlFecha::getInstance();
 }
-
-/*
-IControlPromocion* Factory::getControlPromocion() {
-    if (controlPromocion == nullptr) {
-        controlPromocion = new ControlPromocion();
-    }
-    return controlPromocion;
-}
-
-IControlCompra* Factory::getControlCompra() {
-    if (controlCompra == nullptr) {
-        controlCompra = new ControlCompra();
-    }
-    return controlCompra;
-}*/
 
 IControlSuscripciones* Factory::getControlSuscripciones() {
-    // momento inyeccion de dependencias
-    if (controlSuscripciones == nullptr) {
-        controlSuscripciones = new ControlSuscripciones(getControlUsuario());
-    }
-    return controlSuscripciones;
+    return ControlSuscripciones::getInstance();
 }

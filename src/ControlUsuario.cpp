@@ -1,4 +1,14 @@
+// ControlUsuario.cpp
 #include "ControlUsuario.h"
+
+ControlUsuario* ControlUsuario::instance = nullptr;
+
+ControlUsuario* ControlUsuario::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlUsuario();
+    }
+    return instance;
+}
 
 ControlUsuario::ControlUsuario() {
     clientes = vector<Cliente>();
