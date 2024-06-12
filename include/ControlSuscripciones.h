@@ -15,9 +15,9 @@ public:
     static ControlSuscripciones* getInstance();
     vector<string> getVendedoresNoSuscritos(string nickCliente) override;
     vector<string> getVendedoresSuscritos(string nickCliente) override;
-    void suscribirACliente(vector<string>, const string&) override;
-    void eliminarSuscripciones(vector<string>, const string&) override;
-    vector<DTNotificacion> listarNotificaciones(const string&) override;
+    void suscribirACliente(vector<string> nickVendedores, string nickCliente) override;
+    void eliminarSuscripciones(vector<string> nickVendedores, string nickCliente) override;
+    vector<DTNotificacion> listarNotificaciones(string nickCliente) override;
     virtual ~ControlSuscripciones();
 
 private:

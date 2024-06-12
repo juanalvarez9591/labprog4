@@ -94,6 +94,26 @@ Usuario* ControlUsuario::getUsuario(string nickname) {
     return nullptr;
 }
 
+Vendedor* ControlUsuario::getVendedor(string nickname) {
+    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+        if (it->getNickname() == nickname) {
+            return &(*it);
+        }
+    }
+
+    return nullptr;
+}
+
+Cliente* ControlUsuario::getCliente(string nickname) {
+    for (auto it = clientes.begin(); it != clientes.end(); it++) {
+        if (it->getNickname() == nickname) {
+            return &(*it);
+        }
+    }
+
+    return nullptr;
+}
+
 vector<Vendedor> ControlUsuario::getVendedores() {
     return vendedores;
 }

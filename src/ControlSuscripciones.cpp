@@ -42,16 +42,29 @@ vector<string> ControlSuscripciones::getVendedoresSuscritos(string nickCliente) 
     return vendedoresSuscritos;
 }
 
-void ControlSuscripciones::suscribirACliente(vector<string> vendedores, const string& cliente) {
+void ControlSuscripciones::suscribirACliente(vector<string> nickVendedores, string nickCliente) {
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
+    for (int i = 0; i < nickVendedores.size(); i++) {
+        Vendedor* vendedor = controlUsuario->getVendedor(nickVendedores[i]);
+        vendedor->agregarObserver(cliente);
+    }
     return;
 }
 
-void ControlSuscripciones::eliminarSuscripciones(vector<string> vendedores, const string& cliente) {
+void ControlSuscripciones::eliminarSuscripciones(vector<string> nickVendedores, string nickCliente) {
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
+    for (int i = 0; i < nickVendedores.size(); i++) {
+        Vendedor* vendedor = controlUsuario->getVendedor(nickVendedores[i]);
+        vendedor->eliminarObserver(cliente);
+    }
     return;
 }
 
-vector<DTNotificacion> ControlSuscripciones::listarNotificaciones(const string& cliente) {
-    return vector<DTNotificacion>();
+vector<DTNotificacion> ControlSuscripciones::listarNotificaciones(string nickCliente) {
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
+    vector<DTNotificacion> notificaciones = cliente->listarNotificaciones();
+    cliente->limpiarNotificaciones();
+    return notificaciones;
 }
 
 ControlSuscripciones::~ControlSuscripciones() {
