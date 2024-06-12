@@ -2,7 +2,7 @@
 #include "DTComentario.h"
 #include "DTFecha.h"
 
-Comentario Comentario(std::string texto){
+Comentario::Comentario(std::string texto){
 	this->texto = texto;
 	this->date = getDTFechaNow();
 	this->Sigcomenario = NULL;
@@ -10,12 +10,12 @@ Comentario Comentario(std::string texto){
 }
 
 //Libera la el DTfecha asociado, hay que hacer delete aparte
-void Liberar(){
+void Comentario::Liberar(){
 	LiberarFecha(this->date);
 }
 
 //Devuelve un set con las respuestas DIRECTAS del comentario
-set<Comentario> getRespuestas() {
+set<Comentario> Comentario::getRespuestas() {
 	std::set<Comentario> respuestas; //capaz que tendría que ser un set de punteros a Comentario en vez de comentarios no se
 	Comentario* i = this->Respuesta;
 	while(i != NULL) {
@@ -26,7 +26,7 @@ set<Comentario> getRespuestas() {
 }
 
 //Tiene que borrar TODAS las respuestas del comentario
-void borrarRespuestas(){
+void Comentario::borrarRespuestas(){
 	auto respuestas = getRespuestas();
 	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
 		i->borrarRespuestas();
@@ -35,25 +35,25 @@ void borrarRespuestas(){
 }
 
 //Devuelve el puntero a la primera respuesta
-Comentario* getResp(){
+Comentario* Comentario::getResp(){
 	return this->Respuesta;
 }
 
-Comentario* getSig(){
+Comentario* Comentario::getSig(){
 	return this->Sigcomenario;
 }
 
-void setSig(Comentario* Sig){
+void Comentario::setSig(Comentario* Sig){
 	this->Sig = Sig;
 }
-void setRes(Comentario* Res){
+void Comentario::setRes(Comentario* Res){
 	this->Res = Res;
 }
 
-string obtenerTexto(){
+string Comentario::getTexto(){
 	return this->texto;
 }
 
-DTComentario getDTComentario(){
-	return DTComentario(this->autor , this->texto);
+DTComentario Comentario::getDTComentario(){
+	return DTComentario(this->texto, this->fecha);
 }
