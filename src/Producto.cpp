@@ -1,7 +1,7 @@
-/*
-#include "Producto.h"
 
-Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
+#include "Producto.h"
+/*
+Producto::Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
 	this->Nombre = Nombre;
 	this->Descripcion = Descripcion;
 	this->Foro = NULL;
@@ -11,27 +11,27 @@ Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatPr
 	this->Categoria = Categoria;
 }
 
-string GetNombre() {
+string Producto::GetNombre() {
 	return this->Nombre;
 }
 
-string GetDescripcion(){
+string Producto::GetDescripcion(){
 	return this->Descripcion;
 }
 
-CatProducto GetCategoria(){
+CatProducto Producto::GetCategoria(){
 	return this->Categoria;
 }
 
-int GetPrecio(){
+int Producto::GetPrecio(){
 	return this->precio;
 }
 
-int GetStock(){
+int Producto::GetStock(){
 	return this->stock;	
 }
 
-bool RestarAStock(int Vendidos){
+bool Producto::RestarAStock(int Vendidos){
 	if (Vendidos <= this->stock)
 	{
 		this->stock = this->stock - Vendidos;
@@ -42,20 +42,20 @@ bool RestarAStock(int Vendidos){
 	
 }
 
-*/
-/*
-void Restock(int envio){
+
+
+void Producto::Restock(int envio){
 	this->stock = this->stock + envio;
 }
-*//*
 
 
-DTProducto GetDTProducto(){
+
+DTProducto Producto::GetDTProducto(){
 	DTProducto salida = DTProducto(this->Nombre, this->Id);
 	return salida;
 }
 
-Comentario *Estecomentario(Comentario *It, string Text){
+Comentario* Producto::Estecomentario(Comentario *It, string Text){
 	if (It == NULL){
 		return NULL;
 	}else{
@@ -76,7 +76,7 @@ Comentario *Estecomentario(Comentario *It, string Text){
 }
 
 //Retorna un puntero al comentario, o en caso de no estar devuelve NULL
-Comentario *GetComentario(string Text){
+Comentario* Producto::GetComentario(string Text){
 	Comentario* It = this->Foro;
 	if (this->Foro != NULL){
 		return Estecomentario(It, Text)
@@ -86,7 +86,7 @@ Comentario *GetComentario(string Text){
 }
 
 
-void AgregarComentario(Comentario *Comentario){
+void Producto::AgregarComentario(Comentario *Comentario){
 	if (this->Foro == NULL){
 		this->Foro = Comentario;
 	}else{
@@ -98,7 +98,7 @@ void AgregarComentario(Comentario *Comentario){
 	}
 }
 
-void AgregarRespuesta(Comentario *Comentario, string Text){
+void Producto::AgregarRespuesta(Comentario *Comentario, string Text){
 	Comentario* It = Estecomentario(this->Foro , Text);
 	if (It != NULL){
 		if (It.getResp() == NULL){
@@ -113,7 +113,7 @@ void AgregarRespuesta(Comentario *Comentario, string Text){
 	}
 }
 
-~Producto(){
+Producto::~Producto(){
 	if (Foro != NULL)
 	{
 		//Voy a ver como borrar un comentario primero
