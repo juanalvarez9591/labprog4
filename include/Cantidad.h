@@ -7,11 +7,12 @@ using namespace std;
 
 class Cantidad {
 public:
-    Cantidad(int cant, bool enviado);
+    Cantidad(int cantidad, bool enviado, Producto* producto);
 
 private:
-    int cant;
+    int cantidad;
     bool enviado;
+    Producto* producto;
 };
 
 #endif
