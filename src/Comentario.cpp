@@ -1,22 +1,23 @@
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
+using namespace std;
 
-Comentario::Comentario(std::string texto){
+Comentario::Comentario(string texto, DTFecha fecha){
 	this->texto = texto;
-	this->date = getDTFechaNow();
+	this->fecha = fecha;
 	this->Sigcomenario = NULL;
 	this->Respuesta = NULL;
 }
 
-//Libera la el DTfecha asociado, hay que hacer delete aparte
+//Libera el DTfecha asociado, hay que hacer delete aparte
 void Comentario::Liberar(){
-	LiberarFecha(this->date);
+	LiberarFecha(this->fecha);
 }
 
 //Devuelve un set con las respuestas DIRECTAS del comentario
 set<Comentario> Comentario::getRespuestas() {
-	std::set<Comentario> respuestas; //capaz que tendría que ser un set de punteros a Comentario en vez de comentarios no se
+	set<Comentario> respuestas;
 	Comentario* i = this->Respuesta;
 	while(i != NULL) {
 		respuestas.insert(i);
