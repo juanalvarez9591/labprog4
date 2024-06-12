@@ -1,3 +1,4 @@
+// DTInfoProducto.h
 #ifndef DTINFOPRODUCTO_H
 #define DTINFOPRODUCTO_H
 
@@ -22,6 +23,7 @@ private:
 public:
     DTInfoProducto();
     DTInfoProducto(int precio, int stock, string descripcion, string nickVendedor, Categoria categoria);
+    string toString() const;
 };
 
 #endif // DTINFOPRODUCTO_H

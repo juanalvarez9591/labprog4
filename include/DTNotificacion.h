@@ -16,6 +16,7 @@ private:
 public:
     DTNotificacion();
     DTNotificacion(string nombrePromo, string nickVendedor, vector<DTInfoProducto> productos);
+    string toString() const;
 };
 
 #endif // DTNOTIFICACION_H
