@@ -1,121 +1,34 @@
-
 #include "Producto.h"
-/*
-Producto::Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
-	this->Nombre = Nombre;
-	this->Descripcion = Descripcion;
-	this->Foro = NULL;
-	this->Id = Id;
-	this->stock = stock;
-	this->precio = precio;
-	this->Categoria = Categoria;
+
+Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, CatProducto categoria, Vendedor* vendedor) {
+    this->nombre = nombre;
+    this->descripcion = descripcion;
+    this->id = id;
+    this->stock = stock;
+    this->precio = precio;
+    this->categoria = categoria;
+    this->vendedor = vendedor;
 }
 
-string Producto::GetNombre() {
-	return this->Nombre;
+string Producto::getNombre() {
+    return this->nombre;
 }
 
-string Producto::GetDescripcion(){
-	return this->Descripcion;
+string Producto::getDescripcion() {
+    return this->descripcion;
 }
 
-CatProducto Producto::GetCategoria(){
-	return this->Categoria;
+CatProducto Producto::getCategoria() {
+    return this->categoria;
 }
 
-int Producto::GetPrecio(){
-	return this->precio;
+int Producto::getPrecio() {
+    return this->precio;
 }
 
-int Producto::GetStock(){
-	return this->stock;	
+int Producto::getStock() {
+    return this->stock;
 }
 
-bool Producto::RestarAStock(int Vendidos){
-	if (Vendidos <= this->stock)
-	{
-		this->stock = this->stock - Vendidos;
-		return true;
-	}else{
-		return false;
-	}
-	
+Producto::~Producto() {
 }
-
-
-
-void Producto::Restock(int envio){
-	this->stock = this->stock + envio;
-}
-
-
-
-DTProducto Producto::GetDTProducto(){
-	DTProducto salida = DTProducto(this->Nombre, this->Id);
-	return salida;
-}
-
-Comentario* Producto::Estecomentario(Comentario *It, string Text){
-	if (It == NULL){
-		return NULL;
-	}else{
-		if (It.obtenerTexto() == Text){
-			return It;
-
-		}else{
-			Comentario *Catalejo = Estecomentario(this.getSig(), Text);
-			if (Catalejo != NULL){
-				return Catalejo;
-
-			}else{
-				Catalejo = Estecomentario(this.getResp(), Text);
-				return Catalejo;
-		}
-		}
-	}
-}
-
-//Retorna un puntero al comentario, o en caso de no estar devuelve NULL
-Comentario* Producto::GetComentario(string Text){
-	Comentario* It = this->Foro;
-	if (this->Foro != NULL){
-		return Estecomentario(It, Text)
-	}else{
-		return NULL;
-	}
-}
-
-
-void Producto::AgregarComentario(Comentario *Comentario){
-	if (this->Foro == NULL){
-		this->Foro = Comentario;
-	}else{
-		Comentario* Catalejo = this->Foro;
-		while(Catalejo.getSig() != NULL){
-			Catalejo = Catalejo.getSig();
-		}
-		Catalejo.setSig(Comentario);
-	}
-}
-
-void Producto::AgregarRespuesta(Comentario *Comentario, string Text){
-	Comentario* It = Estecomentario(this->Foro , Text);
-	if (It != NULL){
-		if (It.getResp() == NULL){
-			It.setRes(Comentario);
-		}else{
-			It = It.getResp();
-			while(It.getSig != NULL){
-				It = It.getSig;
-			}
-			It.setSig(Comentario);
-		}
-	}
-}
-
-Producto::~Producto(){
-	if (Foro != NULL)
-	{
-		//Voy a ver como borrar un comentario primero
-	}
-}*/
