@@ -18,6 +18,8 @@ public:
     vector<string> listarNicknamesClientes() override;
     vector<string> listarNicknamesVendedores() override;
     Usuario* getUsuario(string nickname);
+    Vendedor* getVendedor(string nickname);
+    Cliente* getCliente(string nickname);
     vector<Vendedor> getVendedores();
     virtual ~ControlUsuario();
 

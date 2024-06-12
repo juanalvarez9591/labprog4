@@ -11,8 +11,12 @@ void Cliente::update(string message) {
     notificaciones.push_back(notificacion);
 }
 
-vector<DTNotificacion> Cliente::getNotificaciones() {
+vector<DTNotificacion> Cliente::listarNotificaciones() {
     return notificaciones;
+}
+
+void Cliente::limpiarNotificaciones() {
+    notificaciones.clear();
 }
 
 string Cliente::getNickname() {

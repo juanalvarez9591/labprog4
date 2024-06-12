@@ -13,7 +13,8 @@ public:
     Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
     void update(string message) override;
     string getNickname() override;
-    vector<DTNotificacion> getNotificaciones();
+    vector<DTNotificacion> listarNotificaciones();
+    void limpiarNotificaciones();
 private:
     string direccion;
     string ciudad;
