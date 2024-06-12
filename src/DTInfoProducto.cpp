@@ -1,4 +1,4 @@
-#include "../include/DTInfoProducto.h"
+#include "DTInfoProducto.h"
 
 DTInfoProducto::DTInfoProducto() {
     this->precio = 0;
@@ -14,4 +14,25 @@ DTInfoProducto::DTInfoProducto(int precio, int stock, string descripcion, string
     this->descripcion = descripcion;
     this->nickVendedor = nickVendedor;
     this->categoria = categoria;
+}
+
+string DTInfoProducto::toString() const {
+    string categoriaStr;
+    switch (categoria) {
+        case Categoria::Ropa:
+            categoriaStr = "Ropa";
+            break;
+        case Categoria::Electrodomestico:
+            categoriaStr = "Electrodomestico";
+            break;
+        case Categoria::Otro:
+            categoriaStr = "Otro";
+            break;
+    }
+
+    return "Producto: " + descripcion + "\n" +
+           "Precio: $" + to_string(precio) + "\n" +
+           "Stock: " + to_string(stock) + "\n" +
+           "Vendedor: " + nickVendedor + "\n" +
+           "Categoria: " + categoriaStr;
 }
