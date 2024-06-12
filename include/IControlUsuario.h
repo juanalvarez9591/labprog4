@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "DTFecha.h"
+#include "DTComentario.h"
+
 /*
 #include "DTComentario.h"
 */
@@ -16,6 +18,15 @@ public:
     virtual vector<string> listarNicknamesUsuarios() = 0;
     virtual vector<string> listarNicknamesClientes() = 0;
     virtual vector<string> listarNicknamesVendedores() = 0;
+
+    virtual void seleccionarUsuario(string nombreUsuario);
+    virtual vector<DTProducto> listarProductos();
+    virtual void seleccionarProducto(string nombreProducto);
+    virtual void realizarComentario(string texto);
+    virtual vector<DTComentario> listarComentarios();
+    virtual void elegirComentario(string mensaje);
+    virtual void responderComentario(string respuesta);
+
     virtual ~IControlUsuario() {}
 };
 

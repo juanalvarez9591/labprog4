@@ -6,6 +6,7 @@
 #include "Usuario.h"
 #include "Cliente.h"
 #include "DTFecha.h"
+#include "DTComentario.h"
 #include <vector>
 using namespace std;
 
@@ -17,6 +18,15 @@ public:
     vector<string> listarNicknamesUsuarios() override;
     vector<string> listarNicknamesClientes() override;
     vector<string> listarNicknamesVendedores() override;
+
+    void seleccionarUsuario(string nombreUsuario);
+    vector<DTProducto> listarProductos();
+    void seleccionarProducto(string nombreProducto);
+    void realizarComentario(string texto);
+    vector<DTComentario> listarComentarios();
+    void elegirComentario(string mensaje);
+    void responderComentario(string respuesta);
+
     Usuario* getUsuario(string nickname);
     Vendedor* getVendedor(string nickname);
     Cliente* getCliente(string nickname);
