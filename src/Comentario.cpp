@@ -16,7 +16,7 @@ void Liberar(){
 
 //Devuelve un set con las respuestas DIRECTAS del comentario
 set<Comentario> getRespuestas() {
-	std::set<Comentario> respuestas;
+	std::set<Comentario> respuestas; //capaz que tendría que ser un set de punteros a Comentario en vez de comentarios no se
 	Comentario* i = this->Respuesta;
 	while(i != NULL) {
 		respuestas.insert(i);
@@ -28,12 +28,10 @@ set<Comentario> getRespuestas() {
 //Tiene que borrar TODAS las respuestas del comentario
 void borrarRespuestas(){
 	auto respuestas = getRespuestas();
-	while (!(respuestas.empty())) {
-		Comentario* j = respuestas.begin();
-		respuestas.remove(j);
-		j->borrarRespuestas();
+	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
+		i->borrarRespuestas();
 	}
-	eliminarComentario(this->texto);
+	eliminarComentario(this->texto); //creo que está mal llamada
 }
 
 //Devuelve el puntero a la primera respuesta
