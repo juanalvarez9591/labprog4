@@ -1,18 +1,18 @@
 #include "Requisitos.h"
 
-Requisitos(int Minimo, Producto* Producto){
+Requisitos::Requisitos(int Minimo, Producto* Producto){
 	this->Minimo = Minimo;
 	this->Producto = Producto;
 }
 
-int GetMinimo(){
+int Requisitos::GetMinimo(){
 	return this->Minimo;
 }
 
-Producto* GetProducto(){
+Producto* Requisitos::GetProducto(){
 	return this->Producto;
 }
 
-int getIdprod(){
+int Requisitos::getIdprod(){
 	return this->Producto->GetId();
 }
