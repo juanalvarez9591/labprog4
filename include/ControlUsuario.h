@@ -20,12 +20,13 @@ public:
     vector<string> listarNicknamesVendedores() override;
 
     void seleccionarUsuario(string nombreUsuario);
+
     vector<DTProducto> listarProductos();
     void seleccionarProducto(string nombreProducto);
-    void realizarComentario(string texto);
-    vector<DTComentario> listarComentarios();
-    void elegirComentario(string mensaje);
-    void responderComentario(string respuesta);
+    //void realizarComentario(string texto, DTFecha fecha);
+    //vector<DTComentario> listarComentarios();
+    //void elegirComentario(string mensaje);
+    //void responderComentario(string respuesta);
 
     Usuario* getUsuario(string nickname);
     Vendedor* getVendedor(string nickname);
@@ -39,6 +40,9 @@ private:
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
+
+    string Comentador;
+    string Prod;
 };
 
 #endif

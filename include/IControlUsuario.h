@@ -6,9 +6,7 @@
 #include "DTFecha.h"
 #include "DTComentario.h"
 
-/*
-#include "DTComentario.h"
-*/
+
 using namespace std;
 
 class IControlUsuario {
@@ -22,10 +20,10 @@ public:
     virtual void seleccionarUsuario(string nombreUsuario);
     virtual vector<DTProducto> listarProductos();
     virtual void seleccionarProducto(string nombreProducto);
-    virtual void realizarComentario(string texto);
-    virtual vector<DTComentario> listarComentarios();
-    virtual void elegirComentario(string mensaje);
-    virtual void responderComentario(string respuesta);
+    //virtual void realizarComentario(string texto, DTFecha fecha);
+    //virtual vector<DTComentario> listarComentarios();
+    //virtual void elegirComentario(string mensaje);
+    //virtual void responderComentario(string respuesta);
 
     virtual ~IControlUsuario() {}
 };

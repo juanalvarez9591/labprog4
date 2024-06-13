@@ -1,4 +1,5 @@
 #include "ControlUsuario.h"
+#include "Comentario.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;
 
@@ -116,6 +117,37 @@ Cliente* ControlUsuario::getCliente(string nickname) {
 
 vector<Vendedor> ControlUsuario::getVendedores() {
     return vendedores;
+}
+
+
+void ControlUsuario::seleccionarUsuario(string nombreUsuario){
+    this->Comentador = nombreUsuario;
+}
+
+vector<DTProducto> ControlUsuario::listarProductos(){
+    vector<DTProducto> Articulos;
+    vector<DTProducto> Catalogo;
+    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+        Catalogo = it.listaProductos();
+        Articulos.insert(Articulos.end() , Catalogo.begin() , Catalogo.end());
+        Catalogo.clear();
+    }
+    Catalogo.erase();
+
+    return Articulos;
+}
+
+void ControlUsuario::seleccionarProducto(string nombreProducto){
+    this->Prod = nombreProducto;
+}
+
+//Comentario directo
+void realizarComentario(string texto, DTFecha fecha){
+    
+    Comentario Opinion = new Comentario(texto, fecha);
+    
+
+
 }
 
 ControlUsuario::~ControlUsuario() {
