@@ -1,10 +1,10 @@
-#ifndef DTDETALLESCOMPRA_H
-#define DTDETALLESCOMPRA_H
+#ifndef DTDETALLES_COMPRA_H
+#define DTDETALLES_COMPRA_H
 
 #include <string>
 #include <vector>
-#include "DTFecha.h"
 #include "DTProducto.h"
+#include "DTFecha.h"
 using namespace std;
 
 class DTDetallesCompra
@@ -15,8 +15,11 @@ private:
     vector<DTProducto> productos;
 
 public:
-    DTNotificacion();
-    DTNotificacion(float costo, DTFecha fecha,vector<DTProducto> productos);
+    DTDetallesCompra();
+    DTDetallesCompra(float costo, DTFecha fecha, vector<DTProducto> productos);
+    float getCosto();
+    DTFecha getFecha();
+    vector<DTProducto> getProductos();
 };
 
-#endif // DTNOTIFICACION_H
+#endif 
