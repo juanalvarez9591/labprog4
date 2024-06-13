@@ -2,6 +2,7 @@
 #define COMENTARIO_H
 
 #include <string>
+
 using namespace std;
 
 class Comentario {
@@ -26,6 +27,8 @@ public:
     DTComentario getDTComentario()
 
     bool UltimoDelNivel();
+
+    void PrintComentario();
 
 private:
     DTFecha date;

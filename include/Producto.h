@@ -33,6 +33,9 @@ public:
     void AgregarComentario(Comentario *Comentario);
     void AgregarRespuesta(Comentario *Comentario, string Text);
 
+    void PrintTodosComentarios();
+    void PrintComentario(Comentario *Comentario, int Sangria);
+
 private:
     string Descripcion;
     string Nombre;
@@ -43,6 +46,8 @@ private:
     Comentario Foro;
 
     Comentario *Estecomentario(Comentario *It, string Text);
+
+    void PrintTodosComentariosAux(Comentario *Comentario, int Sangria);
 };
 
 #endif

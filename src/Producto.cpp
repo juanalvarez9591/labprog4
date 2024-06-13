@@ -1,5 +1,6 @@
-/*
+
 #include "Producto.h"
+#include "Comentario.h"
 
 Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
 	this->Nombre = Nombre;
@@ -42,12 +43,11 @@ bool RestarAStock(int Vendidos){
 	
 }
 
-*/
-/*
+
 void Restock(int envio){
 	this->stock = this->stock + envio;
 }
-*//*
+
 
 
 DTProducto GetDTProducto(){
@@ -63,12 +63,12 @@ Comentario *Estecomentario(Comentario *It, string Text){
 			return It;
 
 		}else{
-			Comentario *Catalejo = Estecomentario(this.getSig(), Text);
+			Comentario *Catalejo = Estecomentario(It->getSig(), Text);
 			if (Catalejo != NULL){
 				return Catalejo;
 
 			}else{
-				Catalejo = Estecomentario(this.getResp(), Text);
+				Catalejo = Estecomentario(It->getResp(), Text);
 				return Catalejo;
 		}
 		}
@@ -101,8 +101,8 @@ void AgregarComentario(Comentario *Comentario){
 void AgregarRespuesta(Comentario *Comentario, string Text){
 	Comentario* It = Estecomentario(this->Foro , Text);
 	if (It != NULL){
-		if (It.getResp() == NULL){
-			It.setRes(Comentario);
+		if (It->getResp() == NULL){
+			It->setRes(Comentario);
 		}else{
 			It = It.getResp();
 			while(It.getSig != NULL){
@@ -113,9 +113,28 @@ void AgregarRespuesta(Comentario *Comentario, string Text){
 	}
 }
 
+void PrintComentariorec(Comentario *Comentario, int Sangria){
+	for (int i = 0; i < Sangria; i++){
+		cout << "> > ";
+	}
+	Comentario->PrintComentario();
+}
+
+void PrintTodosComentariosAux(Comentario *Comentario, int Sangria){
+	PrintComentariorec(Comentario, Sangria);
+	PrintTodosComentariosAux(Comentario->getResp(), Sangria+1 );
+	PrintTodosComentariosAux(Comentario->getSig(), Sangria);
+}
+
+void PrintTodosComentarios(){
+	if (this->Foro != NULL){
+		PrintTodosComentariosAux(this->Foro, 1);
+	}
+}
+
 ~Producto(){
 	if (Foro != NULL)
 	{
 		//Voy a ver como borrar un comentario primero
 	}
-}*/
+}

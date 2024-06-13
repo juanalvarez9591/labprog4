@@ -1,5 +1,6 @@
 #include "ControlUsuario.h"
 #include "Comentario.h"
+#include "Producto.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;
 
@@ -142,10 +143,47 @@ void ControlUsuario::seleccionarProducto(string nombreProducto){
 }
 
 //Comentario directo
-void realizarComentario(string texto, DTFecha fecha){
+ //Falta por hacer Una funcion en vendedor que nos de acceso a la direccion de un producto buscado segun la clave
+void ControlUsuario::realizarComentario(string texto, DTFecha fecha){
     
-    Comentario Opinion = new Comentario(texto, fecha);
+    Comentario* Opinion = new Comentario(texto, fecha);
+
+    //fase de busqueda
+    bool found = false;
+    auto it = vendedores.begin();
+    while((it != vendedores.end()) && !found){
+        Producto* Prod = getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!!
+        if (Prod != NULL){
+            found = true;
+        }else{
+            it = it +1;
+        }
+    }
+    /*for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+
+        if (it->getNickname() == nickname) {
+            return true;
+        }*/
+
+    //fase de ensablaje
+    if (Prod != NULL){
+        Prod.AgregarComentario(Opinion);
+    }
+}
     
+
+vector<DTComentario> ControlUsuario::listarComentarios(){
+
+    Producto* Prod = NULL;
+    auto it = vendedores.begin();
+    while((it != vendedores.end()) && (Prod == NULL)){
+        Prod = getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!!
+        if (Prod == NULL){
+            it = it +1;
+        }else{
+            //Prod->PrintTodosCoenarios();
+        }
+    }
 
 
 }
