@@ -1,4 +1,4 @@
-/*
+
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
@@ -47,4 +47,8 @@ DTComentario getDTComentario(){
 bool Comentario::UltimoDelNivel(){
 	return (this->Sigcomenario == NULL);
 }
-*/
+
+void PrintComentario(){
+	cout << this->texto << endl;
+}
+

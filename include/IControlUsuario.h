@@ -19,13 +19,13 @@ public:
     virtual vector<string> listarComentariosUsuario() = 0;
     virtual void eliminarComentario() = 0;
 
-    virtual void seleccionarUsuario(string nombreUsuario);
-    virtual vector<DTProducto> listarProductos();
-    virtual void seleccionarProducto(string nombreProducto);
-    //virtual void realizarComentario(string texto, DTFecha fecha);
-    //virtual vector<DTComentario> listarComentarios();
-    //virtual void elegirComentario(string mensaje);
-    //virtual void responderComentario(string respuesta);
+    virtual void seleccionarUsuario(string nombreUsuario) = 0;
+    virtual vector<DTProducto> listarProductos() = 0;
+    virtual void seleccionarProducto(string nombreProducto) = 0;
+    //virtual void realizarComentario(string texto, DTFecha fecha) = 0;
+    virtual vector<string> listarComentarios() = 0;
+    //virtual void elegirComentario(string mensaje) = 0;
+    //virtual void responderComentario(string respuesta) = 0;
 
     virtual ~IControlUsuario() {}
 };

@@ -26,8 +26,8 @@ public:
     vector<DTProducto> listarProductos();
     void seleccionarProducto(string nombreProducto);
     //void realizarComentario(string texto, DTFecha fecha);
-    //vector<DTComentario> listarComentarios();
-    //void elegirComentario(string mensaje);
+    vector<string> listarComentarios();
+    void elegirComentario(string mensaje);
     //void responderComentario(string respuesta);
 
     Usuario* getUsuario(string nickname);
@@ -43,8 +43,11 @@ private:
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
 
+    vector<string> HacerListComenarios();
+
     string Comentador;
-    string Prod;
+    string* Prod;
+    Comentario* AResponder;
 };
 
 #endif

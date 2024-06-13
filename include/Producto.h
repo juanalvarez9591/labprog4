@@ -43,7 +43,7 @@ private:
     int Stock;
     int Precio;
     CatProducto Categoria;
-    Comentario Foro;
+    Comentario* Foro;
 
     Comentario *Estecomentario(Comentario *It, string Text);
 

@@ -173,40 +173,68 @@ void ControlUsuario::realizarComentario(string texto, DTFecha fecha){
     bool found = false;
     auto it = vendedores.begin();
     while((it != vendedores.end()) && !found){
-        Producto* Prod = getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!!
-        if (Prod != NULL){
+        Producto* Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
+        if (Product != NULL){
             found = true;
         }else{
             it = it +1;
         }
     }
-    /*for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+                                                            /*for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
 
-        if (it->getNickname() == nickname) {
-            return true;
-        }*/
+                                                                if (it->getNickname() == nickname) {
+                                                                    return true;
+                                                                }*/
 
     //fase de ensablaje
-    if (Prod != NULL){
-        Prod.AgregarComentario(Opinion);
+    if (Product != NULL){
+        Product.AgregarComentario(Opinion);
+
+        //FALTA AGREGAR A LA COLECCION INTERNA DEL VENDEDOR
     }
+}
+
+
+vector<string> HacerListComenarios(Comentario* Comentario , vector<string> Vec){
+    Vec.push_back(Comentario->texto);
+    HacerListComenarios(Comentario->getResp() , Vec);
+    HacerListComenarios(Comentario->getResp() , Vec);
+    return Vec;
 }
     
 
-vector<DTComentario> ControlUsuario::listarComentarios(){
-
-    Producto* Prod = NULL;
+vector<string> ControlUsuario::listarComentarios(){
+    vector<string> Respuesta;
+    Producto* Product = NULL;
     auto it = vendedores.begin();
-    while((it != vendedores.end()) && (Prod == NULL)){
-        Prod = getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!!
-        if (Prod == NULL){
+    while((it != vendedores.end()) && (Product == NULL)){
+        Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!!
+        if (Product == NULL){
             it = it +1;
-        }else{
-            //Prod->PrintTodosCoenarios();
         }
     }
+    if (Product != NULL){
+        Respuesta = HacerListComenarios(Product->Foro, Respuesta);
+    }
 
+    return Respuesta;
+}
 
+void elegirComentario(string mensaje){
+    Producto* Product = NULL;
+    auto it = vendedores.begin();
+    while((it != vendedores.end()) && (Product == NULL)){
+        Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!!
+        if (Product == NULL){
+            it = it +1;
+        }
+    }
+    if (Product == NULL){
+        break;
+    }else{
+        this->Prod = Estecomentario(Product , mensaje);
+    }
+    
 }
 
 ControlUsuario::~ControlUsuario() {
