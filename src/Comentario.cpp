@@ -42,4 +42,9 @@ string obtenerTexto(){
 
 DTComentario getDTComentario(){
 	return DTComentario(this->autor , this->texto);
-}*/
+}
+
+bool Comentario::UltimoDelNivel(){
+	return (this->Sigcomenario == NULL);
+}
+*/

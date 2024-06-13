@@ -25,6 +25,8 @@ public:
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario()
 
+    bool UltimoDelNivel();
+
 private:
     DTFecha date;
     string texto;
