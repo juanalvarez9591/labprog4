@@ -110,10 +110,11 @@ void ControlUsuario::eliminarComentario(string mensaje) {
         auto msjComentarios = listarComentariosUsuario(getUsuario(*i));
         for(auto j = msjComentarios.begin(); j != msjComentarios.end(); ++j) {
             if (*j == mensaje) {
-                
+                j->borrarRespuestas();
             }
         }
     }
+    usuarios.clear();
 }
 
 Vendedor* ControlUsuario::getVendedor(string nickname) {
