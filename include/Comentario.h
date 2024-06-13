@@ -2,7 +2,8 @@
 #define COMENTARIO_H
 
 #include <string>
-
+#include "DTComentario.h"
+#include "DTFecha.h"
 using namespace std;
 
 class Comentario {
@@ -19,22 +20,26 @@ public:
     void setSig(Comentario* Sig);
     void setRes(Comentario* Res);
     DTFecha* getFecha();
+    string getTexto();
 
-    //Devuelve el puntero a la primera respuesta, y puedes navegar al resto luego
-    Comentario* borrarRespuestas();
+    //Devuelve un set con las respuestas DIRECTAS del comentario
+    set<Comentario> getRespuestas();
+
+    //Borra TODAS las respuestas del comentario
+    void borrarRespuestas();
 
     //Crea y devuelve un DTComentario de este comentario
-    DTComentario getDTComentario()
+    DTComentario getDTComentario();
 
     bool UltimoDelNivel();
 
     void PrintComentario();
 
 private:
-    DTFecha date;
+    DTFecha fecha;
     string texto;
     Comentario* Sigcomenario;
-    Comentario* Respuesta
+    Comentario* Respuesta;
 };
 
 #endif
