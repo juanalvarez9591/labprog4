@@ -96,55 +96,7 @@ Usuario* ControlUsuario::getUsuario(string nickname) {
     return nullptr;
 }
 
-vector<Comentario*> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
-    vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
-    return comentarios;
-}
 
-void ControlUsuario::eliminarComentario(string mensaje) {
-    auto nickUsuarios = listarNicknamesUsuarios();
-    bool borrado = false; //adaptar fors a while
-    auto iterUsuario = nickUsuarios.begin();
-    while((iterUsuario != nickUsuarios.end()) && !borrado) {
-        auto comentarios = listarComentariosUsuario(*iterUsuario);
-        auto iterComent = comentarios.begin();
-        while(iterComent != comentarios.end() && !borrado) {
-            Comentario *aBorrar = NULL;
-            if (iterComent->getSig()->getTexto() == mensaje) {
-                aBorrar = iterComent->getSig();
-                iterComent->setSig(aBorrar->getSig());
-                aBorrar->borrarRespuestas();
-                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
-                borrado = true;
-            } else if (iterComent->getResp()->getTexto() == mensaje) {
-                aBorrar = iterComent->getResp();
-                iterComent->setRes(aBorrar->getSig());
-                aBorrar->borrarRespuestas();
-                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
-                borrado = true;
-            } else {
-                ++iterComent
-            }
-        }
-        if(!borrado) {
-            ++iterUsuario;
-        }
-    }
-    if (!borrado) {
-        vector<DTProducto> productos = listarProductos();
-        auto iterProd = productos.begin()
-        while(iterProd != producto.end() && !borrado) {
-            if (iterProd->GetPrimerComentario()->getTexto() == mensaje) {
-                iterProd->BorrarPrimerComentario();
-                getUsuario(*iterUsuario).olvidarComentario(*(iterProd->GetPrimerComentario()));
-                borrado = true;
-            } else {
-                ++iterProd;
-            }
-        }
-    }
-    usuarios.clear();
-}
 
 Vendedor* ControlUsuario::getVendedor(string nickname) {
     for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
@@ -202,18 +154,13 @@ void ControlUsuario::realizarComentario(string texto, DTFecha fecha){
     bool found = false;
     auto it = vendedores.begin();
     while((it != vendedores.end()) && !found){
-        Producto* Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
+        Producto* Product = it->getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
         if (Product != NULL){
             found = true;
         }else{
             it = it +1;
         }
     }
-                                                            /*for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
-
-                                                                if (it->getNickname() == nickname) {
-                                                                    return true;
-                                                                }*/
 
     //fase de ensablaje
     if (Product != NULL){

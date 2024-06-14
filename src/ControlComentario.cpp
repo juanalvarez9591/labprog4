@@ -1,29 +1,76 @@
 #include "ControlComentario.h"
 #include "Comentario.h"
 #include "Producto.h"
+#include <vector>
 
 //Borrar comentario
 
-vector<string> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
-    vector<string> comentarios;
-    auto i = getUsuario(nombreUsuario)->getComentarios();
-    for(auto j = i.begin(); j != i.end(); ++j) 
-        comentarios.push_back(j->getMensaje());
+vector<Comentario*> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
+    vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
     return comentarios;
 }
 
+//Borra el comentario y TODAS sus respuestas, NO HACE LA RECONEXION ARBORECENTE. ESO SE HACE ANTES DE LLAMAR LA FORMULA
+void Comentario::borrarRespuestas(Comentario comentario) {
+    auto respuestas = comentario.getRespuestas();
+    for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
+        i->borrarRespuestas();
+    }
+    
+    
+    eliminarNodo(); //Falta por implementar
+}
+
 void ControlUsuario::eliminarComentario(string mensaje) {
-    auto usuarios = listarNicknamesUsuarios();
-    for(auto i = usuarios.begin(); i != usuarios.end(); ++i) {
-        auto msjComentarios = listarComentariosUsuario(getUsuario(*i));
-        for(auto j = msjComentarios.begin(); j != msjComentarios.end(); ++j) {
-            if (*j == mensaje) {
-                j->borrarRespuestas();
+    auto nickUsuarios = listarNicknamesUsuarios();
+    bool borrado = false;
+    bool ComentEncontrado = false; 
+    auto iterUsuario = nickUsuarios.begin();
+    Comentario *aBorrar = NULL;
+    while((iterUsuario != nickUsuarios.end()) && !(borrado && ComentEncontrado)) {
+        auto comentarios = listarComentariosUsuario(*iterUsuario);
+        auto iterComent = comentarios.begin();
+        while(iterComent != comentarios.end() && !(borrado && ComentEncontrado)) {
+            if (!borrado){
+                if (iterComent->getSig()->getTexto() == mensaje) {
+                aBorrar = iterComent->getSig();
+                iterComent->setSig(aBorrar->getSig());
+            }
+            
+                aBorrar->borrarRespuestas();
+                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
+                borrado = true;
+            } else if (iterComent->getResp()->getTexto() == mensaje) {
+                aBorrar = iterComent->getResp();
+                iterComent->setRes(aBorrar->getSig());
+                aBorrar->borrarRespuestas();
+                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
+                borrado = true;
+            } else {
+                ++iterComent
+            }
+        }
+        if(!borrado) {
+            ++iterUsuario;
+        }
+    }
+    if (!borrado) {
+        vector<DTProducto> productos = listarProductos();
+        auto iterProd = productos.begin()
+        while(iterProd != producto.end() && !borrado) {
+            if (iterProd->GetPrimerComentario()->getTexto() == mensaje) {
+                iterProd->BorrarPrimerComentario();
+                getUsuario(*iterUsuario).olvidarComentario(*(iterProd->GetPrimerComentario()));
+                borrado = true;
+            } else {
+                ++iterProd;
             }
         }
     }
     usuarios.clear();
 }
+
+
 
 //Realizar comentario
 

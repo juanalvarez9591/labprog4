@@ -12,14 +12,18 @@ using namespace std;
 
 class ControlComentario : public IControlUsuario {
 public:
+//Borrar Comentario
     //static ControlComentario* getInstance();
     
     //vector<string> listarComentariosUsuario(string nombreUsuario) override;
-   
+
+       //Devuelve un set con las respuestas DIRECTAS del comentario
+    //set<Comentario> getRespuestas();
     //void eliminarComentario(string mensaje);
 
     //void seleccionarUsuario(string nombreUsuario);
 
+//Realizar Comentario
     //vector<DTProducto> listarProductos();
     //void seleccionarProducto(string nombreProducto);
     ////void realizarComentario(string texto, DTFecha fecha);
