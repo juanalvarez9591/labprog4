@@ -35,8 +35,7 @@ void Comentario::borrarRespuestas() {
 	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
 		i->borrarRespuestas();
 	}
-	respuestas.
-	delete this;
+	delete this; //No se si está bien borrado, tampoco se si debería liberar el set respuestas
 }
 
 //Devuelve el puntero a la primera respuesta
