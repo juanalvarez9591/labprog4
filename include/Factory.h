@@ -4,6 +4,7 @@
 #include "IControlUsuario.h"
 #include "IControlFecha.h"
 #include "IControlSuscripciones.h"
+#include "IControlComentario.h"
 
 class Factory {
 public:
