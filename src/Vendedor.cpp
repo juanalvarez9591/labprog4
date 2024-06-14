@@ -4,9 +4,9 @@ Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, in
     this->rut = rut;
 }
 
-bool Vendedor::estaSuscrito(Usuario* usuario) {
+bool Vendedor::estaSuscrito(IObserver* observer) {
     for (int i = 0; i < this->observers.size(); i++) {
-        if (this->observers[i]->getNickname() == usuario->getNickname()) {
+        if (this->observers[i] == observer) {
             return true;
         }
     }
