@@ -17,6 +17,7 @@ public:
     virtual vector<string> listarNicknamesClientes() = 0;
     virtual vector<string> listarNicknamesVendedores() = 0;
     virtual vector<string> listarComentariosUsuario() = 0;
+    
     virtual void eliminarComentario() = 0;
 
     virtual void seleccionarUsuario(string nombreUsuario) = 0;

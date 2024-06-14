@@ -19,6 +19,7 @@ public:
     vector<string> listarNicknamesClientes() override;
     vector<string> listarNicknamesVendedores() override;
     vector<string> listarComentariosUsuario(string nombreUsuario) override;
+   
     void eliminarComentario(string mensaje);
 
     void seleccionarUsuario(string nombreUsuario);

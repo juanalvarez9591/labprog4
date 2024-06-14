@@ -10,7 +10,7 @@ class Comentario {
 public:
 
     //falta agregar lo de la fecha(En su DT) y crea un comentario que no es apuntado ni apunta a nada, el control se va a tener que hacer una funcion de agragar cuando se haga
-    Comentario(string texto);
+    Comentario(string texto, DTFecha fecha);
 
     //Libera el DTfecha asociado
     void Liberar();
@@ -25,7 +25,7 @@ public:
     //Devuelve un set con las respuestas DIRECTAS del comentario
     set<Comentario> getRespuestas();
 
-    //Borra TODAS las respuestas del comentario
+    //Borra el comentario y TODAS sus respuestas
     void borrarRespuestas();
 
     //Crea y devuelve un DTComentario de este comentario

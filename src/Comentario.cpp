@@ -2,6 +2,7 @@
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
+#include "ControlUsuario" //probablemente termine siendo controlComentario
 using namespace std;
 
 Comentario::Comentario(string texto, DTFecha fecha){
@@ -27,13 +28,15 @@ set<Comentario> Comentario::getRespuestas() {
 	return respuestas;
 }
 
-//Tiene que borrar TODAS las respuestas del comentario
-void Comentario::borrarRespuestas(){
+
+//Borra el comentario y TODAS sus respuestas
+void Comentario::borrarRespuestas() {
 	auto respuestas = getRespuestas();
 	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
 		i->borrarRespuestas();
 	}
-	eliminarComentario(this->texto); //creo que está mal llamada
+	respuestas.
+	delete this;
 }
 
 //Devuelve el puntero a la primera respuesta
