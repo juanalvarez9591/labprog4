@@ -96,21 +96,50 @@ Usuario* ControlUsuario::getUsuario(string nickname) {
     return nullptr;
 }
 
-vector<string> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
-    vector<string> comentarios;
-    auto i = getUsuario(nombreUsuario)->getComentarios();
-    for(auto j = i.begin(); j != i.end(); ++j) 
-        comentarios.push_back(j->getMensaje());
+vector<Comentario*> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
+    vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
     return comentarios;
 }
 
 void ControlUsuario::eliminarComentario(string mensaje) {
-    auto usuarios = listarNicknamesUsuarios();
-    for(auto i = usuarios.begin(); i != usuarios.end(); ++i) {
-        auto msjComentarios = listarComentariosUsuario(getUsuario(*i));
-        for(auto j = msjComentarios.begin(); j != msjComentarios.end(); ++j) {
-            if (*j == mensaje) {
-                j->borrarRespuestas();
+    auto nickUsuarios = listarNicknamesUsuarios();
+    bool borrado = false; //adaptar fors a while
+    auto iterUsuario = nickUsuarios.begin();
+    while((iterUsuario != nickUsuarios.end()) && !borrado) {
+        auto comentarios = listarComentariosUsuario(*iterUsuario);
+        auto iterComent = comentarios.begin();
+        while(iterComent != comentarios.end() && !borrado) {
+            Comentario *aBorrar = NULL;
+            if (iterComent->getSig()->getTexto() == mensaje) {
+                aBorrar = iterComent->getSig();
+                iterComent->setSig(aBorrar->getSig());
+                aBorrar->borrarRespuestas();
+                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
+                borrado = true;
+            } else if (iterComent->getResp()->getTexto() == mensaje) {
+                aBorrar = iterComent->getResp();
+                iterComent->setRes(aBorrar->getSig());
+                aBorrar->borrarRespuestas();
+                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
+                borrado = true;
+            } else {
+                ++iterComent
+            }
+        }
+        if(!borrado) {
+            ++iterUsuario;
+        }
+    }
+    if (!borrado) {
+        vector<DTProducto> productos = listarProductos();
+        auto iterProd = productos.begin()
+        while(iterProd != producto.end() && !borrado) {
+            if (iterProd->GetPrimerComentario()->getTexto() == mensaje) {
+                iterProd->BorrarPrimerComentario();
+                getUsuario(*iterUsuario).olvidarComentario(*(iterProd->GetPrimerComentario()));
+                borrado = true;
+            } else {
+                ++iterProd;
             }
         }
     }
@@ -195,10 +224,10 @@ void ControlUsuario::realizarComentario(string texto, DTFecha fecha){
 }
 
 
-vector<string> HacerListComenarios(Comentario* Comentario , vector<string> Vec){
+vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec){
     Vec.push_back(Comentario->texto);
-    HacerListComenarios(Comentario->getResp() , Vec);
-    HacerListComenarios(Comentario->getResp() , Vec);
+    HacerListComentarios(Comentario->getResp() , Vec);
+    HacerListComentarios(Comentario->getResp() , Vec);
     return Vec;
 }
     
@@ -214,7 +243,7 @@ vector<string> ControlUsuario::listarComentarios(){
         }
     }
     if (Product != NULL){
-        Respuesta = HacerListComenarios(Product->Foro, Respuesta);
+        Respuesta = HacerListComentarios(Product->Foro, Respuesta);
     }
 
     return Respuesta;

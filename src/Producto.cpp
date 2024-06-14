@@ -55,6 +55,18 @@ DTProducto GetDTProducto(){
 	return salida;
 }
 
+Comentario* Producto::GetPrimerComentario() {
+	return this->Foro;
+}
+
+void Producto::BorrarPrimerComentario() {
+	if (this->Foro != NULL) {
+		Comentario *iterComent = this->Foro;
+		this->Foro = this->Foro->getSig();
+		iterComent->borrarRespuestas();	
+	}
+}
+
 Comentario *Estecomentario(Comentario *It, string Text){
 	if (It == NULL){
 		return NULL;

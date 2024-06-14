@@ -8,7 +8,7 @@ using namespace std;
 Comentario::Comentario(string texto, DTFecha fecha){
 	this->texto = texto;
 	this->fecha = fecha;
-	this->Sigcomenario = NULL;
+	this->Sigcomentario = NULL;
 	this->Respuesta = NULL;
 }
 
@@ -23,15 +23,15 @@ set<Comentario> Comentario::getRespuestas() {
 	Comentario* i = this->Respuesta;
 	while(i != NULL) {
 		respuestas.insert(i);
-		i = i->Sigcomenario;
+		i = i->Sigcomentario;
 	}
 	return respuestas;
 }
 
 
 //Borra el comentario y TODAS sus respuestas
-void Comentario::borrarRespuestas() {
-	auto respuestas = getRespuestas();
+void Comentario::borrarRespuestas(Comentario comentario) {
+	auto respuestas = comentario.getRespuestas();
 	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
 		i->borrarRespuestas();
 	}
@@ -44,7 +44,7 @@ Comentario* Comentario::getResp(){
 }
 
 Comentario* Comentario::getSig(){
-	return this->Sigcomenario;
+	return this->Sigcomentario;
 }
 
 void Comentario::setSig(Comentario* Sig){
@@ -63,7 +63,7 @@ DTComentario Comentario::getDTComentario(){
 }
 
 bool Comentario::UltimoDelNivel(){
-	return (this->Sigcomenario == NULL);
+	return (this->Sigcomentario == NULL);
 }
 
 void PrintComentario(){

@@ -44,7 +44,7 @@ private:
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
 
-    vector<string> HacerListComenarios();
+    vector<string> HacerListComentarios();
 
     string Comentador;
     string* Prod;

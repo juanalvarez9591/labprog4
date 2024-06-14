@@ -29,12 +29,16 @@ public:
 
     DTProducto GetDTProducto();
 
+    Comentario* GetPrimerComentario();
+    void BorrarPrimerComentario();
+
     Comentario* GetComentario(string Text);
     void AgregarComentario(Comentario *Comentario);
     void AgregarRespuesta(Comentario *Comentario, string Text);
 
     void PrintTodosComentarios();
     void PrintComentario(Comentario *Comentario, int Sangria);
+
 
 private:
     string Descripcion;

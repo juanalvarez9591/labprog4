@@ -26,7 +26,7 @@ public:
     set<Comentario> getRespuestas();
 
     //Borra el comentario y TODAS sus respuestas
-    void borrarRespuestas();
+    void borrarRespuestas(Comentario *comentario);
 
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario();
@@ -38,7 +38,7 @@ public:
 private:
     DTFecha fecha;
     string texto;
-    Comentario* Sigcomenario;
+    Comentario* Sigcomentario;
     Comentario* Respuesta;
 };
 
