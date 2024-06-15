@@ -4,14 +4,25 @@
 #include <string>
 #include <vector>
 #include "DTProducto.h"
+#include "DTFecha.h"
+#include "DTPromocion.h"
+#include "DTInfoProducto.h"
 using namespace std;
 
 class IControlPromocion {
 public:
-    virtual void datosPromocion(const string&,const string&, date, float) = 0;
-    virtual vector<DTProducto> productosAsociadosVendedor(const string&)= 0;
-    virtual void agregarProductos(int, int) = 0;
+    virtual set<string> listarNicknameVendedores() = 0;
+    virtual void elegirVendedor(string nickVendedor) = 0;
+    virtual void ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) = 0;
+    virtual set<DTProducto> listarProductos() = 0;
+    virtual DTInfoProducto verInfoProducto(int idProducto) = 0;
+    virtual void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) = 0;
+    virtual set<DTProducto> verProductosVendedor() = 0;
+    virtual void agregarProductoPromocion(int idProducto, int cantidad) = 0;
     virtual void confirmarPromocion() = 0;
+    virtual set<DTPromocion> listarPromocionesVigentes() = 0;
+    virtual set<DTInfoProducto> consultarProductosPromocion(string nombrePromocion) = 0;
+
     virtual ~IControlPromocion(){};
 
 };
