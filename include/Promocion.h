@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include "Requisitos.h"
+#include "DTFecha.h"
+#include "DTPromocion.h"
 
 using namespace std;
 
@@ -11,12 +13,12 @@ class Promocion {
 private:
     string nombre;
     string descripcion;
-    string fechaVencimiento;
-    float porcentaje;
+    DTFecha fechaVencimiento;
+    int porcentaje;
     vector<Requisitos> requisitos;
 
 public:
-    Promocion(string nombre, string descripcion, string fechaVencimiento, float porcentaje);
+    Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
 
     string getNombre();
     void setNombre(string nombre);
@@ -24,15 +26,17 @@ public:
     string getDescripcion();
     void setDescripcion(string descripcion);
 
-    string getFechaVencimiento();
-    void setFechaVencimiento(string fechaVencimiento);
+    DTFecha getFechaVencimiento();
+    void setFechaVencimiento(DTFecha fechaVencimiento);
 
-    float getPorcentaje();
-    void setPorcentaje(float porcentaje);
+    int getPorcentaje();
+    void setPorcentaje(int porcentaje);
 
-    void addRequisitos(Requisitos requisito);
-    void removeRequisitos(Requisitos requisito);
+    void agregarRequisitos(Requisitos requisito);
+    void eliminarRequisitos(Requisitos requisito);
     vector<Requisitos> getRequisitos();
+
+    DTPromocion toDTPromocion();
 };
 
 #endif

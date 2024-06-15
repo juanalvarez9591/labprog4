@@ -6,8 +6,7 @@ Cliente::Cliente(string nickname, string password, DTFecha fechaNacimiento, stri
     this->notificaciones = vector<DTNotificacion>();
 }
 
-void Cliente::update(string message) {
-    DTNotificacion notificacion = DTNotificacion(message, "test", vector<DTInfoProducto>());
+void Cliente::update(DTNotificacion notificacion) {
     notificaciones.push_back(notificacion);
 }
 

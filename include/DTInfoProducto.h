@@ -3,14 +3,9 @@
 #define DTINFOPRODUCTO_H
 
 #include <string>
+#include "Categoria.h"
 
 using namespace std;
-
-enum class Categoria {
-    Ropa,
-    Electrodomestico,
-    Otro
-};
 
 class DTInfoProducto {
 private:

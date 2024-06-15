@@ -1,8 +1,8 @@
 #include "Promocion.h"
 
-Promocion::Promocion(string nombre, string descripcion, string fechaVencimiento, float porcentaje)
+Promocion::Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje)
         : nombre(nombre), descripcion(descripcion), fechaVencimiento(fechaVencimiento),
-          porcentaje(porcentaje) {}
+          porcentaje(porcentaje), requisitos() {}
 
 string Promocion::getNombre() {
     return nombre;
@@ -20,27 +20,27 @@ void Promocion::setDescripcion(string descripcion) {
     this->descripcion = descripcion;
 }
 
-string Promocion::getFechaVencimiento() {
+DTFecha Promocion::getFechaVencimiento() {
     return fechaVencimiento;
 }
 
-void Promocion::setFechaVencimiento(string fechaVencimiento) {
+void Promocion::setFechaVencimiento(DTFecha fechaVencimiento) {
     this->fechaVencimiento = fechaVencimiento;
 }
 
-float Promocion::getPorcentaje() {
+int Promocion::getPorcentaje() {
     return porcentaje;
 }
 
-void Promocion::setPorcentaje(float porcentaje) {
+void Promocion::setPorcentaje(int porcentaje) {
     this->porcentaje = porcentaje;
 }
 
-void Promocion::addRequisitos(Requisitos requisito) {
+void Promocion::agregarRequisitos(Requisitos requisito) {
     requisitos.push_back(requisito);
 }
 
-void Promocion::removeRequisitos(Requisitos requisito) {
+void Promocion::eliminarRequisitos(Requisitos requisito) {
     for (int i = 0; i < requisitos.size(); i++) {
         if (requisitos[i] == requisito) {
             requisitos.erase(requisitos.begin() + i);
@@ -51,4 +51,8 @@ void Promocion::removeRequisitos(Requisitos requisito) {
 
 vector<Requisitos> Promocion::getRequisitos() {
     return requisitos;
+}
+
+DTPromocion Promocion::toDTPromocion() {
+    return DTPromocion(nombre, descripcion, fechaVencimiento, porcentaje);
 }

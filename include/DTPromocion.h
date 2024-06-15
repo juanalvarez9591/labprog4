@@ -10,15 +10,15 @@ private:
     string nombre;
     string descripcion;
     DTFecha fechaVencimiento;
-    float porcentaje;
+    int porcentaje;
 
 public:
     DTPromocion();
-    DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, float porcentaje);
+    DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
     string getNombre();
     string getDescripcion();
     DTFecha getFechaVencimiento();
-    float getPorcentaje();
+    int getPorcentaje();
 };
 
 #endif

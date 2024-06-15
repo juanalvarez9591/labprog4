@@ -1,4 +1,5 @@
 #include "Vendedor.h"
+#include "DTNotificacion.h"
 
 Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) : Usuario(nickname, password, fechaNacimiento) {
     this->rut = rut;
@@ -30,8 +31,8 @@ void Vendedor::eliminarObserver(IObserver* observer) {
     }
 }
 
-void Vendedor::notificarObservers(std::string message) {
+void Vendedor::notificarObservers(DTNotificacion notificacion) {
     for (int i = 0; i < this->observers.size(); i++) {
-        this->observers[i]->update(message);
+        this->observers[i]->update(notificacion);
     }
 }

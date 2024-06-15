@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include "DTInfoProducto.h"
 using namespace std;
 
 class DTNotificacion
@@ -11,11 +10,11 @@ class DTNotificacion
 private:
     string nombrePromo;
     string nickVendedor;
-    vector<DTInfoProducto> productosPromocion;
+    vector<int> codigosProductos;
 
 public:
     DTNotificacion();
-    DTNotificacion(string nombrePromo, string nickVendedor, vector<DTInfoProducto> productos);
+    DTNotificacion(string nombrePromo, string nickVendedor, vector<int> codigosProductos);
     string toString() const;
 };
 
