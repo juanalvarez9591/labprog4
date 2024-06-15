@@ -3,7 +3,7 @@
 #include "DTComentario.h"
 #include "ControlUsuario.h"
 #include "ControlSuscripciones.h"
-
+#include <string>
 #include <vector>
 
 
@@ -21,11 +21,11 @@ public:
     //set<Comentario> getRespuestas();
     //void eliminarComentario(string mensaje);
 
-    //void seleccionarUsuario(string nombreUsuario);
 
 //Realizar Comentario
-    //vector<DTProducto> listarProductos();
-    //void seleccionarProducto(string nombreProducto);
+    void seleccionarUsuario(string nombreUsuario);
+    vector<string> listarProductos();
+    void seleccionarProducto(string nombreProducto);
     ////void realizarComentario(string texto, DTFecha fecha);
     //vector<string> listarComentarios();
     //void elegirComentario(string mensaje);

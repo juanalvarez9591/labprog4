@@ -123,52 +123,7 @@ vector<Vendedor> ControlUsuario::getVendedores() {
 }
 
 
-void ControlUsuario::seleccionarUsuario(string nombreUsuario){
-    this->Comentador = nombreUsuario;
-}
 
-vector<DTProducto> ControlUsuario::listarProductos(){
-    vector<DTProducto> Articulos;
-    vector<DTProducto> Catalogo;
-    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
-        Catalogo = it.listaProductos();
-        Articulos.insert(Articulos.end() , Catalogo.begin() , Catalogo.end());
-        Catalogo.clear();
-    }
-    Catalogo.erase();
-
-    return Articulos;
-}
-
-void ControlUsuario::seleccionarProducto(string nombreProducto){
-    this->Prod = nombreProducto;
-}
-
-//Comentario directo
- //Falta por hacer Una funcion en vendedor que nos de acceso a la direccion de un producto buscado segun la clave
-void ControlUsuario::realizarComentario(string texto, DTFecha fecha){
-    
-    Comentario* Opinion = new Comentario(texto, fecha);
-
-    //fase de busqueda
-    bool found = false;
-    auto it = vendedores.begin();
-    while((it != vendedores.end()) && !found){
-        Producto* Product = it->getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
-        if (Product != NULL){
-            found = true;
-        }else{
-            it = it +1;
-        }
-    }
-
-    //fase de ensablaje
-    if (Product != NULL){
-        Product.AgregarComentario(Opinion);
-
-        //FALTA AGREGAR A LA COLECCION INTERNA DEL VENDEDOR
-    }
-}
 
 
 vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec){
