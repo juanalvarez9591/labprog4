@@ -5,23 +5,21 @@
 
 //Borrar comentario
 
-vector<Comentario*> ControlUsuario::listarComentariosUsuario(string nombreUsuario) {
+vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
     vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
     return comentarios;
 }
 
 //Borra el comentario y TODAS sus respuestas, NO HACE LA RECONEXION ARBORECENTE. ESO SE HACE ANTES DE LLAMAR LA FORMULA
-void Comentario::borrarRespuestas(Comentario comentario) {
+void ControlComentario::borrarRespuestas(Comentario comentario) {
     auto respuestas = comentario.getRespuestas();
     for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
         i->borrarRespuestas();
     }
-    
-    
-    eliminarNodo(); //Falta por implementar
+    i->eliminarNodo(); //Falta por implementar
 }
 
-void ControlUsuario::eliminarComentario(string mensaje) {
+void ControlComentario::eliminarComentario(string mensaje) {
     auto nickUsuarios = listarNicknamesUsuarios();
     bool borrado = false;
     bool ComentEncontrado = false; 
@@ -74,11 +72,11 @@ void ControlUsuario::eliminarComentario(string mensaje) {
 
 //Realizar comentario
 
-void ControlUsuario::seleccionarUsuario(string nombreUsuario){
+void ControlComentario::seleccionarUsuario(string nombreUsuario){
     this->Comentador = nombreUsuario;
 }
 
-vector<DTProducto> ControlUsuario::listarProductos(){
+vector<DTProducto> ControlComentario::listarProductos(){
     vector<DTProducto> Articulos;
     vector<DTProducto> Catalogo;
     for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
@@ -91,6 +89,6 @@ vector<DTProducto> ControlUsuario::listarProductos(){
     return Articulos;
 }
 
-void ControlUsuario::seleccionarProducto(string nombreProducto){
+void ControlComentario::seleccionarProducto(string nombreProducto){
     this->Prod = nombreProducto;
 }

@@ -24,9 +24,7 @@ public:
 
     //Devuelve un set con las respuestas DIRECTAS del comentario
     set<Comentario> getRespuestas();
-
-    //Borra el comentario y TODAS sus respuestas
-    void borrarRespuestas(Comentario *comentario);
+    void eliminarNodo();
 
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario();

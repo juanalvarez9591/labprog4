@@ -28,14 +28,8 @@ set<Comentario> Comentario::getRespuestas() {
 	return respuestas;
 }
 
-
-//Borra el comentario y TODAS sus respuestas
-void Comentario::borrarRespuestas(Comentario comentario) {
-	auto respuestas = comentario.getRespuestas();
-	for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
-		i->borrarRespuestas();
-	}
-	delete this; //No se si está bien borrado, tampoco se si debería liberar el set respuestas
+void Comentario::eliminarNodo() {
+	delete this;
 }
 
 //Devuelve el puntero a la primera respuesta
