@@ -14,6 +14,8 @@ private:
 public:
     DTProducto();
     DTProducto(string Nombre, int Id);
+    string getNombre();
+    int getId();
 };
 
 #endif

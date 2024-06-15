@@ -2,7 +2,7 @@
 #define DTCOMENTARIO_H
 
 #include <string>
-#include <DTFecha.h>
+#include "DTFecha.h"
 using namespace std;
 
 class DTComentario
@@ -14,6 +14,8 @@ private:
 public:
     DTComentario();
     DTComentario(string mensaje, DTFecha fecha);
+    DTFecha getFecha();
+    string getMensaje();
 };
 
 #endif // DTCOMENTARIO_H
