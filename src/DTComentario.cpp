@@ -1,23 +1,15 @@
+/*
 #include "../include/DTComentario.h"
 
 DTComentario::DTComentario()
 {
-    this->mensaje = "";
-    this->fecha  = NULL;
+    autor = "";
+    texto = "";
 }
 
-DTComentario::DTComentario(string mensaje, DTFecha fecha)
+DTComentario::DTComentario(string autor, string texto)
 {
-    this->mensaje = mensaje;
-    this->fecha = fecha;
+    this->autor = autor;
+    this->texto = texto;
 }
-
-DTFecha DTComentario::getFecha(){
-    return this->fecha;
-
-}
-
-string DTComentario::getMensaje(){
-        return this->mensaje;
-}
-
+*/
