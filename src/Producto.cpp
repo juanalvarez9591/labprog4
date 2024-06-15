@@ -1,6 +1,6 @@
 #include "Producto.h"
 
-Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, CatProducto categoria, Vendedor* vendedor) {
+Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->id = id;
@@ -18,7 +18,7 @@ string Producto::getDescripcion() {
     return this->descripcion;
 }
 
-CatProducto Producto::getCategoria() {
+Categoria Producto::getCategoria() {
     return this->categoria;
 }
 
@@ -26,8 +26,25 @@ int Producto::getPrecio() {
     return this->precio;
 }
 
+int Producto::getId() {
+    return this->id;
+}
+
 int Producto::getStock() {
     return this->stock;
+}
+
+Vendedor* Producto::getVendedor() {
+    return this->vendedor;
+}
+
+DTProducto Producto::toDTProducto() {
+    return DTProducto(this->nombre, this->id);
+}
+
+
+DTInfoProducto Producto::toDTInfoProducto() {
+    return DTInfoProducto(this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
 }
 
 Producto::~Producto() {

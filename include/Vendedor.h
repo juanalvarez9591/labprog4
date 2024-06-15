@@ -5,6 +5,7 @@
 #include <vector>
 #include "Usuario.h"
 #include "IObserver.h"
+#include "DTNotificacion.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ public:
     Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut);
     void agregarObserver(IObserver* observer);
     void eliminarObserver(IObserver* observer);
-    void notificarObservers(std::string message);
+    void notificarObservers(DTNotificacion notificacion);
     bool estaSuscrito(IObserver* observer);
     string getNickname();
 

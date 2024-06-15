@@ -3,22 +3,24 @@
 
 #include <string>
 #include "Vendedor.h"
-using namespace std;
+#include "DTProducto.h"
+#include "DTInfoProducto.h"
+#include "Categoria.h"
 
-enum class CatProducto {
-    Ropa,
-    Electrodomestico,
-    Otro
-};
+using namespace std;
 
 class Producto {
 public:
-    Producto(string nombre, string descripcion, int id, int stock, int precio, CatProducto categoria, Vendedor* vendedor);
+    Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor);
     string getNombre();
     string getDescripcion();
-    CatProducto getCategoria();
+    Categoria getCategoria();
     int getPrecio();
+    int getId();
     int getStock();
+    Vendedor* getVendedor();
+    DTProducto toDTProducto();
+    DTInfoProducto toDTInfoProducto();
     ~Producto();
 
 private:
@@ -27,7 +29,7 @@ private:
     int id;
     int stock;
     int precio;
-    CatProducto categoria;
+    Categoria categoria;
     Vendedor* vendedor;
 };
 

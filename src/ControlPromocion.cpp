@@ -1,8 +1,10 @@
 #include "ControlPromocion.h"
 #include "ControlUsuario.h"
+#include "ControlFecha.h"
 #include "DTPromocion.h"
 #include "DTInfoProducto.h"
 #include "DTProducto.h"
+#include "Categoria.h"
 
 ControlPromocion* ControlPromocion::instance = nullptr;
 
@@ -15,10 +17,14 @@ ControlPromocion* ControlPromocion::getInstance() {
 
 ControlPromocion::ControlPromocion() {
     controlUsuario = ControlUsuario::getInstance();
+    controlFecha = ControlFecha::getInstance();
 
     productos = vector<Producto>();
     promociones = vector<Promocion>();
     requisitos = vector<Requisitos>();
+
+    Vendedor* vendedorEnMemoria = nullptr;
+    Promocion* promocionEnMemoria = nullptr;
 }
 
 set<string> ControlPromocion::listarNicknameVendedores() {
@@ -30,44 +36,129 @@ set<string> ControlPromocion::listarNicknameVendedores() {
     return nicknames;
 }
 
-void ControlPromocion::elegirVendedor(string nickVendedor) {
-    return;
+bool ControlPromocion::elegirVendedor(string nickVendedor) {
+    Vendedor* vendedorElegido = controlUsuario->getVendedor(nickVendedor);
+    this->vendedorEnMemoria = vendedorElegido;
+    return vendedorElegido != nullptr;
 }
 
 void ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
-    return;
+    if (this->vendedorEnMemoria == nullptr) {
+        return;
+    }
+
+    Categoria cat = fromString(categoria);
+
+    int codigoProducto = productos.size() + 1;
+
+    Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, this->vendedorEnMemoria);
+
+    productos.push_back(producto);
+
+    vendedorEnMemoria = nullptr;
 }
 
-set<DTProducto> ControlPromocion::listarProductos() {
-    return set<DTProducto>();
+vector<DTProducto> ControlPromocion::listarProductos() {
+    vector<DTProducto> dtProductos;
+    for (int i = 0; i < productos.size(); i++) {
+        Producto producto = productos[i];
+        DTProducto dtProducto = producto.toDTProducto();
+        dtProductos.push_back(dtProducto);
+    }
+    return dtProductos;
 }
 
 DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
+    for (int i = 0; i < productos.size(); i++) {
+        Producto producto = productos[i];
+        if (producto.getId() == idProducto) {
+            return producto.toDTInfoProducto();
+        }
+    }
     return DTInfoProducto();
 }
 
+
 void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
+    Promocion promocion = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
+    this->promocionEnMemoria = &promocion;
     return;
 }
 
-set<DTProducto> ControlPromocion::verProductosVendedor() {
-    return set<DTProducto>();
+vector<DTProducto> ControlPromocion::verProductosVendedor() {
+    vector<DTProducto> dtProductos;
+    for (int i = 0; i < productos.size(); i++) {
+        Producto producto = productos[i];
+        if (producto.getVendedor() == this->vendedorEnMemoria) {
+            DTProducto dtProducto = producto.toDTProducto();
+            dtProductos.push_back(dtProducto);
+        }
+    }
+    return dtProductos;
 }
 
+// la validacion de que entre un idProducto valido la vamos a hacer desde el main segun lo que devuelve vector<DTProducto> ControlPromocion::verProductosVendedor()
+// esto si seria responsabilidad del main, es un prerequisito para llamar a este metodo
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
-    return;
+    for (int i = 0; i < productos.size(); i++) {
+        Producto producto = productos[i];
+        if (producto.getId() == idProducto) {
+            Requisitos requisito = Requisitos(cantidad, &producto);
+            this->promocionEnMemoria->agregarRequisitos(requisito);
+            return;
+        }
+    }
 }
 
 void ControlPromocion::confirmarPromocion() {
-    return;
+    if (promocionEnMemoria == nullptr) {
+        return;
+    }
+    promociones.push_back(*promocionEnMemoria);
+
+    // Como todos los productos de la promocion son del mismo vendedor, tomamos el primer requisito
+    Vendedor* vendedor = promocionEnMemoria->getRequisitos()[0].getProducto()->getVendedor();
+
+    string nombrePromo = promocionEnMemoria->getNombre();
+    string nickVendedor = vendedor->getNickname();
+    vector<int> codigosProductos;
+    for (int i = 0; i < promocionEnMemoria->getRequisitos().size(); i++) {
+        Requisitos requisito = promocionEnMemoria->getRequisitos()[i];
+        codigosProductos.push_back(requisito.getProducto()->getId());
+    }
+    DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos);
+
+    vendedor->notificarObservers(notificacion);
+
+    promocionEnMemoria = nullptr;
 }
 
-set<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
-    return set<DTInfoProducto>();
+vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
+    vector<DTInfoProducto> dtInfoProductos;
+    for (int i = 0; i < promociones.size(); i++) {
+        if (promociones[i].getNombre() == nombrePromocion) {
+            vector<Requisitos> requisitos = promociones[i].getRequisitos();
+            for (int j = 0; j < requisitos.size(); j++) {
+                Producto* producto = requisitos[j].getProducto();
+                DTInfoProducto dtInfoProducto = producto->toDTInfoProducto();
+                dtInfoProductos.push_back(dtInfoProducto);
+            }
+            break;
+        }
+    }
+    return dtInfoProductos;
 }
 
-set<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
-    return set<DTPromocion>();
+vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
+    vector<DTPromocion> dtPromociones;
+    DTFecha fechaActual = controlFecha->getFechaActual();
+    for (int i = 0; i < promociones.size(); i++) {
+        if (promociones[i].getFechaVencimiento() >= fechaActual) {
+            DTPromocion dtPromocion = promociones[i].toDTPromocion();
+            dtPromociones.push_back(dtPromocion);
+        }
+    }
+    return dtPromociones;
 }
 
 ControlPromocion::~ControlPromocion() {

@@ -8,7 +8,7 @@ DTPromocion::DTPromocion() {
     this->porcentaje = 0;
 }
 
-DTPromocion::DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, float porcentaje) {
+DTPromocion::DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->fechaVencimiento = fechaVencimiento;
@@ -27,6 +27,6 @@ DTFecha DTPromocion::getFechaVencimiento() {
     return this->fechaVencimiento;
 }
 
-float DTPromocion::getPorcentaje() {
+int DTPromocion::getPorcentaje() {
     return this->porcentaje;
 }

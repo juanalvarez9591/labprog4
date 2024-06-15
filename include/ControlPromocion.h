@@ -9,6 +9,7 @@
 #include "DTPromocion.h"
 #include "DTInfoProducto.h"
 #include "ControlUsuario.h"
+#include "ControlFecha.h"
 #include "IControlPromocion.h"
 #include "Producto.h"
 #include "Promocion.h"
@@ -21,24 +22,27 @@ public:
     static ControlPromocion* getInstance();
 
     set<string> listarNicknameVendedores();
-    void elegirVendedor(string nickVendedor);
+    bool elegirVendedor(string nickVendedor);
     void ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
-    set<DTProducto> listarProductos();
+    vector<DTProducto> listarProductos();
     DTInfoProducto verInfoProducto(int idProducto);
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
-    set<DTProducto> verProductosVendedor();
+    vector<DTProducto> verProductosVendedor();
     void agregarProductoPromocion(int idProducto, int cantidad);
     void confirmarPromocion();
-    set<DTPromocion> listarPromocionesVigentes();
-    set<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
+    vector<DTPromocion> listarPromocionesVigentes();
+    vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     virtual ~ControlPromocion();
 private:
     ControlPromocion();
     static ControlPromocion* instance;
+    ControlUsuario* controlUsuario;
+    ControlFecha* controlFecha;
     vector<Producto> productos;
     vector<Promocion> promociones;
     vector<Requisitos> requisitos;
-    ControlUsuario* controlUsuario;
+    Vendedor* vendedorEnMemoria;
+    Promocion* promocionEnMemoria;
 };
 
 #endif

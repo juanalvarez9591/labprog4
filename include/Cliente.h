@@ -11,7 +11,7 @@ using namespace std;
 class Cliente: public Usuario, public IObserver {
 public:
     Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
-    void update(string message) override;
+    void update(DTNotificacion notificacion) override;
     string getNickname();
     vector<DTNotificacion> listarNotificaciones();
     void limpiarNotificaciones();
