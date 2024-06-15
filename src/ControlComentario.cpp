@@ -1,8 +1,10 @@
 #include "ControlComentario.h"
+#include "ControlUsuario.h"
+#include "ControlPromocion.h"
 #include "Comentario.h"
 #include "Producto.h"
 #include <vector>
-
+#include <string>
 //Borrar comentario
 
 vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
@@ -74,23 +76,81 @@ void ControlComentario::eliminarComentario(string mensaje) {
 
 //Realizar comentario
 
+//Se listan los clientes desde control usuario
+
 void ControlComentario::seleccionarUsuario(string nombreUsuario){
     this->Comentador = nombreUsuario;
 }
 
-vector<DTProducto> ControlComentario::listarProductos(){
-    vector<DTProducto> Articulos;
-    vector<DTProducto> Catalogo;
-    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
-        Catalogo = it.listaProductos();
-        Articulos.insert(Articulos.end() , Catalogo.begin() , Catalogo.end());
-        Catalogo.clear();
+vector<string> ControlComentario::listarProductos(){
+    vector<string> listaprd;
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+    vector<Producto> Productos = ContrProm->getColeccionProd();
+    for (auto it = Productos.begin(); it != Productos.end(); it++){
+        listaprd.push_back(it->GetNombre());
     }
-    Catalogo.erase();
-
-    return Articulos;
+    return listaprd;
 }
 
 void ControlComentario::seleccionarProducto(string nombreProducto){
     this->Prod = nombreProducto;
+}
+
+
+//Comentario directo
+ //Falta por hacer Una funcion en vendedor que nos de acceso a la direccion de un producto buscado segun la clave
+void ControlComentario::realizarComentario(string texto, DTFecha fecha){
+    
+    Comentario* Opinion = new Comentario(texto, fecha);
+
+    //fase de busqueda
+    bool foundprod = false;
+    bool foundUsua = false;
+    ControlUsuario* ContrUsua = ControlUsuario::getInstance();
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+
+    vector<Producto> Productos = ContrProm->getColeccionProd();
+    auto it = Productos.begin();
+    while((!found) && (it != Productos.end())){
+        if (it->GetNombre() != this->Prod->GetNombre()){
+            it++;
+        }else{
+            foundprod = true;
+        }
+        if (it != NULL){                //Por si busqueda falla
+            if (it->Foro == NULL){      //Si foro vacio
+                it->Foro = Opinion;
+            }else{
+                it->AgregarComentario(Opinion);
+                /*Comentario* iterComent = it->Foro;
+                while(iterComent->getSig() != NULL){
+                    iterComent = iterComent->getSig();
+                }
+                iterComent->setSig(Opinion);*/
+            }
+        }
+    }           //Ya agregado a el foro del producto
+                //agregando a coleccion del usuario
+    vector<Usuario> Usuarios;
+    vector<Vendedor> Vendedores = getVendedores();
+    
+    Usuarios.insert(Usuarios.end(), Vendedores.begin(), Vendedores.end());
+    Usuarios.insert(Usuarios.end(), Vendedores.begin(), Vendedores.end());
+
+    /*auto it = vendedores.begin();
+    while((it != vendedores.end()) && !found){
+        Producto* Product = it->getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
+        if (Product != NULL){
+            found = true;
+        }else{
+            it = it +1;
+        }
+    }
+
+    //fase de ensablaje
+    if (Product != NULL){
+        Product.AgregarComentario(Opinion);
+
+        //FALTA AGREGAR A LA COLECCION INTERNA DEL VENDEDOR
+    }*/
 }

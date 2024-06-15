@@ -23,7 +23,10 @@ private:
     float porcentaje;
     vector<DTDetalleProducto> requerimientos;
 
+    //vector<Producto> Productos;
+
 public:
+     vector<Producto> getColeccionProd();
      void datosPromocion(const string&,const string&, date, float) override;
      vector<DTProducto> productosAsociadosVendedor(const string) override;
      void agregarProductos(int, int) override;
