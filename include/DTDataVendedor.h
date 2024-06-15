@@ -1,12 +1,13 @@
 #ifndef DTDATA_VENDEDOR_H
 #define DTDATA_VENDEDOR_H
 
-
 #include "DTInfoUsuarios.h"
+#include "DTFecha.h"
+#include <string>
+
 using namespace std;
 
-class DTDataVendedor : public DTInfoUsuarios
-{
+class DTDataVendedor : public DTInfoUsuarios {
 private:
     int rut;
 
@@ -15,4 +16,4 @@ public:
     int getRut();
 };
 
-#endif 
+#endif

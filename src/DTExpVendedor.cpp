@@ -1,4 +1,5 @@
- #include "../include/DTExpVendedor.h"
+/*
+ #include "DTExpVendedor.h"
 
 DTExpVendedor::DTExpVendedor(string nickname, DTFecha fecha, int rut, vector <DTPromocion> promociones, vector <DTProducto> productos)
 : DTDataVendedor(nickname, fecha, rut){
@@ -11,4 +12,4 @@ vector <DTPromocion> DTExpVendedor::getPromociones(){
 }
 vector <DTProducto> DTExpVendedor::getProductos(){
     return this->productos;
-}
+}*/

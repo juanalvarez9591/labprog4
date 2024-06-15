@@ -1,27 +1,25 @@
 #include "../include/DTExpCompra.h"
 
-DTExpCompra::DTExpCompra(){
-
+DTExpCompra::DTExpCompra() {
     this->costo = 0;
-    this-> fechaCompra = NULL;
-    this-> productos = NULL;
+    this->fechaCompra = DTFecha();
+    this->productos = vector<DTExpProducto>();
 }
-DTExpCompra::DTExpCompra(float costo, DTFecha fechaCompra, vector <DTExpProducto> productos){
+
+DTExpCompra::DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto> productos) {
     this->costo = costo;
     this->fechaCompra = fechaCompra;
     this->productos = productos;
-
-
 }
-float DTExpCompra::getCosto(){
+
+float DTExpCompra::getCosto() {
     return this->costo;
-
 }
-DTFecha DTExpCompra::getFecha(){
+
+DTFecha DTExpCompra::getFecha() {
     return this->fechaCompra;
-
 }
-vector <DTExpProducto> DTExpCompra::getProductos(){
-    return this->productos;
 
+vector<DTExpProducto> DTExpCompra::getProductos() {
+    return this->productos;
 }

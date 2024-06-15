@@ -1,4 +1,5 @@
-#include "../include/DTExpProducto.h"
+/*
+#include "DTExpProducto.h"
 
 DTExpProducto::DTExpProducto(){
     this->codigoProducto = 0;
@@ -22,4 +23,4 @@ int DTExpProducto::getCantidadProducto(){
 string DTExpProducto::getNombreProducto(){
     return this-> nombreProducto;
 
-}
+}*/

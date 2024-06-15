@@ -1,4 +1,5 @@
-# include "../include/DTExpCliente.h"
+/*
+# include "DTExpCliente.h"
 
 DTExpCliente::DTExpCliente(string nickname, DTFecha fecha, string calle, string ciudad, int nroPuerta, vector <DTExpCompra> compras) 
 : DTDataCliente ( nickname,  fecha,  calle, ciudad, nroPuerta){
@@ -7,4 +8,4 @@ DTExpCliente::DTExpCliente(string nickname, DTFecha fecha, string calle, string 
 }
 vector <DTExpCompra> DTExpCliente::getCompras(){
     return this-> compras;
-}
+}*/

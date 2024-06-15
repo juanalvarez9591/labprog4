@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-class DTExpCompra{
+class DTExpCompra {
 private:
     float costo;
     DTFecha fechaCompra;
@@ -14,14 +14,10 @@ private:
 
 public:
     DTExpCompra();
-    DTExpCompra(float costo, DTFecha fechaCompra, vector <DTExpProducto> productos);
+    DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto> productos);
     float getCosto();
     DTFecha getFecha();
-    vector <DTExpProducto> getProductos();
-
-}
-
-
-
+    vector<DTExpProducto> getProductos();
+};
 
 #endif

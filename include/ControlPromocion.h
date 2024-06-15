@@ -8,6 +8,7 @@
 #include "DTFecha.h"
 #include "DTPromocion.h"
 #include "DTInfoProducto.h"
+#include "ControlUsuario.h"
 #include "IControlPromocion.h"
 #include "Producto.h"
 #include "Promocion.h"

@@ -13,9 +13,9 @@ private:
 
 public:
     DTInfoUsuarios();
-    DTInfoUsuarios(string nickname, DTFecha fecha);    
+    DTInfoUsuarios(string nickname, DTFecha fecha);
     string getNickname();
     DTFecha getFecha();
 };
 
-#endif 
+#endif

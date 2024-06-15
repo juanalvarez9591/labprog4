@@ -1,33 +1,32 @@
-#include "../include/DTPromocion.h"
+#include "DTPromocion.h"
+#include "DTFecha.h"
 
-DTPromocion::DTPromocion(){
-    this-> nombre = "";
-    this-> descripcion = "";
-    this-> fechaVencimiento = NULL;
-    this-> porcentaje = 0;
-
+DTPromocion::DTPromocion() {
+    this->nombre = "";
+    this->descripcion = "";
+    this->fechaVencimiento = DTFecha();
+    this->porcentaje = 0;
 }
-DTPromocion::DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, float porcentaje){
+
+DTPromocion::DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, float porcentaje) {
     this->nombre = nombre;
-    this-> descripcion = descripcion;
+    this->descripcion = descripcion;
     this->fechaVencimiento = fechaVencimiento;
     this->porcentaje = porcentaje;
-
 }
-string DTPromocion::getNombre(){
+
+string DTPromocion::getNombre() {
     return this->nombre;
-
-
 }
-string DTPromocion::getDescripcion(){
+
+string DTPromocion::getDescripcion() {
     return this->descripcion;
-
 }
-DTFecha DTPromocion::getFechaVencimiento(){
+
+DTFecha DTPromocion::getFechaVencimiento() {
     return this->fechaVencimiento;
-
 }
-float DTPromocion::getPorcentaje(){
-    return this->porcentaje;
 
+float DTPromocion::getPorcentaje() {
+    return this->porcentaje;
 }

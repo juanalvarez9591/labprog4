@@ -4,8 +4,6 @@
 #include "DTInfoProducto.h"
 #include "DTProducto.h"
 
-class ControlUsuario;
-
 ControlPromocion* ControlPromocion::instance = nullptr;
 
 ControlPromocion* ControlPromocion::getInstance() {
@@ -66,6 +64,10 @@ void ControlPromocion::confirmarPromocion() {
 
 set<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
     return set<DTInfoProducto>();
+}
+
+set<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
+    return set<DTPromocion>();
 }
 
 ControlPromocion::~ControlPromocion() {

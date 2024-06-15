@@ -16,4 +16,6 @@ public:
     int getCodigoProducto();
     int getCantidadProducto();
     string getNombreProducto();
-}
+};
+
+#endif

@@ -1,9 +1,10 @@
-#include "../include/DTComentario.h"
+#include "DTComentario.h"
+#include "DTFecha.h"
 
 DTComentario::DTComentario()
 {
     this->mensaje = "";
-    this->fecha  = NULL;
+    this->fecha  = DTFecha();
 }
 
 DTComentario::DTComentario(string mensaje, DTFecha fecha)

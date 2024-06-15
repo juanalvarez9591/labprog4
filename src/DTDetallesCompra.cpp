@@ -1,9 +1,11 @@
-#include "../include/DTDetallesCompra.h"
+#include "DTDetallesCompra.h"
+#include "DTProducto.h"
+#include "DTFecha.h"
 
 DTDetallesCompra::DTDetallesCompra(){
-    this-> costo = 0;
-    this-> fecha = NULL;
-    this-> productos = NULL;
+    this->costo = 0;
+    this->fecha = DTFecha();
+    this->productos = vector<DTProducto>();
 }
 
 DTDetallesCompra::DTDetallesCompra(float costo, DTFecha fecha, vector<DTProducto> productos){

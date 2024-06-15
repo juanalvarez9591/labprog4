@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-class DTPromocion{
+class DTPromocion {
 private:
     string nombre;
     string descripcion;
@@ -19,7 +19,6 @@ public:
     string getDescripcion();
     DTFecha getFechaVencimiento();
     float getPorcentaje();
-
-}
+};
 
 #endif

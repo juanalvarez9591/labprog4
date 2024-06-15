@@ -1,13 +1,10 @@
-#include "../include/DTDataVendedor.h"
-
+#include "DTDataVendedor.h"
+#include "DTFecha.h"
 
 DTDataVendedor::DTDataVendedor(string nickname, DTFecha fecha, int rut) : DTInfoUsuarios(nickname, fecha) {
-    this-> rut = rut;
-    
-
+    this->rut = rut;
 }
-string DTDataVendedor::getRut(){
+
+int DTDataVendedor::getRut() {
     return this->rut;
-
 }
-
