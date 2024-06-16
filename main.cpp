@@ -439,6 +439,10 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
     } while (choice != '6');
 }
 
+void ComentarioHandler(controlComentario) {
+
+}
+
 int main() {
     char choice;
 
@@ -448,6 +452,7 @@ int main() {
     IControlPromocion *controlPromocion = factory->getControlPromocion();
     IControlFecha *controlFecha = factory->getControlFecha();
     IControlCompra *controlCompra = factory->getControlCompra();
+    IControlComentario *controlComentario = factory->getControlComentario();
 
    // realizarCompra(controlCompra, controlSuscripciones, controlUsuario);    
 
@@ -461,6 +466,7 @@ int main() {
         cout << "5. Cargar datos de prueba" << endl;
         cout << "6. Salir" << endl;
         cout << "7. Realizar Compra" << endl;
+        cout << "8. Comentarios" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -485,6 +491,8 @@ int main() {
                 break;
             case '7':
                 realizarCompra(controlCompra, controlPromocion, controlUsuario);
+            case '8':
+                ComentarioHandler(controlComentario);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
