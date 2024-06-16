@@ -1,10 +1,8 @@
 #include "ControlComentario.h"
-#include "ControlUsuario.h"
-#include "ControlPromocion.h"
 #include "Comentario.h"
 #include "Producto.h"
 #include <vector>
-#include <string>
+
 //Borrar comentario
 
 vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
@@ -12,82 +10,79 @@ vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsu
     return comentarios;
 }
 
-//Borra el comentario y TODAS sus respuestas, NO HACE LA RECONEXION ARBORECENTE. ESO SE HACE ANTES DE LLAMAR LA FORMULA
-void ControlComentario::borrarRespuestas(Comentario comentario) {
-    auto respuestas = comentario.getRespuestas();
-    for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
-        i->borrarRespuestas();
+Usuario* ControlComentario::getUsuarioComentario(string texto) {
+    ControlUsuario* ControlUsuario = ControlUsuario::getInstance();
+    vector<string> nicks = ControlUsuario->listarNicknamesUsuarios();
+    Usuario* aEncontrar = NULL;
+    string *iterNick = nicks.begin();
+    while((iterNick != nicks.end()) && (aEncontrar == NULL)) {
+        vector<Comentario> comentarios = ControlUsuario->getUsuario(*iterNick)->getComentarios();
+        Comentario *iterComent = comentarios.begin();
+        while(iterComent != comentarios.end() && (aEncontrar == NULL)) {
+            if (iterComent->getTexto() == texto) {
+                aEncontrar = ControlUsuario->getUsuario(*iterNick);
+            }
+            ++iterComent;
+        } 
+        ++iterNick;
     }
-    i->eliminarNodo(); //Falta por implementar
+    return aEncontrar;
 }
 
 void ControlComentario::eliminarComentario(string mensaje) {
-    auto nickUsuarios = listarNicknamesUsuarios();
-    bool borrado = false;
-    bool ComentEncontrado = false; 
-    auto iterUsuario = nickUsuarios.begin();
-    Comentario *aBorrar = NULL;
-    while((iterUsuario != nickUsuarios.end()) && !(borrado && ComentEncontrado)) {
-        auto comentarios = listarComentariosUsuario(*iterUsuario);
-        auto iterComent = comentarios.begin();
-        while(iterComent != comentarios.end() && !(borrado && ComentEncontrado)) {
-            if (!borrado){
-                if (iterComent->getSig()->getTexto() == mensaje) {
+    ControlUsuario* CtrlUsuario = ControlUsuario::getInstance();
+    ControlPromocion* CtrlPromo = ControlPromocion::getInstance();
+    Comentario *aBorrar;
+    Usuario* autor = CtrlUsuario->getUsuarioComentario(mensaje); //Guardamos el que escribió el comentario
+    vector<Producto> productos = CtrlPromo->getColeccionProd();
+    auto iterProd = productos.begin()
+        while(iterProd != producto.end() && !borrado) {
+            Comentario *iterComent = iterProd->GetPrimerComentario()
+            if (iterComent->getTexto() == mensaje) {
+                autor->olvidarComentario(*(iterProd->GetPrimerComentario()));
+                iterProd->BorrarPrimerComentario();
+                borrado = true;
+            } else if (iterComent->getSig()->getTexto() == mensaje){
                 aBorrar = iterComent->getSig();
-                iterComent->setSig(aBorrar->getSig());
-            }
-            
+                iterComent->setSig(iterComent->getSig()->getSig());
+                autor->olvidarComentario(*aBorrar);
                 aBorrar->borrarRespuestas();
-                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
                 borrado = true;
             } else if (iterComent->getResp()->getTexto() == mensaje) {
                 aBorrar = iterComent->getResp();
-                iterComent->setRes(aBorrar->getSig());
+                iterComent->setRes(iterComent->getResp()->getSig());
+                autor->olvidarComentario(*aBorrar);
                 aBorrar->borrarRespuestas();
-                getUsuario(*iterUsuario).olvidarComentario(*aBorrar);
                 borrado = true;
             } else {
-                ++iterComent
+                borrado = iterComent->getSig()->eliminarNodoPosterior(mensaje);
+                if(!borrado) {
+                    borrado = iterComent->getResp()->eliminarNodoPosterior(mensaje);
+                }
             }
+            ++iterProd;
         }
-        if(!borrado) {
-            ++iterUsuario;
-        }
-    }
-    if (!borrado) {
-        vector<DTProducto> productos = listarProductos();
-        auto iterProd = productos.begin()
-        while(iterProd != producto.end() && !borrado) {
-            if (iterProd->GetPrimerComentario()->getTexto() == mensaje) {
-                iterProd->BorrarPrimerComentario();
-                getUsuario(*iterUsuario).olvidarComentario(*(iterProd->GetPrimerComentario()));
-                borrado = true;
-            } else {
-                ++iterProd;
-            }
-        }
-    }
-    usuarios.clear();
 }
 
 
 
 //Realizar comentario
 
-//Se listan los clientes desde control usuario
-
 void ControlComentario::seleccionarUsuario(string nombreUsuario){
     this->Comentador = nombreUsuario;
 }
 
-vector<string> ControlComentario::listarProductos(){
-    vector<string> listaprd;
-    ControlPromocion* ContrProm = ControlPromocion::getInstance();
-    vector<Producto> Productos = ContrProm->getColeccionProd();
-    for (auto it = Productos.begin(); it != Productos.end(); it++){
-        listaprd.push_back(it->GetNombre());
+vector<DTProducto> ControlComentario::listarProductos(){
+    vector<DTProducto> Articulos;
+    vector<DTProducto> Catalogo;
+    for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
+        Catalogo = it.listaProductos();
+        Articulos.insert(Articulos.end() , Catalogo.begin() , Catalogo.end());
+        Catalogo.clear();
     }
-    return listaprd;
+    Catalogo.erase();
+
+    return Articulos;
 }
 
 void ControlComentario::seleccionarProducto(string nombreProducto){

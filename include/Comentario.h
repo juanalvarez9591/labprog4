@@ -25,6 +25,9 @@ public:
     //Devuelve un set con las respuestas DIRECTAS del comentario
     set<Comentario> getRespuestas();
     void eliminarNodo();
+    void borrarRespuestas(Comentario comentario);
+    bool eliminarNodoPosterior(string mensaje);
+
 
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario();

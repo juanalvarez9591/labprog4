@@ -32,6 +32,39 @@ void Comentario::eliminarNodo() {
 	delete this;
 }
 
+//Borra el comentario y TODAS sus respuestas, NO HACE LA RECONEXION ARBORECENTE. ESO SE HACE ANTES DE LLAMAR LA FORMULA
+void Comentario::borrarRespuestas() {
+    auto respuestas = this->getRespuestas();
+    for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
+        i->borrarRespuestas();
+    }
+    this->eliminarNodo();
+}
+
+//Busca recursivamente un mensaje y lo borra
+//PRE: el mensaje buscado NO es el actual
+bool eliminarNodoPosterior(string mensaje) {
+	Comentario *aBorrar;
+	bool borrado;
+	if ((this->Sigcomentario != NULL) && (this->Sigcomentario->texto == mensaje)) {
+		aBorrar = this->Sigcomentario;
+		this->Sigcomentario = this->Sigcomentario->Sigcomentario;
+		aBorrar->borrarRespuestas();
+		borrado = true;
+	} else if ((this->Respuesta != NULL) && (this->Respuesta->texto == mensaje)) {
+		aBorrar = this->Respuesta;
+		this->Respuesta = this->Respuesta->Sigcomentario;
+		aBorrar->borrarRespuestas();
+		borrado = true;
+	} else {
+		borrado = this->Sigcomentario->eliminarNodoPosterior(mensaje);
+		if(!borrado) {
+			borrado = this->Respuesta->eliminarNodoPosterior(mensaje);
+		}
+	}
+	return borrado;
+}
+
 //Devuelve el puntero a la primera respuesta
 Comentario* Comentario::getResp(){
 	return this->Respuesta;
