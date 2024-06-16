@@ -3,6 +3,7 @@
 #include "ControlFecha.h"
 #include "ControlSuscripciones.h"
 #include "ControlPromocion.h"
+#include "ControlCompra.h"
 
 IControlUsuario* Factory::getControlUsuario() {
     return ControlUsuario::getInstance();
@@ -19,3 +20,7 @@ IControlSuscripciones* Factory::getControlSuscripciones() {
 IControlPromocion* Factory::getControlPromocion() {
     return ControlPromocion::getInstance();
 }
+
+ IControlCompra* Factory::getControlCompra(){
+    return ControlCompra::getInstance();
+ }
