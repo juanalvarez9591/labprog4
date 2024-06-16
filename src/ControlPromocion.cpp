@@ -139,11 +139,13 @@ vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     return dtPromociones;
 }
 
-vector <DTInfoProducto> ControlPromocion::infoProductos(){
+vector<DTDatosProducto> ControlPromocion::dataProductos(){
+    vector <DTDatosProducto>  data;
+    for (auto it = productos.begin(); it != productos.end(); ++it){
+        data.push_back(it->second.toDTDatosProducto());
 
-    
-
-
+    }
+    return data;
 }
 
 ControlPromocion::~ControlPromocion() {

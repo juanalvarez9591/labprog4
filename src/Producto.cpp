@@ -56,6 +56,11 @@ DTProducto Producto::toDTProducto() const {
 DTInfoProducto Producto::toDTInfoProducto() const {
     return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
 }
+DTDatosProducto Producto::toDTDatosProducto() const{
+    return DTDatosProducto(this->stock, this->nombre, this->precio, this->id);
+
+
+}
 
 Producto::~Producto() {
 }
