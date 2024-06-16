@@ -13,8 +13,8 @@ private:
 public:
     DTProducto();
     DTProducto(string Nombre, int Id);
-    string getNombre();
-    int getId();
+    string getNombre() const;
+    int getId() const;
 };
 
 #endif

@@ -18,6 +18,7 @@ private:
     vector<Requisitos> requisitos;
 
 public:
+    Promocion();
     Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
 
     string getNombre();
@@ -26,7 +27,7 @@ public:
     string getDescripcion();
     void setDescripcion(string descripcion);
 
-    DTFecha getFechaVencimiento();
+    DTFecha getFechaVencimiento() const;
     void setFechaVencimiento(DTFecha fechaVencimiento);
 
     int getPorcentaje();
@@ -36,7 +37,7 @@ public:
     void eliminarRequisitos(Requisitos requisito);
     vector<Requisitos> getRequisitos();
 
-    DTPromocion toDTPromocion();
+    DTPromocion toDTPromocion() const;
 };
 
 #endif

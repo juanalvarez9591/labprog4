@@ -1,5 +1,7 @@
 #include "Promocion.h"
 
+Promocion::Promocion() : nombre(""), descripcion(""), fechaVencimiento(DTFecha()), porcentaje(0), requisitos() {}
+
 Promocion::Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje)
         : nombre(nombre), descripcion(descripcion), fechaVencimiento(fechaVencimiento),
           porcentaje(porcentaje), requisitos() {}
@@ -20,7 +22,7 @@ void Promocion::setDescripcion(string descripcion) {
     this->descripcion = descripcion;
 }
 
-DTFecha Promocion::getFechaVencimiento() {
+DTFecha Promocion::getFechaVencimiento() const {
     return fechaVencimiento;
 }
 
@@ -53,6 +55,6 @@ vector<Requisitos> Promocion::getRequisitos() {
     return requisitos;
 }
 
-DTPromocion Promocion::toDTPromocion() {
+DTPromocion Promocion::toDTPromocion() const {
     return DTPromocion(nombre, descripcion, fechaVencimiento, porcentaje);
 }

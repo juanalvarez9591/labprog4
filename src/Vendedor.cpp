@@ -14,7 +14,7 @@ bool Vendedor::estaSuscrito(IObserver* observer) {
     return false;
 }
 
-string Vendedor::getNickname() {
+string Vendedor::getNickname() const {
     return this->nickname;
 }
 
