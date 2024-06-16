@@ -3,6 +3,27 @@
 #include "Producto.h"
 #include <vector>
 
+//Funciones basicas controlador
+ControlComentario* ControlComentario::instance = nullptr;
+
+ControlUsuario* ControlComentario::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlComentario();
+    }
+    return instance;
+}
+
+ControlComentario::ControlComentario() {
+    //clientes = vector<Cliente>();
+    //vendedores = vector<Vendedor>();
+}
+
+ControlComentario::~ControlComentario() {
+    // no hay que hacer nada aca, cuando se llama a este destructor por default
+    // se llama al destructor de vector, que llama a cada destructor de cliente y vendedor
+}
+
+
 //Borrar comentario
 
 vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
@@ -14,10 +35,10 @@ Usuario* ControlComentario::getUsuarioComentario(string texto) {
     ControlUsuario* ControlUsuario = ControlUsuario::getInstance();
     vector<string> nicks = ControlUsuario->listarNicknamesUsuarios();
     Usuario* aEncontrar = NULL;
-    string *iterNick = nicks.begin();
+    auto iterNick = nicks.begin();
     while((iterNick != nicks.end()) && (aEncontrar == NULL)) {
         vector<Comentario> comentarios = ControlUsuario->getUsuario(*iterNick)->getComentarios();
-        Comentario *iterComent = comentarios.begin();
+        auto iterComent = comentarios.begin();
         while(iterComent != comentarios.end() && (aEncontrar == NULL)) {
             if (iterComent->getTexto() == texto) {
                 aEncontrar = ControlUsuario->getUsuario(*iterNick);
@@ -86,7 +107,7 @@ vector<DTProducto> ControlComentario::listarProductos(){
 }
 
 void ControlComentario::seleccionarProducto(string nombreProducto){
-    this->Prod = nombreProducto;
+    this.Prod = nombreProducto;
 }
 
 
@@ -105,7 +126,7 @@ void ControlComentario::realizarComentario(string texto, DTFecha fecha){
     vector<Producto> Productos = ContrProm->getColeccionProd();
     auto it = Productos.begin();
     while((!found) && (it != Productos.end())){
-        if (it->GetNombre() != this->Prod->GetNombre()){
+        if (it->GetNombre() != this.Prod){
             ++it;
         }else{
             foundprod = true;
@@ -120,15 +141,15 @@ void ControlComentario::realizarComentario(string texto, DTFecha fecha){
     }           //Ya agregado a el foro del producto
                 //agregando a coleccion del usuario
     vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
-    string *Iternick = nickUsuarios.begin();
+    auto iterUsuario = nickUsuarios.begin();
     while((iterUsuario != nickUsuarios.end() && (this->Comentador != *iterComent))){
-        ++iterUsuario
+        ++iterUsuario;
     }
     ContrUsua->getUsuario(*iterUsuario)->addComentario(Opinion); //en teoria consigo un usuario con su nick y hago que guarde el comentario
 
 }
 
-vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec){
+vector<string> ControlComentario::HacerListComentarios(Comentario* Comentario , vector<string> Vec){
     Vec.push_back(Comentario->texto);
     HacerListComentarios(Comentario->getResp() , Vec);
     HacerListComentarios(Comentario->getSig() , Vec);
@@ -138,6 +159,7 @@ vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec)
 
 vector<string> ControlUsuario::listarComentarios(){
     vector<string> Respuesta;
+
     /*ControlUsuario* ContrUsua = ControlUsuario::getInstance();
     vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
     for (string itnick = nickUsuarios.begin(); itnick != nickUsuarios.end(); itnick++) {
@@ -160,15 +182,31 @@ vector<string> ControlUsuario::listarComentarios(){
 }
 
 //Si guarda AResponder = NULL es que el comentario no existia
-void elegirComentario(string mensaje){
+void ControlComentario::elegirComentario(string mensaje){
     //bool found = false;
     Comentario* AResponder = NULL;
     ControlPromocion* ContrProm = ControlPromocion::getInstance();
     vector<Producto> Productos = ContrProm->getColeccionProd();
     auto iterProd = Productos.begin();
     while((AResponder == NULL) && (iterProd != Productos.end())){
-        AResponder = *iterProd.GetComentario(mensaje);
+        AResponder = iterProd->GetComentario(mensaje);
     }
     this->AResponder = AResponder;
     
+}
+
+void ControlComentario::responderComentario(string respuesta, DTFecha fecha){
+    Comentario* Opinion = new Comentario(texto, fecha);
+    ControlUsuario* ContrUsua = ControlUsuario::getInstance();
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+
+    //Agrego en la colleccion del usuario comentador
+    vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
+    auto iterUsuario = nickUsuarios.begin();
+    while((iterUsuario != nickUsuarios.end() && (this->Comentador != *iterComent))){
+        ++iterUsuario;
+    }
+    ContrUsua->getUsuario(*iterUsuario)->addComentario(Opinion); //en teoria consigo un usuario con su nick y hago que guarde el comentario
+
+    this->AResponder->AgregarRespuesta(Opinion);
 }

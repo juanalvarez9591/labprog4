@@ -14,3 +14,7 @@ IControlFecha* Factory::getControlFecha() {
 IControlSuscripciones* Factory::getControlSuscripciones() {
     return ControlSuscripciones::getInstance();
 }
+
+IControlSuscripciones* Factory::getControlComentario() {
+    return ControlComentario::getInstance();
+}

@@ -13,13 +13,13 @@ using namespace std;
 class ControlComentario : public IControlUsuario {
 public:
 //Borrar Comentario
-    //static ControlComentario* getInstance();
+    static ControlComentario* getInstance();
     
-    //vector<string> listarComentariosUsuario(string nombreUsuario) override;
+    vector<string> listarComentariosUsuario(string nombreUsuario) override;
 
        //Devuelve un set con las respuestas DIRECTAS del comentario
-    //set<Comentario> getRespuestas();
-    //void eliminarComentario(string mensaje);
+    set<Comentario> getRespuestas();
+    void eliminarComentario(string mensaje);
 
 
 //Realizar Comentario
@@ -29,22 +29,22 @@ public:
     void realizarComentario(string texto, DTFecha fecha);
     vector<string> listarComentarios();
     void elegirComentario(string mensaje);
-    ////void responderComentario(string respuesta);
+    void responderComentario(string respuesta, DTFecha fecha);
 
     
-    //virtual ~ControlComentario();
+    virtual ~ControlComentario();
 
 private:
-    //ControlComentario();
+    ControlComentario();
     static ControlComentario* instance;
 
     //vector<Comentario> Comentarios; //En casos desesperados activar
 
 
 
-    //vector<string> HacerListComenarios();
-
+    vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec);
+    static ControlComentario* instance;
     string Comentador;
-    string* Prod;
+    string Prod;
     Comentario* AResponder;
 };

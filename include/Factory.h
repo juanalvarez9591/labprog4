@@ -11,6 +11,7 @@ public:
     static IControlUsuario* getControlUsuario();
     static IControlFecha* getControlFecha();
     static IControlSuscripciones* getControlSuscripciones();
+    static IControlSuscripciones* getControlComentario();
 };
 
 #endif
