@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <map>
 #include "DTProducto.h"
 #include "DTFecha.h"
 #include "DTPromocion.h"
@@ -42,7 +43,7 @@ private:
     vector<Promocion> promociones;
     vector<Requisitos> requisitos;
     Vendedor* vendedorEnMemoria;
-    Promocion* promocionEnMemoria;
+    Promocion promocionEnMemoria;
 };
 
 #endif

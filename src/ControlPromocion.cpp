@@ -24,7 +24,7 @@ ControlPromocion::ControlPromocion() {
     requisitos = vector<Requisitos>();
 
     Vendedor* vendedorEnMemoria = nullptr;
-    Promocion* promocionEnMemoria = nullptr;
+    Promocion promocionEnMemoria = Promocion();
 }
 
 set<string> ControlPromocion::listarNicknameVendedores() {
@@ -54,8 +54,6 @@ void ControlPromocion::ingresarProducto(string nombre, string descripcion, float
     Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, this->vendedorEnMemoria);
 
     productos.push_back(producto);
-
-    vendedorEnMemoria = nullptr;
 }
 
 vector<DTProducto> ControlPromocion::listarProductos() {
@@ -78,11 +76,8 @@ DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
     return DTInfoProducto();
 }
 
-
 void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
-    Promocion promocion = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
-    this->promocionEnMemoria = &promocion;
-    return;
+    this->promocionEnMemoria = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
 }
 
 vector<DTProducto> ControlPromocion::verProductosVendedor() {
@@ -97,40 +92,39 @@ vector<DTProducto> ControlPromocion::verProductosVendedor() {
     return dtProductos;
 }
 
-// la validacion de que entre un idProducto valido la vamos a hacer desde el main segun lo que devuelve vector<DTProducto> ControlPromocion::verProductosVendedor()
-// esto si seria responsabilidad del main, es un prerequisito para llamar a este metodo
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
     for (int i = 0; i < productos.size(); i++) {
         Producto producto = productos[i];
         if (producto.getId() == idProducto) {
             Requisitos requisito = Requisitos(cantidad, &producto);
-            this->promocionEnMemoria->agregarRequisitos(requisito);
+            this->promocionEnMemoria.agregarRequisitos(requisito);
             return;
         }
     }
 }
 
 void ControlPromocion::confirmarPromocion() {
-    if (promocionEnMemoria == nullptr) {
+    if (this->promocionEnMemoria.getNombre().empty()) {
         return;
     }
-    promociones.push_back(*promocionEnMemoria);
+    promociones.push_back(this->promocionEnMemoria);
 
     // Como todos los productos de la promocion son del mismo vendedor, tomamos el primer requisito
-    Vendedor* vendedor = promocionEnMemoria->getRequisitos()[0].getProducto()->getVendedor();
+    Vendedor* vendedor = this->promocionEnMemoria.getRequisitos()[0].getProducto()->getVendedor();
 
-    string nombrePromo = promocionEnMemoria->getNombre();
+    string nombrePromo = this->promocionEnMemoria.getNombre();
     string nickVendedor = vendedor->getNickname();
     vector<int> codigosProductos;
-    for (int i = 0; i < promocionEnMemoria->getRequisitos().size(); i++) {
-        Requisitos requisito = promocionEnMemoria->getRequisitos()[i];
+    for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); i++) {
+        Requisitos requisito = this->promocionEnMemoria.getRequisitos()[i];
         codigosProductos.push_back(requisito.getProducto()->getId());
     }
     DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos);
 
     vendedor->notificarObservers(notificacion);
 
-    promocionEnMemoria = nullptr;
+    this->promocionEnMemoria = Promocion();
+    this->vendedorEnMemoria = nullptr;
 }
 
 vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
@@ -160,6 +154,5 @@ vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     }
     return dtPromociones;
 }
-
 ControlPromocion::~ControlPromocion() {
 }

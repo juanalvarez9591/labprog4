@@ -44,7 +44,7 @@ DTProducto Producto::toDTProducto() {
 
 
 DTInfoProducto Producto::toDTInfoProducto() {
-    return DTInfoProducto(this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
+    return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
 }
 
 Producto::~Producto() {

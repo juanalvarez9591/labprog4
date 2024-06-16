@@ -15,10 +15,10 @@ private:
 public:
     DTPromocion();
     DTPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
-    string getNombre();
-    string getDescripcion();
-    DTFecha getFechaVencimiento();
-    int getPorcentaje();
+    string getNombre() const;
+    string getDescripcion() const;
+    DTFecha getFechaVencimiento() const;
+    int getPorcentaje() const;
 };
 
 #endif

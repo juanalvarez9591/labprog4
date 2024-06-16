@@ -1,5 +1,7 @@
 #include "Promocion.h"
 
+Promocion::Promocion() : nombre(""), descripcion(""), fechaVencimiento(DTFecha()), porcentaje(0), requisitos() {}
+
 Promocion::Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje)
         : nombre(nombre), descripcion(descripcion), fechaVencimiento(fechaVencimiento),
           porcentaje(porcentaje), requisitos() {}

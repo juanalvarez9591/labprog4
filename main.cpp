@@ -2,9 +2,166 @@
 #include <string>
 #include "Factory.h"
 #include "IControlUsuario.h"
+#include "IControlPromocion.h"
 #include "IControlFecha.h"
 #include "DTFecha.h"
+#include "DTInfoProducto.h"
+#include "DTPromocion.h"
+#include "DTProducto.h"
 using namespace std;
+
+void loadTestData(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones) {
+    controlUsuario->darDeAltaVendedor("ricardofort123", "password1", DTFecha(1, 1, 1990), 123456789012);
+    controlUsuario->darDeAltaVendedor("falloutnewvegas", "password2", DTFecha(2, 2, 1991), 234567890123);
+    controlUsuario->darDeAltaCliente("alejoisak123", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
+
+    vector<string> vendedores = {"ricardofort123", "falloutnewvegas"};
+    controlSuscripciones->suscribirACliente(vendedores, "alejoisak123");
+    cout << "Datos de prueba cargados exitosamente" << endl;
+}
+
+void promocionesHandler(IControlPromocion* controlPromocion) {
+    char choice;
+    string nickVendedor, nombre, descripcion, categoria;
+    int idProducto, precio, stock, porcentaje, cantidad;
+    DTFecha fechaVencimiento;
+
+    do {
+        cout << "Promociones:" << endl;
+        cout << "1. Listar nicknames de vendedores" << endl;
+        cout << "2. Elegir vendedor" << endl;
+        cout << "3. Ingresar producto" << endl;
+        cout << "4. Listar productos" << endl;
+        cout << "5. Ver info de producto" << endl;
+        cout << "6. Ingresar datos de promocion" << endl;
+        cout << "7. Ver productos del vendedor" << endl;
+        cout << "8. Agregar producto a promocion" << endl;
+        cout << "9. Confirmar promocion" << endl;
+        cout << "10. Listar promociones vigentes" << endl;
+        cout << "11. Consultar productos de promocion" << endl;
+        cout << "12. Volver al menu principal" << endl;
+        cout << "Ingresa tu opcion: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+            {
+                set<string> nicknamesVendedores = controlPromocion->listarNicknameVendedores();
+                cout << "Nicknames de vendedores:" << endl;
+                for (const string& nickname : nicknamesVendedores) {
+                    cout << "- " << nickname << endl;
+                }
+            }
+                break;
+            case '2':
+                cout << "Ingresa el nickname del vendedor: ";
+                cin >> nickVendedor;
+                if (controlPromocion->elegirVendedor(nickVendedor)) {
+                    cout << "Vendedor elegido exitosamente" << endl;
+                } else {
+                    cout << "Error al elegir vendedor" << endl;
+                }
+                break;
+            case '3':
+                cout << "Ingresa el nombre del producto: ";
+                cin.ignore();
+                getline(cin, nombre);
+                cout << "Ingresa la descripcion del producto: ";
+                getline(cin, descripcion);
+                cout << "Ingresa el precio del producto: ";
+                cin >> precio;
+                cout << "Ingresa el stock del producto: ";
+                cin >> stock;
+                cout << "Ingresa la categoria del producto: ";
+                cin >> categoria;
+                controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria);
+                cout << "Producto ingresado exitosamente" << endl;
+                break;
+            case '4':
+            {
+                vector<DTProducto> productos = controlPromocion->listarProductos();
+                cout << "Productos:" << endl;
+                for (const DTProducto& producto : productos) {
+                    cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
+                }
+            }
+                break;
+            case '5':
+                cout << "Ingresa el ID del producto: ";
+                cin >> idProducto;
+                {
+                    DTInfoProducto infoProducto = controlPromocion->verInfoProducto(idProducto);
+                    cout << infoProducto.toString() << endl;
+                }
+                break;
+            case '6':
+                cout << "Ingresa el nombre de la promocion: ";
+                cin.ignore();
+                getline(cin, nombre);
+                cout << "Ingresa la descripcion de la promocion: ";
+                getline(cin, descripcion);
+                cout << "Ingresa la fecha de vencimiento (formato: dd mm aaaa): ";
+                int dia, mes, anio;
+                cin >> dia >> mes >> anio;
+                fechaVencimiento = DTFecha(dia, mes, anio);
+                cout << "Ingresa el porcentaje de descuento: ";
+                cin >> porcentaje;
+                controlPromocion->ingresarDatosPromocion(nombre, descripcion, fechaVencimiento, porcentaje);
+                cout << "Datos de promocion ingresados exitosamente" << endl;
+                break;
+            case '7':
+            {
+                vector<DTProducto> productos = controlPromocion->verProductosVendedor();
+                cout << "Productos del vendedor:" << endl;
+                for (const DTProducto& producto : productos) {
+                    cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
+                }
+            }
+                break;
+            case '8':
+                cout << "Ingresa el ID del producto: ";
+                cin >> idProducto;
+                cout << "Ingresa la cantidad a agregar: ";
+                cin >> cantidad;
+                controlPromocion->agregarProductoPromocion(idProducto, cantidad);
+                cout << "Producto agregado a la promocion exitosamente" << endl;
+                break;
+            case '9':
+                controlPromocion->confirmarPromocion();
+                cout << "Promocion confirmada exitosamente" << endl;
+                break;
+            case '10':
+            {
+                vector<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
+                cout << "Promociones vigentes:" << endl;
+                for (const DTPromocion& promocion : promociones) {
+                    cout << "- " << promocion.getNombre() << " (Vencimiento: " << promocion.getFechaVencimiento().getString() << ")" << endl;
+                }
+            }
+                break;
+            case '11':
+                cout << "Ingresa el nombre de la promocion: ";
+                cin.ignore();
+                getline(cin, nombre);
+                {
+                    vector<DTInfoProducto> productosPromocion = controlPromocion->consultarProductosPromocion(nombre);
+                    cout << "Productos de la promocion:" << endl;
+                    for (const DTInfoProducto& producto : productosPromocion) {
+                        cout << "- " << producto.toString() << endl;
+                    }
+                }
+                break;
+            case '12':
+                break;
+            default:
+                cout << "Opcion invalida, intenta de nuevo" << endl;
+        }
+
+        cout << "Presiona enter para continuar..." << endl;
+        cin.ignore();
+        cin.get();
+    } while (choice != '12');
+}
 
 void fechaSistemaHandler(IControlFecha* controlFecha) {
     DTFecha currentDate = controlFecha->getFechaActual();
@@ -206,8 +363,12 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
                 }
                 cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
                 cin >> dia >> mes >> anio;
-                cout << "Ingresa el RUT: ";
+                cout << "Ingresa el RUT (12 digitos): ";
                 cin >> rut;
+                if (rut < 10000000 || rut > 99999999) {
+                    cout << "El RUT debe tener exactamente 12 digitos. Intenta de nuevo." << endl;
+                    break;
+                }
                 if (controlUsuario->darDeAltaVendedor(nickname, password, DTFecha(dia, mes, anio), rut)) {
                     cout << "Vendedor dado de alta exitosamente" << endl;
                 } else {
@@ -267,7 +428,9 @@ int main() {
         cout << "1. Ver y modificar fecha del sistema" << endl;
         cout << "2. Suscripciones" << endl;
         cout << "3. Usuarios" << endl;
-        cout << "4. Salir" << endl;
+        cout << "4. Promociones" << endl;
+        cout << "5. Cargar datos de prueba" << endl;
+        cout << "6. Salir" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -282,6 +445,12 @@ int main() {
                 usuarioHandler(controlUsuario);
                 break;
             case '4':
+                promocionesHandler(factory->getControlPromocion());
+                break;
+            case '5':
+                loadTestData(controlUsuario, controlSuscripciones);
+                break;
+            case '6':
                 cout << "Saliendo..." << endl;
                 break;
             default:
@@ -291,7 +460,7 @@ int main() {
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '4');
+    } while (choice != '6');
 
     return 0;
 }

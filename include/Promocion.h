@@ -18,6 +18,7 @@ private:
     vector<Requisitos> requisitos;
 
 public:
+    Promocion();
     Promocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
 
     string getNombre();

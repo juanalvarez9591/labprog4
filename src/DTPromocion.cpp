@@ -15,18 +15,18 @@ DTPromocion::DTPromocion(string nombre, string descripcion, DTFecha fechaVencimi
     this->porcentaje = porcentaje;
 }
 
-string DTPromocion::getNombre() {
+string DTPromocion::getNombre() const {
     return this->nombre;
 }
 
-string DTPromocion::getDescripcion() {
+string DTPromocion::getDescripcion() const {
     return this->descripcion;
 }
 
-DTFecha DTPromocion::getFechaVencimiento() {
+DTFecha DTPromocion::getFechaVencimiento() const {
     return this->fechaVencimiento;
 }
 
-int DTPromocion::getPorcentaje() {
+int DTPromocion::getPorcentaje() const {
     return this->porcentaje;
 }
