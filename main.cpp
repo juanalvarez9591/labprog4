@@ -305,12 +305,14 @@ int main() {
         cout << "1. Ver y modificar fecha del sistema" << endl;
         cout << "2. Suscripciones" << endl;
         cout << "3. Usuarios" << endl;
-        cout << "4. Salir" << endl;
-        cout << "5. Realizar Compra" << endl;
+        cout << "4. Promociones" << endl;
+        cout << "5. Cargar datos de prueba" << endl;
+        cout << "6. Salir" << endl;
+        cout << "7. Realizar Compra" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
-        switch (choice) {
+            switch (choice) {
             case '1':
                 fechaSistemaHandler(controlFecha);
                 break;
@@ -321,11 +323,16 @@ int main() {
                 usuarioHandler(controlUsuario);
                 break;
             case '4':
-                cout << "Saliendo..." << endl;
+                promocionesHandler(controlPromocion);
                 break;
             case '5':
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion);
+                break;
+            case '6':
+                cout << "Saliendo..." << endl;
+                break;
+            case '7':
                 realizarCompra(controlCompra, controlPromocion, controlUsuario);
-                
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
@@ -333,7 +340,9 @@ int main() {
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '4');
+    } while (choice != '6');
 
     return 0;
 }
+            
+            
