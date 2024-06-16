@@ -11,6 +11,7 @@ using namespace std;
 
 class Producto {
 public:
+    Producto();
     Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor);
     string getNombre();
     string getDescripcion();
@@ -18,9 +19,9 @@ public:
     int getPrecio();
     int getId();
     int getStock();
-    Vendedor* getVendedor();
-    DTProducto toDTProducto();
-    DTInfoProducto toDTInfoProducto();
+    Vendedor* getVendedor() const;
+    DTProducto toDTProducto() const;
+    DTInfoProducto toDTInfoProducto() const;
     ~Producto();
 
 private:

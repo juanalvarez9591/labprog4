@@ -10,10 +10,10 @@ DTProducto::DTProducto() {
     this->Id = 0;
 }
 
-string DTProducto::getNombre() {
+string DTProducto::getNombre() const {
     return this->Nombre;
 }
 
-int DTProducto::getId() {
+int DTProducto::getId() const {
     return this->Id;
 }

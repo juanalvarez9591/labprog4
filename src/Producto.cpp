@@ -1,5 +1,15 @@
 #include "Producto.h"
 
+Producto::Producto() {
+    this->nombre = "";
+    this->descripcion = "";
+    this->id = 0;
+    this->stock = 0;
+    this->precio = 0;
+    this->categoria = Categoria::Otro;
+    this->vendedor = nullptr;
+}
+
 Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
     this->nombre = nombre;
     this->descripcion = descripcion;
@@ -34,17 +44,17 @@ int Producto::getStock() {
     return this->stock;
 }
 
-Vendedor* Producto::getVendedor() {
+Vendedor* Producto::getVendedor() const {
     return this->vendedor;
 }
 
-DTProducto Producto::toDTProducto() {
+DTProducto Producto::toDTProducto() const {
     return DTProducto(this->nombre, this->id);
 }
 
 
-DTInfoProducto Producto::toDTInfoProducto() {
-    return DTInfoProducto(this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
+DTInfoProducto Producto::toDTInfoProducto() const {
+    return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
 }
 
 Producto::~Producto() {
