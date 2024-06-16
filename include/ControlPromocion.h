@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <map>
+#include <unordered_map>
 #include "DTProducto.h"
 #include "DTFecha.h"
 #include "DTPromocion.h"
@@ -39,9 +39,8 @@ private:
     static ControlPromocion* instance;
     ControlUsuario* controlUsuario;
     ControlFecha* controlFecha;
-    vector<Producto> productos;
-    vector<Promocion> promociones;
-    vector<Requisitos> requisitos;
+    unordered_map<int, Producto> productos;
+    unordered_map<std::string, Promocion> promociones;
     Vendedor* vendedorEnMemoria;
     Promocion promocionEnMemoria;
 };

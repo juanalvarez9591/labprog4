@@ -10,13 +10,21 @@
 #include "DTProducto.h"
 using namespace std;
 
-void loadTestData(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones) {
+void loadTestData(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
     controlUsuario->darDeAltaVendedor("ricardofort123", "password1", DTFecha(1, 1, 1990), 123456789012);
     controlUsuario->darDeAltaVendedor("falloutnewvegas", "password2", DTFecha(2, 2, 1991), 234567890123);
     controlUsuario->darDeAltaCliente("alejoisak123", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
 
     vector<string> vendedores = {"ricardofort123", "falloutnewvegas"};
     controlSuscripciones->suscribirACliente(vendedores, "alejoisak123");
+
+    controlPromocion->elegirVendedor("ricardofort123");
+    controlPromocion->ingresarProducto("Producto 1", "Descripcion 1", 1000, 10, "electrodomesticos");
+    controlPromocion->ingresarProducto("Producto 2", "Descripcion 2", 2000, 20, "electrodomesticos");
+    controlPromocion->ingresarDatosPromocion("Promocion 1", "Descripcion 1", DTFecha(1, 1, 2022), 10);
+    controlPromocion->agregarProductoPromocion(1, 1);
+    controlPromocion->agregarProductoPromocion(2, 1);
+    controlPromocion->confirmarPromocion();
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
 
@@ -44,15 +52,6 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
         cin >> choice;
 
         switch (choice) {
-            case '1':
-            {
-                set<string> nicknamesVendedores = controlPromocion->listarNicknameVendedores();
-                cout << "Nicknames de vendedores:" << endl;
-                for (const string& nickname : nicknamesVendedores) {
-                    cout << "- " << nickname << endl;
-                }
-            }
-                break;
             case '2':
                 cout << "Ingresa el nickname del vendedor: ";
                 cin >> nickVendedor;
@@ -76,15 +75,6 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
                 cin >> categoria;
                 controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria);
                 cout << "Producto ingresado exitosamente" << endl;
-                break;
-            case '4':
-            {
-                vector<DTProducto> productos = controlPromocion->listarProductos();
-                cout << "Productos:" << endl;
-                for (const DTProducto& producto : productos) {
-                    cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
-                }
-            }
                 break;
             case '5':
                 cout << "Ingresa el ID del producto: ";
@@ -130,7 +120,7 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
                 controlPromocion->confirmarPromocion();
                 cout << "Promocion confirmada exitosamente" << endl;
                 break;
-            case '10':
+            case '1':
             {
                 vector<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
                 cout << "Promociones vigentes:" << endl;
@@ -139,7 +129,7 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
                 }
             }
                 break;
-            case '11':
+            case '4':
                 cout << "Ingresa el nombre de la promocion: ";
                 cin.ignore();
                 getline(cin, nombre);
@@ -420,6 +410,7 @@ int main() {
     Factory *factory = new Factory();
     IControlUsuario *controlUsuario = factory->getControlUsuario();
     IControlSuscripciones *controlSuscripciones = factory->getControlSuscripciones();
+    IControlPromocion *controlPromocion = factory->getControlPromocion();
     IControlFecha *controlFecha = factory->getControlFecha();
 
     do {
@@ -445,10 +436,10 @@ int main() {
                 usuarioHandler(controlUsuario);
                 break;
             case '4':
-                promocionesHandler(factory->getControlPromocion());
+                promocionesHandler(controlPromocion);
                 break;
             case '5':
-                loadTestData(controlUsuario, controlSuscripciones);
+                loadTestData(controlUsuario, controlSuscripciones, controlPromocion);
                 break;
             case '6':
                 cout << "Saliendo..." << endl;

@@ -5,7 +5,6 @@
 #include "DTInfoProducto.h"
 #include "DTProducto.h"
 #include "Categoria.h"
-
 ControlPromocion* ControlPromocion::instance = nullptr;
 
 ControlPromocion* ControlPromocion::getInstance() {
@@ -19,9 +18,8 @@ ControlPromocion::ControlPromocion() {
     controlUsuario = ControlUsuario::getInstance();
     controlFecha = ControlFecha::getInstance();
 
-    productos = vector<Producto>();
-    promociones = vector<Promocion>();
-    requisitos = vector<Requisitos>();
+    productos = unordered_map<int, Producto>();
+    promociones = unordered_map<string, Promocion>();
 
     Vendedor* vendedorEnMemoria = nullptr;
     Promocion promocionEnMemoria = Promocion();
@@ -46,32 +44,25 @@ void ControlPromocion::ingresarProducto(string nombre, string descripcion, float
     if (this->vendedorEnMemoria == nullptr) {
         return;
     }
-
     Categoria cat = fromString(categoria);
-
     int codigoProducto = productos.size() + 1;
-
     Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, this->vendedorEnMemoria);
-
-    productos.push_back(producto);
+    productos[codigoProducto] = producto;
 }
 
 vector<DTProducto> ControlPromocion::listarProductos() {
     vector<DTProducto> dtProductos;
-    for (int i = 0; i < productos.size(); i++) {
-        Producto producto = productos[i];
-        DTProducto dtProducto = producto.toDTProducto();
+    for (const auto& pair : productos) {
+        DTProducto dtProducto = pair.second.toDTProducto();
         dtProductos.push_back(dtProducto);
     }
     return dtProductos;
 }
 
 DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
-    for (int i = 0; i < productos.size(); i++) {
-        Producto producto = productos[i];
-        if (producto.getId() == idProducto) {
-            return producto.toDTInfoProducto();
-        }
+    auto it = productos.find(idProducto);
+    if (it != productos.end()) {
+        return it->second.toDTInfoProducto();
     }
     return DTInfoProducto();
 }
@@ -82,8 +73,8 @@ void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion,
 
 vector<DTProducto> ControlPromocion::verProductosVendedor() {
     vector<DTProducto> dtProductos;
-    for (int i = 0; i < productos.size(); i++) {
-        Producto producto = productos[i];
+    for (const auto& pair : productos) {
+        const Producto& producto = pair.second;
         if (producto.getVendedor() == this->vendedorEnMemoria) {
             DTProducto dtProducto = producto.toDTProducto();
             dtProductos.push_back(dtProducto);
@@ -93,13 +84,11 @@ vector<DTProducto> ControlPromocion::verProductosVendedor() {
 }
 
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
-    for (int i = 0; i < productos.size(); i++) {
-        Producto producto = productos[i];
-        if (producto.getId() == idProducto) {
-            Requisitos requisito = Requisitos(cantidad, &producto);
-            this->promocionEnMemoria.agregarRequisitos(requisito);
-            return;
-        }
+    auto it = productos.find(idProducto);
+    if (it != productos.end()) {
+        Producto& producto = it->second;
+        Requisitos requisito = Requisitos(cantidad, &producto);
+        this->promocionEnMemoria.agregarRequisitos(requisito);
     }
 }
 
@@ -107,11 +96,9 @@ void ControlPromocion::confirmarPromocion() {
     if (this->promocionEnMemoria.getNombre().empty()) {
         return;
     }
-    promociones.push_back(this->promocionEnMemoria);
-
+    promociones[this->promocionEnMemoria.getNombre()] = this->promocionEnMemoria;
     // Como todos los productos de la promocion son del mismo vendedor, tomamos el primer requisito
     Vendedor* vendedor = this->promocionEnMemoria.getRequisitos()[0].getProducto()->getVendedor();
-
     string nombrePromo = this->promocionEnMemoria.getNombre();
     string nickVendedor = vendedor->getNickname();
     vector<int> codigosProductos;
@@ -120,24 +107,20 @@ void ControlPromocion::confirmarPromocion() {
         codigosProductos.push_back(requisito.getProducto()->getId());
     }
     DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos);
-
     vendedor->notificarObservers(notificacion);
-
     this->promocionEnMemoria = Promocion();
     this->vendedorEnMemoria = nullptr;
 }
 
 vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
     vector<DTInfoProducto> dtInfoProductos;
-    for (int i = 0; i < promociones.size(); i++) {
-        if (promociones[i].getNombre() == nombrePromocion) {
-            vector<Requisitos> requisitos = promociones[i].getRequisitos();
-            for (int j = 0; j < requisitos.size(); j++) {
-                Producto* producto = requisitos[j].getProducto();
-                DTInfoProducto dtInfoProducto = producto->toDTInfoProducto();
-                dtInfoProductos.push_back(dtInfoProducto);
-            }
-            break;
+    auto it = promociones.find(nombrePromocion);
+    if (it != promociones.end()) {
+        vector<Requisitos> requisitos = it->second.getRequisitos();
+        for (int j = 0; j < requisitos.size(); j++) {
+            Producto* producto = requisitos[j].getProducto();
+            DTInfoProducto dtInfoProducto = producto->toDTInfoProducto();
+            dtInfoProductos.push_back(dtInfoProducto);
         }
     }
     return dtInfoProductos;
@@ -146,13 +129,15 @@ vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nomb
 vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     vector<DTPromocion> dtPromociones;
     DTFecha fechaActual = controlFecha->getFechaActual();
-    for (int i = 0; i < promociones.size(); i++) {
-        if (promociones[i].getFechaVencimiento() >= fechaActual) {
-            DTPromocion dtPromocion = promociones[i].toDTPromocion();
+    for (const auto& pair : promociones) {
+        const Promocion& promocion = pair.second;
+        if (fechaActual >= promocion.getFechaVencimiento()) {
+            DTPromocion dtPromocion = promocion.toDTPromocion();
             dtPromociones.push_back(dtPromocion);
         }
     }
     return dtPromociones;
 }
+
 ControlPromocion::~ControlPromocion() {
 }

@@ -22,7 +22,7 @@ void Promocion::setDescripcion(string descripcion) {
     this->descripcion = descripcion;
 }
 
-DTFecha Promocion::getFechaVencimiento() {
+DTFecha Promocion::getFechaVencimiento() const {
     return fechaVencimiento;
 }
 
@@ -55,6 +55,6 @@ vector<Requisitos> Promocion::getRequisitos() {
     return requisitos;
 }
 
-DTPromocion Promocion::toDTPromocion() {
+DTPromocion Promocion::toDTPromocion() const {
     return DTPromocion(nombre, descripcion, fechaVencimiento, porcentaje);
 }

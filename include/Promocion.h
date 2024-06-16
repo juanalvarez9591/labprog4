@@ -27,7 +27,7 @@ public:
     string getDescripcion();
     void setDescripcion(string descripcion);
 
-    DTFecha getFechaVencimiento();
+    DTFecha getFechaVencimiento() const;
     void setFechaVencimiento(DTFecha fechaVencimiento);
 
     int getPorcentaje();
@@ -37,7 +37,7 @@ public:
     void eliminarRequisitos(Requisitos requisito);
     vector<Requisitos> getRequisitos();
 
-    DTPromocion toDTPromocion();
+    DTPromocion toDTPromocion() const;
 };
 
 #endif
