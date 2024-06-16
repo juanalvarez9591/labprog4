@@ -65,6 +65,18 @@ bool eliminarNodoPosterior(string mensaje) {
 	return borrado;
 }
 
+void AgregarRespuesta(Comentario *respuesta) {
+	if (this->Respuesta == NULL) {
+		this->Respuesta = respuesta;
+	} else {
+		Comentario *iterComent = this->Respuesta;
+		while (iterComent->Sigcomentario != NULL) {
+			iterComent = iterComent->Sigcomentario;
+		}
+		iterComent->Sigcomentario = respuesta;
+	}
+}
+
 //Devuelve el puntero a la primera respuesta
 Comentario* Comentario::getResp(){
 	return this->Respuesta;
