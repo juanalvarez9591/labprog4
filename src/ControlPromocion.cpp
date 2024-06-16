@@ -161,5 +161,12 @@ vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     return dtPromociones;
 }
 
+vector <DTInfoProducto> ControlPromocion::infoProductos(){
+
+    
+
+
+}
+
 ControlPromocion::~ControlPromocion() {
 }

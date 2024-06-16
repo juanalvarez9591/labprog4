@@ -33,6 +33,7 @@ public:
     vector<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     virtual ~ControlPromocion();
+    vector <DTInfoProducto> infoProductos();
 private:
     ControlPromocion();
     static ControlPromocion* instance;

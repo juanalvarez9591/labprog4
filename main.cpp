@@ -148,6 +148,40 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
     } while (choice != '6');
 }
 
+
+void realizarCompra(IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
+    string nickname;
+    vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+    
+    
+
+    cout << "Los clientes son:" << endl;
+    
+    for (const string& nickname : nicknamesClientes) {
+        cout << "- " << nickname << endl;
+    }// hasta acá sería listarClientes():set(string)
+    cout << "Escriba el nombre del cliente que desea elegir: "; 
+    cin.ignore();
+    getline(cin, nickname);
+    if (nickname.find(' ') != string::npos) {
+        cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
+        return;
+    } // hasta acá sería seleccionarCliente(nickname:string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra.
+
+    cout << "Los productos son: " << endl;
+
+    //crear funcion en controlPromocion q devuelva un vector con DTInfoProducto
+    
+
+    
+    
+
+
+
+
+
+}
+
 void usuarioHandler(IControlUsuario* controlUsuario) {
     char choice;
     string nickname, password, direccion, ciudad;
@@ -167,7 +201,8 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
         switch (choice) {
             case '1':
                 cout << "Ingresa el nickname: ";
-                cin >> nickname;
+                cin.ignore();
+                getline(cin, nickname);
                 if (nickname.find(' ') != string::npos) {
                     cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
                     break;
@@ -260,6 +295,9 @@ int main() {
     IControlUsuario *controlUsuario = factory->getControlUsuario();
     IControlSuscripciones *controlSuscripciones = factory->getControlSuscripciones();
     IControlFecha *controlFecha = factory->getControlFecha();
+    IControlCompra *controlCompra = factory->getControlCompra();
+
+   // realizarCompra(controlCompra, controlSuscripciones, controlUsuario);    
 
     do {
         system("clear");
@@ -268,6 +306,7 @@ int main() {
         cout << "2. Suscripciones" << endl;
         cout << "3. Usuarios" << endl;
         cout << "4. Salir" << endl;
+        cout << "5. Realizar Compra" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -284,6 +323,9 @@ int main() {
             case '4':
                 cout << "Saliendo..." << endl;
                 break;
+            case '5':
+                realizarCompra(controlCompra, controlPromocion, controlUsuario);
+                
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
