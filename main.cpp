@@ -10,15 +10,15 @@
 #include "DTProducto.h"
 using namespace std;
 
-void loadTestData(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
-    controlUsuario->darDeAltaVendedor("ricardofort123", "password1", DTFecha(1, 1, 1990), 123456789012);
-    controlUsuario->darDeAltaVendedor("falloutnewvegas", "password2", DTFecha(2, 2, 1991), 234567890123);
-    controlUsuario->darDeAltaCliente("alejoisak123", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
+void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
+    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), 123456789012);
+    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), 234567890123);
+    controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
 
-    vector<string> vendedores = {"ricardofort123", "falloutnewvegas"};
-    controlSuscripciones->suscribirACliente(vendedores, "alejoisak123");
+    vector<string> vendedores = {"vendedor1", "vendedor2"};
+    controlSuscripciones->suscribirACliente(vendedores, "cliente1");
 
-    controlPromocion->elegirVendedor("ricardofort123");
+    controlPromocion->elegirVendedor("vendedor1");
     controlPromocion->ingresarProducto("Producto 1", "Descripcion 1", 1000, 10, "electrodomesticos");
     controlPromocion->ingresarProducto("Producto 2", "Descripcion 2", 2000, 20, "electrodomesticos");
     controlPromocion->ingresarDatosPromocion("Promocion 1", "Descripcion 1", DTFecha(1, 1, 2022), 10);
@@ -439,7 +439,7 @@ int main() {
                 promocionesHandler(controlPromocion);
                 break;
             case '5':
-                loadTestData(controlUsuario, controlSuscripciones, controlPromocion);
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion);
                 break;
             case '6':
                 cout << "Saliendo..." << endl;
