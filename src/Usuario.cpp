@@ -10,7 +10,7 @@ string Usuario::getNickname() {
     return nickname;
 }
 
-void Usuario::addComentario(Comentario c) {
+void Usuario::addComentario(Comentario* c) {
     this->comentarios.push_back(c);
 }
 

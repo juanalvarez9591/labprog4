@@ -26,9 +26,9 @@ public:
     void seleccionarUsuario(string nombreUsuario);
     vector<string> listarProductos();
     void seleccionarProducto(string nombreProducto);
-    ////void realizarComentario(string texto, DTFecha fecha);
-    //vector<string> listarComentarios();
-    //void elegirComentario(string mensaje);
+    void realizarComentario(string texto, DTFecha fecha);
+    vector<string> listarComentarios();
+    void elegirComentario(string mensaje);
     ////void responderComentario(string respuesta);
 
     
@@ -36,7 +36,7 @@ public:
 
 private:
     //ControlComentario();
-    //static ControlComentario* instance;
+    static ControlComentario* instance;
 
     //vector<Comentario> Comentarios; //En casos desesperados activar
 
@@ -44,7 +44,7 @@ private:
 
     //vector<string> HacerListComenarios();
 
-    //string Comentador;
-    //string* Prod;
-    //Comentario* AResponder;
+    string Comentador;
+    string* Prod;
+    Comentario* AResponder;
 };

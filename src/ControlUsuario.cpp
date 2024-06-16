@@ -123,51 +123,6 @@ vector<Vendedor> ControlUsuario::getVendedores() {
 }
 
 
-
-
-
-vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec){
-    Vec.push_back(Comentario->texto);
-    HacerListComentarios(Comentario->getResp() , Vec);
-    HacerListComentarios(Comentario->getResp() , Vec);
-    return Vec;
-}
-    
-
-vector<string> ControlUsuario::listarComentarios(){
-    vector<string> Respuesta;
-    Producto* Product = NULL;
-    auto it = vendedores.begin();
-    while((it != vendedores.end()) && (Product == NULL)){
-        Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!!
-        if (Product == NULL){
-            it = it +1;
-        }
-    }
-    if (Product != NULL){
-        Respuesta = HacerListComentarios(Product->Foro, Respuesta);
-    }
-
-    return Respuesta;
-}
-
-void elegirComentario(string mensaje){
-    Producto* Product = NULL;
-    auto it = vendedores.begin();
-    while((it != vendedores.end()) && (Product == NULL)){
-        Product = it->getProducto(Product); //FUNCION POR HACER, NO COPILAR!!!!
-        if (Product == NULL){
-            it = it +1;
-        }
-    }
-    if (Product == NULL){
-        break;
-    }else{
-        this->Prod = Estecomentario(Product , mensaje);
-    }
-    
-}
-
 ControlUsuario::~ControlUsuario() {
     // no hay que hacer nada aca, cuando se llama a este destructor por default
     // se llama al destructor de vector, que llama a cada destructor de cliente y vendedor

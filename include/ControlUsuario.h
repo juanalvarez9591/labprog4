@@ -19,17 +19,6 @@ public:
     vector<string> listarNicknamesClientes() override;
     vector<string> listarNicknamesVendedores() override;
     
-   
-
-
-    void seleccionarUsuario(string nombreUsuario);
-
-    vector<DTProducto> listarProductos();
-    void seleccionarProducto(string nombreProducto);
-    //void realizarComentario(string texto, DTFecha fecha);
-    vector<string> listarComentarios();
-    void elegirComentario(string mensaje);
-    //void responderComentario(string respuesta);
 
     Usuario* getUsuario(string nickname);
     Vendedor* getVendedor(string nickname);

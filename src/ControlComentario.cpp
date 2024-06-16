@@ -111,7 +111,7 @@ void ControlComentario::realizarComentario(string texto, DTFecha fecha){
     auto it = Productos.begin();
     while((!found) && (it != Productos.end())){
         if (it->GetNombre() != this->Prod->GetNombre()){
-            it++;
+            ++it;
         }else{
             foundprod = true;
         }
@@ -120,35 +120,60 @@ void ControlComentario::realizarComentario(string texto, DTFecha fecha){
                 it->Foro = Opinion;
             }else{
                 it->AgregarComentario(Opinion);
-                /*Comentario* iterComent = it->Foro;
-                while(iterComent->getSig() != NULL){
-                    iterComent = iterComent->getSig();
-                }
-                iterComent->setSig(Opinion);*/
             }
         }
     }           //Ya agregado a el foro del producto
                 //agregando a coleccion del usuario
-    vector<Usuario> Usuarios;
-    vector<Vendedor> Vendedores = getVendedores();
-    
-    Usuarios.insert(Usuarios.end(), Vendedores.begin(), Vendedores.end());
-    Usuarios.insert(Usuarios.end(), Vendedores.begin(), Vendedores.end());
+    vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
+    string *Iternick = nickUsuarios.begin();
+    while((iterUsuario != nickUsuarios.end() && (this->Comentador != *iterComent))){
+        ++iterUsuario
+    }
+    ContrUsua->getUsuario(*iterUsuario)->addComentario(Opinion); //en teoria consigo un usuario con su nick y hago que guarde el comentario
 
-    /*auto it = vendedores.begin();
-    while((it != vendedores.end()) && !found){
-        Producto* Product = it->getProducto(Prod); //FUNCION POR HACER, NO COPILAR!!!! DEVUELVE UN PUNTERO A EL PRODUCTO CON EL MISMO NOMBRE, DESDE VENDEDOR, si no hay devuelve NULL
-        if (Product != NULL){
-            found = true;
-        }else{
-            it = it +1;
+}
+
+vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec){
+    Vec.push_back(Comentario->texto);
+    HacerListComentarios(Comentario->getResp() , Vec);
+    HacerListComentarios(Comentario->getSig() , Vec);
+    return Vec;
+}
+    
+
+vector<string> ControlUsuario::listarComentarios(){
+    vector<string> Respuesta;
+    /*ControlUsuario* ContrUsua = ControlUsuario::getInstance();
+    vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
+    for (string itnick = nickUsuarios.begin(); itnick != nickUsuarios.end(); itnick++) {
+        vector<Comentario*> EstosCom = listarComentariosUsuario(itnick);
+        for (Comentario* iterComent = EstosCom.begin(); iterComent != EstosCom.end(); iterComent++) {
+            Respuesta.push_back(iterComent->getTexto());
+        
         }
+    }*/ //Funciona pero no se ingresan en orden ni se diferencian los niveles de respuestas
+
+    //Version 2
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+    vector<Producto> Productos = ContrProm->getColeccionProd();
+    for (auto iterProd = Productos.begin(); itnick != Productos.end(); itnick++){
+
+        Respuesta = HacerListComentarios(*iterProd.GetPrimerComentario() , Respuesta);
     }
 
-    //fase de ensablaje
-    if (Product != NULL){
-        Product.AgregarComentario(Opinion);
+   
+}
 
-        //FALTA AGREGAR A LA COLECCION INTERNA DEL VENDEDOR
-    }*/
+//Si guarda AResponder = NULL es que el comentario no existia
+void elegirComentario(string mensaje){
+    //bool found = false;
+    Comentario* AResponder = NULL;
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+    vector<Producto> Productos = ContrProm->getColeccionProd();
+    auto iterProd = Productos.begin();
+    while((AResponder == NULL) && (iterProd != Productos.end())){
+        AResponder = *iterProd.GetComentario(mensaje);
+    }
+    this->AResponder = AResponder;
+    
 }
