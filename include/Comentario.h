@@ -27,7 +27,7 @@ public:
     void eliminarNodo();
     void borrarRespuestas(Comentario comentario);
     bool eliminarNodoPosterior(string mensaje);
-
+    void AgregarRespuesta(Comentario *respuesta);
 
     //Crea y devuelve un DTComentario de este comentario
     DTComentario getDTComentario();
