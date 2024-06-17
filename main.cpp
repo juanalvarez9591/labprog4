@@ -73,8 +73,11 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
                 cin >> stock;
                 cout << "Ingresa la categoria del producto: ";
                 cin >> categoria;
-                controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria);
-                cout << "Producto ingresado exitosamente" << endl;
+                if (controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria)) {
+                    cout << "Producto ingresado exitosamente" << endl;
+                } else {
+                    cout << "Error al ingresar el producto, ya se encuentra en otra promocion" << endl;
+                }
                 break;
             case '5':
                 cout << "Ingresa el ID del producto: ";

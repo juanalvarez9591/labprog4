@@ -40,27 +40,32 @@ bool ControlPromocion::elegirVendedor(string nickVendedor) {
     return vendedorElegido != nullptr;
 }
 
-void ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
+bool ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
     if (this->vendedorEnMemoria == nullptr) {
-        return;
+        return false;
     }
     Categoria cat = fromString(categoria);
     int codigoProducto = productos.size() + 1;
+    if (productoEnPromocion(codigoProducto)) {
+        return false;
+    }
     Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, this->vendedorEnMemoria);
     productos[codigoProducto] = producto;
+    return true;
 }
 
 vector<DTProducto> ControlPromocion::listarProductos() {
     vector<DTProducto> dtProductos;
-    for (const auto& pair : productos) {
-        DTProducto dtProducto = pair.second.toDTProducto();
+    unordered_map<int, Producto>::iterator it;
+    for (it = productos.begin(); it != productos.end(); ++it) {
+        DTProducto dtProducto = it->second.toDTProducto();
         dtProductos.push_back(dtProducto);
     }
     return dtProductos;
 }
 
 DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
-    auto it = productos.find(idProducto);
+    unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
         return it->second.toDTInfoProducto();
     }
@@ -73,8 +78,9 @@ void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion,
 
 vector<DTProducto> ControlPromocion::verProductosVendedor() {
     vector<DTProducto> dtProductos;
-    for (const auto& pair : productos) {
-        const Producto& producto = pair.second;
+    unordered_map<int, Producto>::iterator it;
+    for (it = productos.begin(); it != productos.end(); ++it) {
+        Producto producto = it->second;
         if (producto.getVendedor() == this->vendedorEnMemoria) {
             DTProducto dtProducto = producto.toDTProducto();
             dtProductos.push_back(dtProducto);
@@ -84,9 +90,9 @@ vector<DTProducto> ControlPromocion::verProductosVendedor() {
 }
 
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
-    auto it = productos.find(idProducto);
+    unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        Producto& producto = it->second;
+        Producto producto = it->second;
         Requisitos requisito = Requisitos(cantidad, &producto);
         this->promocionEnMemoria.agregarRequisitos(requisito);
     }
@@ -114,7 +120,7 @@ void ControlPromocion::confirmarPromocion() {
 
 vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nombrePromocion) {
     vector<DTInfoProducto> dtInfoProductos;
-    auto it = promociones.find(nombrePromocion);
+    unordered_map<string, Promocion>::iterator it = promociones.find(nombrePromocion);
     if (it != promociones.end()) {
         vector<Requisitos> requisitos = it->second.getRequisitos();
         for (int j = 0; j < requisitos.size(); j++) {
@@ -129,14 +135,29 @@ vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nomb
 vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     vector<DTPromocion> dtPromociones;
     DTFecha fechaActual = controlFecha->getFechaActual();
-    for (const auto& pair : promociones) {
-        const Promocion& promocion = pair.second;
+    unordered_map<string, Promocion>::iterator it;
+    for (it = promociones.begin(); it != promociones.end(); ++it) {
+        Promocion promocion = it->second;
         if (fechaActual >= promocion.getFechaVencimiento()) {
             DTPromocion dtPromocion = promocion.toDTPromocion();
             dtPromociones.push_back(dtPromocion);
         }
     }
     return dtPromociones;
+}
+
+bool ControlPromocion::productoEnPromocion(int idProducto) {
+    unordered_map<string, Promocion>::iterator it;
+    for (it = promociones.begin(); it != promociones.end(); ++it) {
+        Promocion promocion = it->second;
+        vector<Requisitos> requisitos = promocion.getRequisitos();
+        for (int i = 0; i < requisitos.size(); i++) {
+            if (requisitos[i].getProducto()->getId() == idProducto) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 ControlPromocion::~ControlPromocion() {
