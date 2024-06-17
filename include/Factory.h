@@ -5,6 +5,7 @@
 #include "IControlFecha.h"
 #include "IControlSuscripciones.h"
 #include "IControlPromocion.h"
+#include "IControlCompra.h"
 
 class Factory {
 public:
@@ -12,6 +13,7 @@ public:
     static IControlFecha* getControlFecha();
     static IControlSuscripciones* getControlSuscripciones();
     static IControlPromocion* getControlPromocion();
+    static IControlCompra* getControlCompra();
 };
 
 #endif

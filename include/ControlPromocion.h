@@ -35,6 +35,7 @@ public:
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
+    vector <DTInfoProducto> infoProductos();
 private:
     ControlPromocion();
     static ControlPromocion* instance;

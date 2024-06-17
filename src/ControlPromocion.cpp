@@ -160,5 +160,12 @@ bool ControlPromocion::productoEnPromocion(int idProducto) {
     return false;
 }
 
+vector <DTInfoProducto> ControlPromocion::infoProductos(){
+
+
+
+
+}
+
 ControlPromocion::~ControlPromocion() {
 }
