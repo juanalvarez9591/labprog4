@@ -14,7 +14,7 @@ class IControlPromocion {
 public:
     virtual set<string> listarNicknameVendedores() = 0;
     virtual bool elegirVendedor(string nickVendedor) = 0;
-    virtual void ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) = 0;
+    virtual bool ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) = 0;
     virtual vector<DTProducto> listarProductos() = 0;
     virtual DTInfoProducto verInfoProducto(int idProducto) = 0;
     virtual void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) = 0;
