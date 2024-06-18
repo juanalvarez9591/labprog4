@@ -24,7 +24,7 @@ public:
 
     set<string> listarNicknameVendedores();
     bool elegirVendedor(string nickVendedor);
-    void ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
+    bool ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
     vector<DTProducto> listarProductos();
     DTInfoProducto verInfoProducto(int idProducto);
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
@@ -33,6 +33,7 @@ public:
     void confirmarPromocion();
     vector<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
+    bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
     vector<DTDatosProducto> dataProductos();
 private:
