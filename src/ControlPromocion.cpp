@@ -146,6 +146,12 @@ vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     return dtPromociones;
 }
 
+
+vector<DTDatosProducto> ControlPromocion::dataProductos(){
+    vector <DTDatosProducto>  data;
+    for (auto it = productos.begin(); it != productos.end(); ++it){
+        data.push_back(it->second.toDTDatosProducto());
+
 bool ControlPromocion::productoEnPromocion(int idProducto) {
     unordered_map<string, Promocion>::iterator it;
     for (it = promociones.begin(); it != promociones.end(); ++it) {
@@ -165,6 +171,9 @@ vector <DTInfoProducto> ControlPromocion::infoProductos(){
 
 
 
+
+    }
+    return data;
 }
 
 ControlPromocion::~ControlPromocion() {

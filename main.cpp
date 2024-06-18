@@ -299,12 +299,18 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
 }
 
 
-void realizarCompra(IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
+void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
     string nickname;
     vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+    vector <DTDatosProducto> datosProducto = controlPromocion->dataProductos();
+    vector<DTDetalleProducto> parCompra = controlCompra->getDataProducto();
+    char choice;
+    char confirmar;
+    int codigo;
+    int cantidad;
+    DTFecha currentDate = controlFecha->getFechaActual();
     
     
-
     cout << "Los clientes son:" << endl;
     
     for (const string& nickname : nicknamesClientes) {
@@ -316,18 +322,81 @@ void realizarCompra(IControlCompra* controlCompra, IControlPromocion* controlPro
     if (nickname.find(' ') != string::npos) {
         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
         return;
-    } // hasta acá sería seleccionarCliente(nickname:string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra.
+    } 
+    controlCompra->seleccionarCliente(nickname);    
+    // hasta acá sería seleccionarCliente(nickname:string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra.
 
     cout << "Los productos son: " << endl;
+    for (auto it = datosProducto.begin(); it != datosProducto.end(); ++it){
+         
+       cout << it->toString() << endl;
+    } // hasta acá mostrarDatosProducto():set(infoProducto)
 
-    //crear funcion en controlPromocion q devuelva un vector con DTInfoProducto
+    cout << "¿Desea agregar un producto a la compra? (y/n): ";
+    cin >> choice;
+    if (choice != 'y'){
+        return;
+        }
+    while (choice == 'y'){
+        cout << "Ingrese el código del producto que desea comprar: ";
+        cin >> codigo;
+        cout << codigo << endl;//
+        for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
+                if (it->getCodigoProducto() == codigo) {
+                 cout << "ERROR: Producto ya agregado a la compra anteriormente." << endl;
+                 controlCompra->borrarDataProducto();
+                cout << codigo << endl;
+                //cout << it->getCodigoProducto() << endl;
+
+
+                 return;
+                }
+        }
+        cout << "Ingrese la cantidad que desea comprar: ";
+        cin >> cantidad; 
+        bool encontrado = false;
+        auto it = datosProducto.begin();
+        while (!encontrado && it != datosProducto.end()){
+            if (codigo == it->getCodigo()){
+                encontrado = true;
+                if (cantidad > it->getStock()){
+                    cout << "La cantidad no puede exceder el stock." << endl;
+                    controlCompra->borrarDataProducto();
+                    return;
+                }
+            }
+            ++it;
+
+        }
+        controlCompra->agregarProducto(codigo, cantidad);
+        parCompra = controlCompra->getDataProducto();
+        cout << "¿Desea agregar un producto a la compra? (y/n): ";
+        cin >> choice;
+    } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int)
+  
+    cout << "Detalle de la compra: " << endl;
+    cout << "Fecha: " << currentDate.getString() << endl;
+    for (auto it = parCompra.begin(); it != parCompra.end(); ++it){
+        for (auto itProducto = datosProducto.begin(); itProducto != datosProducto.end(); ++itProducto) {
+            if (it->getCodigoProducto() == itProducto->getCodigo()) {
+                cout << "Producto: " << itProducto->getNombre() << ", Cantidad: " << it->getCantProducto() << ", Precio por unidad: " << itProducto->getPrecio() << endl;
+                break;
+            }
+        }
+    }
     
 
-    
-    
+    cout << "Precio total luego de descuentos: " << endl;//falta hallar la promocion q aplique y calcular precio
+    cout << "Desea confirmar la compra? (y/n): ";
+    cin >> confirmar;
+    if (confirmar != 'y'){
+         controlCompra->borrarDataProducto();
+        return;
+    } else {
+        controlCompra->ConfirmarCompra( currentDate, 10); //este int es al calcular dsp de los descuentos, lo dejo así pa q compile
 
 
-
+    }
 
 
 }
@@ -487,7 +556,7 @@ int main() {
                 cout << "Saliendo..." << endl;
                 break;
             case '7':
-                realizarCompra(controlCompra, controlPromocion, controlUsuario);
+                realizarCompra(controlFecha, controlCompra, controlPromocion, controlUsuario);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }

@@ -6,6 +6,7 @@
 #include "DTProducto.h"
 #include "DTInfoProducto.h"
 #include "Categoria.h"
+#include "DTDatosProducto.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ public:
     Vendedor* getVendedor() const;
     DTProducto toDTProducto() const;
     DTInfoProducto toDTInfoProducto() const;
+    DTDatosProducto toDTDatosProducto() const;
     ~Producto();
 
 private:
