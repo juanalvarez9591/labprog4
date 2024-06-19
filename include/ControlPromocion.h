@@ -36,6 +36,8 @@ public:
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
     vector<DTDatosProducto> dataProductos();
+    Producto* getProductoByID(int idProducto);
+
 private:
     ControlPromocion();
     static ControlPromocion* instance;

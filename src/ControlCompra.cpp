@@ -4,56 +4,78 @@
 
     ControlCompra::ControlCompra(){
         compras = unordered_map<int, Compra>();
-        clienteEnMemoria = "";
-        dataProducto = vector<DTDetalleProducto>();
-        productosEnMemoria = vector<Producto>() ;
+        clienteEnMemoria = NULL;
+        //dataProducto = vector<DTDetalleProducto>();
+        fechaSistema = DTFecha();
+        compraEnProceso = NULL;
         
     }
-     ControlCompra* ControlCompra::getInstance(){
+    ControlCompra* ControlCompra::getInstance(){
         if (instance == NULL){
             instance = new ControlCompra();
         }
-        return instance;
+        return instance;    
     }
 
 
-    void ControlCompra::seleccionarCliente(string nombreCliente){
-        clienteEnMemoria = nombreCliente;
-
-
+    void ControlCompra::seleccionarCliente(string nombreCliente){//acá creo la instancia de compra.
+        clienteEnMemoria= ControlUsuario::getInstance()->getCliente(nombreCliente);
+        compraEnProceso = new Compra(fechaSistema, clienteEnMemoria);
     } 
   
-    void ControlCompra::agregarProducto(int codigo, int cantidad){
-        dataProducto.push_back(DTDetalleProducto(codigo, cantidad));
+    void ControlCompra::agregarCantidad(int codigo, int cantidad){
+        bool porlasDudas = false;
+        Producto* productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
+        Cantidad* aux = new Cantidad(cantidad, porlasDudas, productoElegido);
+        compraEnProceso->agregarCantidad(aux);
 
 
     }
-    vector <DTDetalleProducto> ControlCompra::getDataProducto(){
+
+  /*  vector <DTDetalleProducto> ControlCompra::getDataProducto(){
         return dataProducto;
-    }
-    void ControlCompra::borrarDataProducto(){
-        dataProducto.clear();
-    }
+    }*/
 
-        
-    void ControlCompra::ConfirmarCompra(DTFecha fecha, int precio){
-        Compra nuevaCompra(fecha, precio);
-        for (auto it = dataProducto.begin(); it != dataProducto.end(); ++it) {
-             int cantidad = it->getCantProducto();
-            bool enviado = false;
-            Producto* producto = nullptr;
-            Cantidad* nuevaCantidad = new Cantidad(cantidad, enviado, producto);
-            nuevaCompra.agregarCantidad(nuevaCantidad);
-        } 
-        int clave = compras.size() + 1;
-
-    // Agregar la nueva compra al map
-        compras.emplace(clave, move(nuevaCompra));
+    void ControlCompra::olvidarCompra(){
+        compraEnProceso = NULL;
+        clienteEnMemoria = NULL;
 
     }
     
+    vector <DTDatosProducto> ControlCompra::mostrarDatosProducto(){
+
+        return ControlPromocion::getInstance()->dataProductos();
+
+    }
+
+    vector<string> ControlCompra::listarClientes(){
+
+        return ControlUsuario::getInstance()->listarNicknamesClientes();
+
+    }
+
+    void ControlCompra::obtenerFechaSistema(){
+        fechaSistema= ControlFecha::getInstance()->getFechaActual();
 
 
+
+    }
+
+    bool ControlCompra::confirmarCompra(){
+
+        int clave = compras.size() + 1;
+    // Agregar la nueva compra al map
+        compras.emplace(clave, *compraEnProceso);
+        clienteEnMemoria = NULL;
+        compraEnProceso = NULL;
+         if (compras.find(clave) != compras.end()) {
+            return true;
+    }else {
+        return false;
+    }
+
+
+    }
 
 
    // virtual ControlCompra::~IControlCompra(){}

@@ -12,11 +12,14 @@ using namespace std;
 class IControlCompra {
 public:
     virtual void seleccionarCliente(string nombreCliente) = 0;
-    virtual void agregarProducto(int codigo, int cantidad) = 0;
-    virtual void ConfirmarCompra(DTFecha fecha, int precio) = 0;
+    virtual void agregarCantidad(int codigo, int cantidad) = 0;
+    virtual bool confirmarCompra() = 0;
+    virtual vector <DTDatosProducto> mostrarDatosProducto() = 0;
     virtual ~IControlCompra(){};
-    virtual vector <DTDetalleProducto> getDataProducto()= 0;
-    virtual void borrarDataProducto()= 0;
+    virtual vector<string> listarClientes() = 0;
+    virtual void obtenerFechaSistema() = 0;
+    virtual void olvidarCompra() = 0;
+    //virtual vector<DTDetalleProducto> getDataProducto() = 0; 
 
 
 };

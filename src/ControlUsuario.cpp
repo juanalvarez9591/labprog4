@@ -1,5 +1,5 @@
 #include "ControlUsuario.h"
-
+#include <sstream>
 ControlUsuario* ControlUsuario::instance = nullptr;
 
 ControlUsuario* ControlUsuario::getInstance() {
@@ -69,6 +69,7 @@ vector<string> ControlUsuario::listarNicknamesClientes() {
 
     return nicknames;
 }
+
 
 vector<string> ControlUsuario::listarNicknamesVendedores() {
     vector<string> nicknames;

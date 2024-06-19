@@ -301,21 +301,26 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
 
 void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
     string nickname;
-    vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
-    vector <DTDatosProducto> datosProducto = controlPromocion->dataProductos();
-    vector<DTDetalleProducto> parCompra = controlCompra->getDataProducto();
+    vector<string> nicknamesClientes = controlCompra->listarClientes();
+    controlCompra->obtenerFechaSistema();
+    vector <DTDatosProducto> datosProducto = controlCompra->mostrarDatosProducto();
+    vector<DTDetalleProducto> parCompra;  
+    /* controlCompra->getDataProducto(); es innecesario que el controlador
+     tenga un vector, ya que acá mismo en cada iteración llamamos al agregarCantidad,
+      por lo que el uso de memoria es innecesario*/
     char choice;
     char confirmar;
     int codigo;
     int cantidad;
     DTFecha currentDate = controlFecha->getFechaActual();
-    
+
     
     cout << "Los clientes son:" << endl;
+    for (auto it = nicknamesClientes.begin(); it != nicknamesClientes.end(); ++it){
+        cout << "-" << *it << endl;
+
+    }
     
-    for (const string& nickname : nicknamesClientes) {
-        cout << "- " << nickname << endl;
-    }// hasta acá sería listarClientes():set(string)
     cout << "Escriba el nombre del cliente que desea elegir: "; 
     cin.ignore();
     getline(cin, nickname);
@@ -323,14 +328,16 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
         return;
     } 
-    controlCompra->seleccionarCliente(nickname);    
-    // hasta acá sería seleccionarCliente(nickname:string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra.
+
+    controlCompra->seleccionarCliente(nickname);//ACÁ SE CREA LA INSTANCIA DE COMPRA Y SE GUARDA EN MEMORIA EN EL CONTROLADOR
+
+    // hasta acá sería seleccionarCliente(string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra????
 
     cout << "Los productos son: " << endl;
     for (auto it = datosProducto.begin(); it != datosProducto.end(); ++it){
          
        cout << it->toString() << endl;
-    } // hasta acá mostrarDatosProducto():set(infoProducto)
+    } // hasta acá mostrarDatosProducto():set(DTDatosProducto)
 
     cout << "¿Desea agregar un producto a la compra? (y/n): ";
     cin >> choice;
@@ -344,10 +351,7 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
         for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
                 if (it->getCodigoProducto() == codigo) {
                  cout << "ERROR: Producto ya agregado a la compra anteriormente." << endl;
-                 controlCompra->borrarDataProducto();
-                cout << codigo << endl;
-                //cout << it->getCodigoProducto() << endl;
-
+                // controlCompra->borrarDataProducto();
 
                  return;
                 }
@@ -361,21 +365,23 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
                 encontrado = true;
                 if (cantidad > it->getStock()){
                     cout << "La cantidad no puede exceder el stock." << endl;
-                    controlCompra->borrarDataProducto();
+                    //controlCompra->borrarDataProducto();
                     return;
                 }
             }
             ++it;
 
         }
-        controlCompra->agregarProducto(codigo, cantidad);
-        parCompra = controlCompra->getDataProducto();
+        controlCompra->agregarCantidad(codigo, cantidad);
+        parCompra.push_back(DTDetalleProducto(codigo, cantidad));
+       // parCompra = controlCompra->getDataProducto();
         cout << "¿Desea agregar un producto a la compra? (y/n): ";
         cin >> choice;
-    } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int)
+    } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int), le cambio el nombre a agregarCantidad para que tenga más sentido
   
-    cout << "Detalle de la compra: " << endl;
+    cout << "Detalle de la compra: " << endl;//LE VOY A DEJAR UNA OPERACIÓN DE CONTROLFECHA, PARECE AL PEDO QUE LA INTERFAZ TENGA OPERACIONES QUE SON UN RETURN DE OTROS CONTROLADORES
     cout << "Fecha: " << currentDate.getString() << endl;
+
     for (auto it = parCompra.begin(); it != parCompra.end(); ++it){
         for (auto itProducto = datosProducto.begin(); itProducto != datosProducto.end(); ++itProducto) {
             if (it->getCodigoProducto() == itProducto->getCodigo()) {
@@ -390,10 +396,15 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
     cout << "Desea confirmar la compra? (y/n): ";
     cin >> confirmar;
     if (confirmar != 'y'){
-         controlCompra->borrarDataProducto();
+         controlCompra->olvidarCompra();
         return;
     } else {
-        controlCompra->ConfirmarCompra( currentDate, 10); //este int es al calcular dsp de los descuentos, lo dejo así pa q compile
+        bool aux = controlCompra->confirmarCompra(); 
+        if (aux){
+            cout << "Compra realizada con éxito!" << endl;
+        } else{
+            cout << "ERROR: No se pudo realizar la compra." << endl;
+        }
 
 
     }

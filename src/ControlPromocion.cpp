@@ -98,6 +98,15 @@ void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
     }
 }
 
+Producto* ControlPromocion::getProductoByID(int idProducto){
+    unordered_map<int, Producto>::iterator it = productos.find(idProducto);
+    if (it != productos.end()) {
+        return &(it->second);
+    }
+    return NULL; 
+
+}
+
 void ControlPromocion::confirmarPromocion() {
     if (this->promocionEnMemoria.getNombre().empty()) {
         return;
@@ -151,6 +160,9 @@ vector<DTDatosProducto> ControlPromocion::dataProductos(){
     vector <DTDatosProducto>  data;
     for (auto it = productos.begin(); it != productos.end(); ++it){
         data.push_back(it->second.toDTDatosProducto());
+    }
+    return data;
+}
 
 bool ControlPromocion::productoEnPromocion(int idProducto) {
     unordered_map<string, Promocion>::iterator it;
@@ -163,18 +175,11 @@ bool ControlPromocion::productoEnPromocion(int idProducto) {
             }
         }
     }
-    return false;
+     return false;
 }
-
-vector <DTInfoProducto> ControlPromocion::infoProductos(){
-
+   
 
 
-
-
-    }
-    return data;
-}
 
 ControlPromocion::~ControlPromocion() {
 }
