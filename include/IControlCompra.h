@@ -17,8 +17,8 @@ public:
     virtual vector <DTDatosProducto> mostrarDatosProducto() = 0;
     virtual ~IControlCompra(){};
     virtual vector<string> listarClientes() = 0;
-    virtual void obtenerFechaSistema() = 0;
     virtual void olvidarCompra() = 0;
+    virtual float calcularPrecioCompra(vector<DTDetalleProducto> parCompra) = 0;
     //virtual vector<DTDetalleProducto> getDataProducto() = 0; 
 
 

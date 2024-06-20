@@ -16,6 +16,7 @@
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
 
+
 using namespace std;
 
 class ControlCompra : public IControlCompra {
@@ -26,7 +27,9 @@ private:
     static ControlCompra* instance;
     unordered_map<int, Compra> compras;
    // vector<DTDetalleProducto> dataProducto;
-    DTFecha fechaSistema;
+    ControlUsuario* controlUsuario;
+    ControlFecha* controlFecha;
+    ControlPromocion* controlPromocion;
     Compra* compraEnProceso;
 
 public:
@@ -39,9 +42,8 @@ public:
      vector <DTDatosProducto> mostrarDatosProducto();
      //virtual ~IControlCompra(){};
      vector<string> listarClientes();
-     void obtenerFechaSistema();
      void olvidarCompra();
-    
+    float calcularPrecioCompra(vector<DTDetalleProducto> parCompra);
 
 };
 

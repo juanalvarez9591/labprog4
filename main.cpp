@@ -18,7 +18,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     vector<string> vendedores = {"vendedor1", "vendedor2"};
     controlSuscripciones->suscribirACliente(vendedores, "cliente1");
 
-    controlPromocion->elegirVendedor("vendedor1");
+    controlPromocion->elegirVendedor("vendedor1");  
     controlPromocion->ingresarProducto("Producto 1", "Descripcion 1", 1000, 10, "electrodomesticos");
     controlPromocion->ingresarProducto("Producto 2", "Descripcion 2", 2000, 20, "electrodomesticos");
     controlPromocion->ingresarDatosPromocion("Promocion 1", "Descripcion 1", DTFecha(1, 1, 2022), 10);
@@ -299,15 +299,11 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
 }
 
 
-void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
+void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra) {
     string nickname;
     vector<string> nicknamesClientes = controlCompra->listarClientes();
-    controlCompra->obtenerFechaSistema();
     vector <DTDatosProducto> datosProducto = controlCompra->mostrarDatosProducto();
     vector<DTDetalleProducto> parCompra;  
-    /* controlCompra->getDataProducto(); es innecesario que el controlador
-     tenga un vector, ya que acá mismo en cada iteración llamamos al agregarCantidad,
-      por lo que el uso de memoria es innecesario*/
     char choice;
     char confirmar;
     int codigo;
@@ -351,8 +347,6 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
         for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
                 if (it->getCodigoProducto() == codigo) {
                  cout << "ERROR: Producto ya agregado a la compra anteriormente." << endl;
-                // controlCompra->borrarDataProducto();
-
                  return;
                 }
         }
@@ -365,7 +359,6 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
                 encontrado = true;
                 if (cantidad > it->getStock()){
                     cout << "La cantidad no puede exceder el stock." << endl;
-                    //controlCompra->borrarDataProducto();
                     return;
                 }
             }
@@ -374,7 +367,6 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
         }
         controlCompra->agregarCantidad(codigo, cantidad);
         parCompra.push_back(DTDetalleProducto(codigo, cantidad));
-       // parCompra = controlCompra->getDataProducto();
         cout << "¿Desea agregar un producto a la compra? (y/n): ";
         cin >> choice;
     } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int), le cambio el nombre a agregarCantidad para que tenga más sentido
@@ -390,9 +382,11 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra, 
             }
         }
     }
+   
     
+    float precioTotal = controlCompra->calcularPrecioCompra(parCompra);
 
-    cout << "Precio total luego de descuentos: " << endl;//falta hallar la promocion q aplique y calcular precio
+    cout << "Precio total luego de descuentos: " << to_string(precioTotal) << endl;//falta hallar la promocion q aplique y calcular precio
     cout << "Desea confirmar la compra? (y/n): ";
     cin >> confirmar;
     if (confirmar != 'y'){
@@ -532,7 +526,7 @@ int main() {
     IControlFecha *controlFecha = factory->getControlFecha();
     IControlCompra *controlCompra = factory->getControlCompra();
 
-   // realizarCompra(controlCompra, controlSuscripciones, controlUsuario);    
+
 
     do {
         system("clear");
@@ -567,7 +561,7 @@ int main() {
                 cout << "Saliendo..." << endl;
                 break;
             case '7':
-                realizarCompra(controlFecha, controlCompra, controlPromocion, controlUsuario);
+                realizarCompra(controlFecha, controlCompra);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }

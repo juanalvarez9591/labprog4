@@ -1,13 +1,16 @@
 #include "../include/ControlCompra.h"
 
+
     ControlCompra* ControlCompra::instance = NULL;
 
     ControlCompra::ControlCompra(){
         compras = unordered_map<int, Compra>();
         clienteEnMemoria = NULL;
         //dataProducto = vector<DTDetalleProducto>();
-        fechaSistema = DTFecha();
+        controlUsuario = ControlUsuario::getInstance();
+        controlFecha = ControlFecha::getInstance();
         compraEnProceso = NULL;
+
         
     }
     ControlCompra* ControlCompra::getInstance(){
@@ -19,22 +22,20 @@
 
 
     void ControlCompra::seleccionarCliente(string nombreCliente){//acá creo la instancia de compra.
-        clienteEnMemoria= ControlUsuario::getInstance()->getCliente(nombreCliente);
-        compraEnProceso = new Compra(fechaSistema, clienteEnMemoria);
+        clienteEnMemoria= controlUsuario->getCliente(nombreCliente);
+        compraEnProceso = new Compra(controlFecha->getFechaActual(), clienteEnMemoria);
     } 
   
     void ControlCompra::agregarCantidad(int codigo, int cantidad){
-        bool porlasDudas = false;
-        Producto* productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
-        Cantidad* aux = new Cantidad(cantidad, porlasDudas, productoElegido);
+    
+       // Producto* productoElegido = controlPromocion->getProductoByID(codigo);
+       Producto * productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
+        Cantidad* aux = new Cantidad(cantidad, NULL);
         compraEnProceso->agregarCantidad(aux);
 
 
     }
 
-  /*  vector <DTDetalleProducto> ControlCompra::getDataProducto(){
-        return dataProducto;
-    }*/
 
     void ControlCompra::olvidarCompra(){
         compraEnProceso = NULL;
@@ -43,23 +44,21 @@
     }
     
     vector <DTDatosProducto> ControlCompra::mostrarDatosProducto(){
-
         return ControlPromocion::getInstance()->dataProductos();
+        //return controlPromocion->dataProductos();
 
     }
 
     vector<string> ControlCompra::listarClientes(){
 
-        return ControlUsuario::getInstance()->listarNicknamesClientes();
+        return controlUsuario->listarNicknamesClientes();
 
     }
-
-    void ControlCompra::obtenerFechaSistema(){
-        fechaSistema= ControlFecha::getInstance()->getFechaActual();
-
-
-
+    float ControlCompra::calcularPrecioCompra(vector<DTDetalleProducto> parCompra){
+       // return ControlPromocion::getInstance()->calcularPrecioTotal(parCompra);
+        return controlPromocion->calcularPrecioTotal(parCompra);
     }
+
 
     bool ControlCompra::confirmarCompra(){
 

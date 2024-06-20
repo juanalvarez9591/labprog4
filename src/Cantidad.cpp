@@ -1,7 +1,7 @@
 #include "Cantidad.h"
 
-Cantidad::Cantidad(int cantidad, bool enviado, Producto* producto) {
+Cantidad::Cantidad(int cantidad, Producto* producto) {
     this->cantidad = cantidad;
-    this->enviado = enviado;
+    this->enviado = false;
     this->producto = producto;
 }

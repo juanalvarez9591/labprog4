@@ -1,5 +1,5 @@
 #include "Producto.h"
-
+#include <iostream>
 Producto::Producto() {
     this->nombre = "";
     this->descripcion = "";
@@ -21,6 +21,7 @@ Producto::Producto(string nombre, string descripcion, int id, int stock, int pre
 }
 
 string Producto::getNombre() {
+    
     return this->nombre;
 }
 
