@@ -439,8 +439,87 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
     } while (choice != '6');
 }
 
-void ComentarioHandler(controlComentario) {
-
+void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario, IControlFecha* controlFecha) {
+        char choice;
+        vector<string> usuarios = controlUsuario->listarNicknamesUsuarios();
+        string usuarioElegido;
+        string texto;
+        do {
+        cout << "Comentarios:" << endl;
+        cout << "1. Dejar comentario" << endl;
+        cout << "2. Eliminar comentario" << endl;
+        cout << "0. Volver al menú principal" << endl;
+        cin << choice;
+        switch (choice) {
+            case '0': 
+                break;
+            case '1':
+                DTFecha fechaActual = controlFecha->getFechaActual();
+                string productoElegido;
+                string comentarioElegido;
+                char alt;
+                //Primero listamos todos los usuarios y el administrador elige el que escribirá el comentario:
+                cout << "¿Quién escribirá el comentario?" << endl;
+                for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
+                    cout << *iter << endl;
+                }
+                cin << usuarioElegido;
+                controlComentario->seleccionarUsuario(usuarioElegido);
+                //Ahora listamos todos los productos y el admin elige sobre cuál se escribira el comentario:
+                cout << "¿Sobre qué producto quieres comentar?" << endl;
+                vector<DTProducto> productos = controlPromocion->listarProductos();
+                for(auto iterProd = productos.begin(); iterProd != productos.end(); ++iterProd) {
+                    cout << "Nombre: " << iterProd->getNombre() << endl;
+                    cout << "ID: " << iterProd->getId() << endl;
+                }
+                cin << productoElegido;
+                //Luego preguntamos si quiere comentar un producto o responder otro comentario:
+                controlComentario->seleccionarProducto(productoElegido);
+                cout << "¿Comentar sobre el producto o responder otro comentario?" << endl;
+                cout << "1. Comentar sobre el producto" << endl;
+                cout << "2. Responder un comentario" << endl;
+                cin << alt;
+                switch (alt) {
+                    case '1':
+                        cout << "Escribe el comentario:" << endl;
+                        cin << texto;
+                        controlComentario->realizarComentario(texto, fechaActual);
+                        break;
+                    case '2':
+                        //Acá se listan todos los comentarios y se elige cuál responder:
+                        vector<string> comentarios = controlComentario->listarComentarios();
+                        cout << "¿Qué comentario quieres responder?" << endl;
+                        for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
+                            cout << *iterComent << endl;                                
+                        }
+                        cin << comentarioElegido;
+                        //Y ahora escribe la respuesta:
+                        cout << "Escribe la respuesta:" << endl;
+                        cin << texto;
+                        controlComentario->responderComentario(texto, fechaActual);
+                    break;
+                }
+                break;
+            case '2':
+                //Primero listamos todos los usuarios y el administrador elige que escribió el comentario que queremos borrar:
+                cout << "Selecciona el usuario cuyo comentario quieres borrar:" << endl;
+                for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
+                    cout << *iter << endl;
+                }
+                cin << usuarioElegido;
+                //Ahora se listan todos los comentarios del usuario elegido:
+                vector<string> comentarios = controlComentario->listarComentariosUsuario(usuarioElegido);
+                cout << "¿Qué comentario quieres eliminar?" << endl;
+                for(auto itercoment = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
+                    cout << *iter << endl;
+                }
+                cin << texto;
+                controlComentario->eliminarComentario(texto);
+                break;
+            default:
+                cout << "Opcion invalida, intenta de nuevo" << endl;
+        }
+        } while (choice != '0');
 }
 
 int main() {
@@ -464,9 +543,9 @@ int main() {
         cout << "3. Usuarios" << endl;
         cout << "4. Promociones" << endl;
         cout << "5. Cargar datos de prueba" << endl;
-        cout << "6. Salir" << endl;
-        cout << "7. Realizar Compra" << endl;
-        cout << "8. Comentarios" << endl;
+        cout << "6. Realizar Compra" << endl;
+        cout << "7. Comentarios" << endl;
+        cout << "8. Salir" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -487,12 +566,12 @@ int main() {
                 cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion);
                 break;
             case '6':
+                realizarCompra(controlCompra, controlPromocion, controlUsuario);
+            case '7':
+                ComentarioHandler(controlComentario, controlPromocion, controlUsuario, controlFecha);
+            case '8':
                 cout << "Saliendo..." << endl;
                 break;
-            case '7':
-                realizarCompra(controlCompra, controlPromocion, controlUsuario);
-            case '8':
-                ComentarioHandler(controlComentario);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
