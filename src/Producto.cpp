@@ -9,6 +9,7 @@ Producto::Producto() {
     this->precio = 0;
     this->categoria = Categoria::Otro;
     this->vendedor = nullptr;
+    this->Foro = nullptr;   
 }
 
 Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
