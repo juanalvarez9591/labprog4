@@ -55,46 +55,12 @@ DTProducto GetDTProducto(){
 	return salida;
 }
 
-Comentario* Producto::GetPrimerComentario() {
+Comentario* Producto::GetComentarios() {
 	return this->Foro;
 }
 
-void Producto::BorrarPrimerComentario() {
-	if (this->Foro != NULL) {
-		Comentario *iterComent = this->Foro;
-		this->Foro = this->Foro->getSig();
-		iterComent->borrarRespuestas();	
-	}
-}
-
-Comentario *Estecomentario(Comentario *It, string Text){
-	if (It == NULL){
-		return NULL;
-	}else{
-		if (It.obtenerTexto() == Text){
-			return It;
-
-		}else{
-			Comentario *Catalejo = Estecomentario(It->getSig(), Text);
-			if (Catalejo != NULL){
-				return Catalejo;
-
-			}else{
-				Catalejo = Estecomentario(It->getResp(), Text);
-				return Catalejo;
-		}
-		}
-	}
-}
-
-//Retorna un puntero al comentario, o en caso de no estar devuelve NULL
-Comentario *GetComentario(string Text){
-	Comentario* It = this->Foro;
-	if (this->Foro != NULL){
-		return Estecomentario(It, Text)
-	}else{
-		return NULL;
-	}
+void Producto::SetComentario(Comentario* Nuevaraiz) {
+	this->Foro = Nuevaraiz;
 }
 
 

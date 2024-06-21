@@ -29,8 +29,8 @@ public:
 
     DTProducto GetDTProducto();
 
-    Comentario* GetPrimerComentario();
-    void BorrarPrimerComentario();
+    Comentario* GetComentarios();
+    void SetComentario(Comentario* Nuevaraiz);
 
     Comentario* GetComentario(string Text);
     void AgregarComentario(Comentario *Comentario);

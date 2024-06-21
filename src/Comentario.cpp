@@ -109,3 +109,22 @@ void PrintComentario(){
 	cout << this->texto << endl;
 }
 
+Comentario *ComentarioEnForo(Comentario *It, string Text){
+    if (It == NULL){
+        return NULL;
+    }else{
+        if (It->texto == Text){
+            return It;
+
+        }else{
+            Comentario *Catalejo = ComentarioEnForo(It->Sigcomentario, Text);
+            if (Catalejo != NULL){
+                return Catalejo;
+
+            }else{
+                Catalejo = ComentarioEnForo(It->Respuesta, Text);
+                return Catalejo;
+        }
+        }
+    }
+}

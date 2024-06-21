@@ -5,7 +5,8 @@
 #include "ControlSuscripciones.h"
 #include <string>
 #include <vector>
-
+#include "Producto.h"
+#include "Usuario.h"
 
 using namespace std;
 
@@ -44,7 +45,12 @@ private:
 
     vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec);
     static ControlComentario* instance;
-    string Comentador;
-    string Prod;
+    //string Comentador;
+    Usuario* UsuarioSeleccionado;
+    //string Prod;
+    Producto* ProdSeleccionado;
     Comentario* AResponder;
+
+    ControlUsuario* ContrUsua = ControlUsuario::getInstance();
+    ControlPromocion* ContrProm = ControlPromocion::getInstance();
 };
