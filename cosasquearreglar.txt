@@ -1,0 +1,3 @@
+validacion de cliente inexistente al ver vendedores no suscritos / suscritos
+post arreglar el mail, no tener funciones de lectura entre contrroladores, es decir si para un caso de uso de promocion necesito listar usuarios, desde el main
+llamo a controlusuario, no hago que desde controlpromocion llame a controlusuario para listarlos

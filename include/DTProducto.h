@@ -5,8 +5,7 @@
 
 using namespace std;
 
-class DTProducto{
-
+class DTProducto {
 private:
     string Nombre;
     int Id;
@@ -14,6 +13,8 @@ private:
 public:
     DTProducto();
     DTProducto(string Nombre, int Id);
+    string getNombre() const;
+    int getId() const;
 };
 
 #endif

@@ -3,13 +3,13 @@
 
 #include <string>
 #include <vector>
-#include "DTDetallesCompra"
+#include "DTDetallesCompra.h"
 #include "DTInfoProducto.h"
 using namespace std;
 
 class IControlCompra {
 public:
-    virtual void seleccionarCliente(const string&) = 0;
+    virtual void seleccionarCliente(string nombreCliente) = 0;
     virtual vector <DTInfoProducto> mostrarDatosProducto() = 0;
     virtual void agregarProducto(int, int) = 0;
     virtual DTDetallesCompra DetallesCompra() = 0;

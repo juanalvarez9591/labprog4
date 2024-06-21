@@ -3,13 +3,13 @@
 DTNotificacion::DTNotificacion() {
     this->nombrePromo = "";
     this->nickVendedor = "";
-    this->productosPromocion = vector<DTInfoProducto>();
+    this->codigosProductos = vector<int>();
 }
 
-DTNotificacion::DTNotificacion(string nombrePromo, string nickVendedor, vector<DTInfoProducto> productos) {
+DTNotificacion::DTNotificacion(string nombrePromo, string nickVendedor, vector<int> codigosProductos) {
     this->nombrePromo = nombrePromo;
     this->nickVendedor = nickVendedor;
-    this->productosPromocion = productos;
+    this->codigosProductos = codigosProductos;
 }
 
 string DTNotificacion::toString() const {
@@ -18,8 +18,8 @@ string DTNotificacion::toString() const {
     notificacionStr += "Vendedor: " + nickVendedor + "\n";
     notificacionStr += "Productos en promocion:\n";
 
-    for (const DTInfoProducto& producto : productosPromocion) {
-        notificacionStr += producto.toString() + "\n";
+    for (int i = 0; i < codigosProductos.size(); i++) {
+        notificacionStr += "Codigo del producto: " + to_string(codigosProductos[i]) + "\n";
     }
 
     return notificacionStr;

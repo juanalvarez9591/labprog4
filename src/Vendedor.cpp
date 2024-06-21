@@ -1,19 +1,20 @@
 #include "Vendedor.h"
+#include "DTNotificacion.h"
 
 Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) : Usuario(nickname, password, fechaNacimiento) {
     this->rut = rut;
 }
 
-bool Vendedor::estaSuscrito(Usuario* usuario) {
+bool Vendedor::estaSuscrito(IObserver* observer) {
     for (int i = 0; i < this->observers.size(); i++) {
-        if (this->observers[i]->getNickname() == usuario->getNickname()) {
+        if (this->observers[i] == observer) {
             return true;
         }
     }
     return false;
 }
 
-string Vendedor::getNickname() {
+string Vendedor::getNickname() const {
     return this->nickname;
 }
 
@@ -30,8 +31,8 @@ void Vendedor::eliminarObserver(IObserver* observer) {
     }
 }
 
-void Vendedor::notificarObservers(std::string message) {
+void Vendedor::notificarObservers(DTNotificacion notificacion) {
     for (int i = 0; i < this->observers.size(); i++) {
-        this->observers[i]->update(message);
+        this->observers[i]->update(notificacion);
     }
 }

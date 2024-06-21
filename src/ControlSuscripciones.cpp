@@ -15,12 +15,12 @@ ControlSuscripciones::ControlSuscripciones() {
 }
 
 vector<string> ControlSuscripciones::getVendedoresNoSuscritos(string nickCliente) {
-    Usuario* usuario = controlUsuario->getUsuario(nickCliente);
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
     vector<string> vendedoresNoSuscritos;
     vector<Vendedor> vendedores = controlUsuario->getVendedores();
 
     for (int i = 0; i < vendedores.size(); i++) {
-        if (!vendedores[i].estaSuscrito(usuario)) {
+        if (!vendedores[i].estaSuscrito(cliente)) {
             vendedoresNoSuscritos.push_back(vendedores[i].getNickname());
         }
     }
@@ -29,12 +29,12 @@ vector<string> ControlSuscripciones::getVendedoresNoSuscritos(string nickCliente
 }
 
 vector<string> ControlSuscripciones::getVendedoresSuscritos(string nickCliente) {
-    Usuario* usuario = controlUsuario->getUsuario(nickCliente);
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
     vector<string> vendedoresSuscritos;
     vector<Vendedor> vendedores = controlUsuario->getVendedores();
 
     for (int i = 0; i < vendedores.size(); i++) {
-        if (vendedores[i].estaSuscrito(usuario)) {
+        if (vendedores[i].estaSuscrito(cliente)) {
             vendedoresSuscritos.push_back(vendedores[i].getNickname());
         }
     }

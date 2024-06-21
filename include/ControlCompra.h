@@ -11,23 +11,30 @@
 #include "DTInfoProducto.h"
 #include "DTDetalleProducto.h"
 #include "IControlCompra.h"
+#include "ControlPromocion.h"
 using namespace std;
 
-class ControlCompra public: IControlCompra {
+class ControlCompra : public IControlCompra {
 
 private:
-    string nickname;
-    vector<DTDetalleProducto> Lista;
-    DTFecha fechaActual;
-    float costo;
+    ControlCompra();
+    string clienteEnMemoria;
+    //vector<DTDetalleProducto> Lista;
+    //DTFecha fechaActual;
+    //float costo;
+    static ControlCompra* instance;
+    vector <Compra> compras;
+    
 
 public:
-    virtual void seleccionarCliente(const string&) = 0;
-    virtual vector <DTInfoProducto> mostrarDatosProducto() = 0;
-    virtual void agregarProducto(int, int) = 0;
-    virtual DTDetallesCompra DetallesCompra() = 0;
-    virtual void ConfirmarCompra() = 0;
-    virtual ~IControlCompra(){};
+     static ControlCompra* getInstance();
+     void seleccionarCliente(string nombreCliente);
+     vector <DTInfoProducto> mostrarDatosProducto() ;
+     void agregarProducto(int, int) ;
+     DTDetallesCompra DetallesCompra() ;
+     void ConfirmarCompra();
+     //virtual ~IControlCompra(){};
+     //vector<string> listarClientes();
 
 };
 

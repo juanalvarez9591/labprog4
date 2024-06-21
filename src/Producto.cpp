@@ -1,60 +1,58 @@
-
 #include "Producto.h"
 #include "Comentario.h"
 
-Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria){
-	this->Nombre = Nombre;
-	this->Descripcion = Descripcion;
-	this->Foro = NULL;
-	this->Id = Id;
-	this->stock = stock;
-	this->precio = precio;
-	this->Categoria = Categoria;
+Producto::Producto() {
+    this->nombre = "";
+    this->descripcion = "";
+    this->id = 0;
+    this->stock = 0;
+    this->precio = 0;
+    this->categoria = Categoria::Otro;
+    this->vendedor = nullptr;
 }
 
-string GetNombre() {
-	return this->Nombre;
+Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
+    this->nombre = nombre;
+    this->descripcion = descripcion;
+    this->id = id;
+    this->stock = stock;
+    this->precio = precio;
+    this->categoria = categoria;
+    this->vendedor = vendedor;
 }
 
-string GetDescripcion(){
-	return this->Descripcion;
+string Producto::getNombre() {
+    return this->nombre;
 }
 
-CatProducto GetCategoria(){
-	return this->Categoria;
+string Producto::getDescripcion() {
+    return this->descripcion;
 }
 
-int GetPrecio(){
-	return this->precio;
+Categoria Producto::getCategoria() {
+    return this->categoria;
 }
 
-int GetStock(){
-	return this->stock;	
+int Producto::getPrecio() {
+    return this->precio;
 }
 
-bool RestarAStock(int Vendidos){
-	if (Vendidos <= this->stock)
-	{
-		this->stock = this->stock - Vendidos;
-		return true;
-	}else{
-		return false;
-	}
-	
+int Producto::getId() {
+    return this->id;
 }
 
-
-void Restock(int envio){
-	this->stock = this->stock + envio;
+int Producto::getStock() {
+    return this->stock;
 }
 
-
-
-DTProducto GetDTProducto(){
-	DTProducto salida = DTProducto(this->Nombre, this->Id);
-	return salida;
+Vendedor* Producto::getVendedor() const {
+    return this->vendedor;
 }
 
+DTProducto Producto::toDTProducto() const {
+    return DTProducto(this->nombre, this->id);
+    }
+    
 Comentario* Producto::GetComentarios() {
 	return this->Foro;
 }
@@ -63,19 +61,11 @@ void Producto::SetComentario(Comentario* Nuevaraiz) {
 	this->Foro = Nuevaraiz;
 }
 
-
-void AgregarComentario(Comentario *Comentario){
-	if (this->Foro == NULL){
-		this->Foro = Comentario;
-	}else{
-		Comentario* Catalejo = this->Foro;
-		while(Catalejo.getSig() != NULL){
-			Catalejo = Catalejo.getSig();
-		}
-		Catalejo.setSig(Comentario);
-	}
+DTInfoProducto Producto::toDTInfoProducto() const {
+    return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
 }
 
+Producto::~Producto() {
 void AgregarRespuesta(Comentario *Comentario, string Text){
 	Comentario* It = Estecomentario(this->Foro , Text);
 	if (It != NULL){

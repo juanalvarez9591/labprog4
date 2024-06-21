@@ -2,11 +2,11 @@
 #define IOBSERVER_H
 
 #include <string>
+#include "DTNotificacion.h"
 
 class IObserver {
 public:
-    virtual void update(std::string message) = 0;
-    virtual std::string getNickname() = 0;
+    virtual void update(DTNotificacion notificacion) = 0;
     virtual ~IObserver() {}
 };
 

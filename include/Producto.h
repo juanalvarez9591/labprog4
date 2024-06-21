@@ -2,56 +2,46 @@
 #define PRODUCTO_H
 
 #include <string>
-#include "Comentario.h"
-using namespace std;
+#include "Vendedor.h"
+#include "DTProducto.h"
+#include "DTInfoProducto.h"
+#include "Categoria.h"
 
-enum class CatProducto {
-    Ropa,
-    Electrodomestico,
-    Otro
-};  // para revisar si lo guardado es de un tipo parece qeu se usa (Variable.CatProducto::Ropa) y eso puede dar true o false
+using namespace std;
 
 class Producto {
 public:
-    Producto(string Nombre, string Descripcion, int Id, int stock, int precio, CatProducto Categoria);
+    Producto();
+    Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor);
+    string getNombre();
+    string getDescripcion();
+    Categoria getCategoria();
+    int getPrecio();
+    int getId();
+    int getStock();
+    Vendedor* getVendedor() const;
+    DTProducto toDTProducto() const;
+    DTInfoProducto toDTInfoProducto() const;
     ~Producto();
-
-    string GetNombre();
-    string GetDescripcion();
-    CatProducto GetCategoria();
-    int GetPrecio();
-    int GetStock();
-
-    //Medio para quitar del stock cosas vendidas + posible forma de ver si se pide mas de lo que se tiene
-    bool RestarAStock(int Vendidos);
-    //No se si se pide restock pero por las dudas
-    // void Restock(int envio);
-
-    DTProducto GetDTProducto();
 
     Comentario* GetComentarios();
     void SetComentario(Comentario* Nuevaraiz);
-
-    Comentario* GetComentario(string Text);
     void AgregarComentario(Comentario *Comentario);
     void AgregarRespuesta(Comentario *Comentario, string Text);
-
     void PrintTodosComentarios();
     void PrintComentario(Comentario *Comentario, int Sangria);
-
-
+    Comentario* GetComentario(string Text);
 private:
-    string Descripcion;
-    string Nombre;
-    int Id;
-    int Stock;
-    int Precio;
-    CatProducto Categoria;
+    string descripcion;
+    string nombre;
+    int id;
+    int stock;
+    int precio;
+    Categoria categoria;
+    Vendedor* vendedor;
     Comentario* Foro;
-
-    Comentario *Estecomentario(Comentario *It, string Text);
-
     void PrintTodosComentariosAux(Comentario *Comentario, int Sangria);
+    Comentario *Estecomentario(Comentario *It, string Text);
 };
 
 #endif

@@ -3,17 +3,13 @@
 #define DTINFOPRODUCTO_H
 
 #include <string>
+#include "Categoria.h"
 
 using namespace std;
 
-enum class Categoria {
-    Ropa,
-    Electrodomestico,
-    Otro
-};
-
 class DTInfoProducto {
 private:
+    string nombre;
     int precio;
     int stock;
     string descripcion;
@@ -22,7 +18,7 @@ private:
 
 public:
     DTInfoProducto();
-    DTInfoProducto(int precio, int stock, string descripcion, string nickVendedor, Categoria categoria);
+    DTInfoProducto(string nombre, int precio, int stock, string descripcion, string nickVendedor, Categoria categoria);
     string toString() const;
 };
 
