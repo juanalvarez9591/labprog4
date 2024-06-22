@@ -26,6 +26,16 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlPromocion->agregarProductoPromocion(2, 1);
     controlPromocion->confirmarPromocion();
 
+//Para probar comentario
+    controlComentario->seleccionarUsuario("vendedor1");
+    controlComentario->seleccionarProducto(1);
+    controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?", DTFecha(1,6,2024));
+
+    controlComentario->seleccionarUsuario("vendedor2");
+    controlComentario->seleccionarProducto(1);
+    controlComentario->elegirComentario("¿La camiseta azul esta disponible en talla M?");
+    controlComentario->responderComentario("Si, tenemos la camiseta azul en talla M", DTFecha(1,6,2024));
+
 
     /*controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
@@ -623,7 +633,8 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                         switch (alt) {
                             case '1':{
                                 cout << "Escribe el comentario:" << endl;
-                                cin >> texto;
+                                cin.ignore();
+                                getline(cin, texto);
                                 controlComentario->realizarComentario(texto, fechaActual);
                                 break;
                             }
@@ -638,11 +649,13 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                                     for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
                                         cout << *iterComent << endl;                                
                                     }
-                                    cin >> comentarioElegido;
+                                    cin.ignore();
+                                    getline(cin, comentarioElegido);
                                     controlComentario->elegirComentario(comentarioElegido);
                                     //Y ahora escribe la respuesta:
                                     cout << "Escribe la respuesta:" << endl;
-                                    cin >> texto;
+                                    //cin.ignore();
+                                    getline(cin, texto);
                                     controlComentario->responderComentario(texto, fechaActual);
                                     break;
                                 }
@@ -674,7 +687,8 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                         for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
                             cout << *iterComent << endl;
                         }
-                        cin >> texto;
+                        cin.ignore();
+                        getline(cin, texto);
                         controlComentario->eliminarComentario(texto);
                         break;
                     }

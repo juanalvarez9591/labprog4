@@ -2,6 +2,7 @@
 #include "Comentario.h"
 #include "Producto.h"
 #include <vector>
+#include <iostream> //para debugeo
 
 //Funciones basicas controlador
 ControlComentario* ControlComentario::instance = nullptr;
@@ -38,12 +39,12 @@ vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario)
 Usuario* ControlComentario::getUsuarioComentario(string texto) {
     //ControlUsuario* ControlUsuario = ControlUsuario::getInstance();
     vector<string> nicks = this->ContrUsua->listarNicknamesUsuarios();
-    Usuario* aEncontrar = NULL;
+    Usuario* aEncontrar = nullptr;
     auto iterNick = nicks.begin();
-    while((iterNick != nicks.end()) && (aEncontrar == NULL)) {
+    while((iterNick != nicks.end()) && (aEncontrar == nullptr)) {
         vector<Comentario*> comentarios = this->ContrUsua->getUsuario(*iterNick)->getComentarios();
         auto iterComent = comentarios.begin();
-        while(iterComent != comentarios.end() && (aEncontrar == NULL)) {
+        while(iterComent != comentarios.end() && (aEncontrar == nullptr)) {
             if ((*iterComent)->getTexto() == texto) {
                 aEncontrar = this->ContrUsua->getUsuario(*iterNick);
             }
@@ -126,78 +127,109 @@ void ControlComentario::seleccionarProducto(int IDProducto){
 //Comentario directo
  //Falta por hacer Una funcion en vendedor que nos de acceso a la direccion de un producto buscado segun la clave
 void ControlComentario::realizarComentario(string texto, DTFecha fecha){
-    Comentario* Opinion = new Comentario(texto, fecha);
-    Comentario* aux = this->ProdSeleccionado->GetComentarios();   //AgregarComentario(Opinion)
-    if (aux == nullptr){
-        this->ProdSeleccionado->SetComentario(Opinion);
-    }else{
-        while(aux->getSig() != nullptr){
-            aux = aux->getSig();
+    if ((this->ProdSeleccionado != nullptr) && (this->UsuarioSeleccionado != nullptr)){
+        Comentario* Opinion = new Comentario(texto, fecha);
+        Comentario* aux = this->ProdSeleccionado->GetComentarios();   //AgregarComentario(Opinion)
+        if (aux == nullptr){
+            //cout << "aux apunta a null?: " << aux << endl;
+            this->ProdSeleccionado->SetComentario(Opinion);
+        }else{
+            //cout << "aux apunta a: " << aux << endl;
+            while(aux->getSig() != nullptr){
+                aux = aux->getSig();
+            }
+            aux->setSig(Opinion);
         }
-        aux->setSig(Opinion);
+        this->UsuarioSeleccionado->addComentario(Opinion);
     }
-    this->UsuarioSeleccionado->addComentario(Opinion);
+    
    
 }
 
 vector<string> ControlComentario::HacerListComentarios(Comentario* Comentario , vector<string> Vec){
+    if (Comentario != nullptr){
+        
     Vec.push_back(Comentario->getTexto());
-    HacerListComentarios(Comentario->getResp() , Vec);
-    HacerListComentarios(Comentario->getSig() , Vec);
+    Vec = HacerListComentarios(Comentario->getResp() , Vec);
+                /*if (Comentario->getResp() != nullptr){
+                    cout << "El Primer hijo de: " << Comentario->getTexto() << " es: " << Comentario->getResp()->getTexto() << endl;
+                }*/
+        
+    Vec = HacerListComentarios(Comentario->getSig() , Vec);
+                /*if (Comentario->getSig() != nullptr){
+                    cout << "El Primer hermano de: " << Comentario->getTexto() << " es: " << Comentario->getSig()->getTexto() << endl;
+                }*/
+    }
+        
     return Vec;
 }
     
 
 vector<string> ControlComentario::listarComentarios(){
+    
     vector<string> Respuesta;
 
-                                                                    /*ControlUsuario* ContrUsua = ControlUsuario::getInstance();
-                                                                    vector<string> nickUsuarios = ContrUsua->listarNicknamesUsuarios();
-                                                                    for (string itnick = nickUsuarios.begin(); itnick != nickUsuarios.end(); itnick++) {
-                                                                        vector<Comentario*> EstosCom = listarComentariosUsuario(itnick);
-                                                                        for (Comentario* iterComent = EstosCom.begin(); iterComent != EstosCom.end(); iterComent++) {
-                                                                            Respuesta.push_back(iterComent->getTexto());
-                                                                        
-                                                                        }
-    }*/ //Funciona pero no se ingresan en orden ni se diferencian los niveles de respuestas
+                                                                    
+    //Funciona pero no se ingresan en orden ni se diferencian los niveles de respuestas
 
-    //Version 2
-    /*vector<DTProducto> Productos = this->ContrProm->listarProductos();
-    for (auto iterProd = Productos.begin(); iterProd != Productos.end(); iterProd++){
+                            //Version 2
+                            /*vector<DTProducto> Productos = this->ContrProm->listarProductos();
+                            for (auto iterProd = Productos.begin(); iterProd != Productos.end(); iterProd++){
 
-        Respuesta = HacerListComentarios(this->ContrProm->getProductoByID(iterProd->getId()).GetComentarios() , Respuesta);
-    
-    }*/
+                                Respuesta = HacerListComentarios(this->ContrProm->getProductoByID(iterProd->getId()).GetComentarios() , Respuesta);
+                            
+                            }*/
     Respuesta = HacerListComentarios(this->ProdSeleccionado->GetComentarios() , Respuesta);
    
+   return Respuesta;
 }
 
-//Si guarda AResponder = NULL es que el comentario no existia
+//Si guarda AResponder = nullptr es que el comentario no existia
 void ControlComentario::elegirComentario(string mensaje){
-    /*Comentario* AResponder = NULL;
+
+    /*Comentario* AResponder = nullptr;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
     auto iterProd = Productos.begin();
-    while((AResponder == NULL) && (iterProd != Productos.end())){
+    while((AResponder == nullptr) && (iterProd != Productos.end())){
         AResponder = getProductoByID(iterProd->getId())->GetComentario(mensaje);
     }
     this->AResponder = AResponder;*/
-        Comentario* AResponder = NULL;
+        Comentario* AResponder = nullptr;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
     auto iterProd = Productos.begin();
-    while((AResponder == NULL) && (iterProd != Productos.end())){
+
+    while((AResponder == nullptr) && (iterProd != Productos.end())){
+
         AResponder = this->ContrProm->getProductoByID(iterProd->getId())->GetComentarios()->ComentarioEnForo(mensaje);
+        ++iterProd;
     }
+
     this->AResponder = AResponder;
 }
 
 void ControlComentario::responderComentario(string respuesta, DTFecha fecha){
-    Comentario* Opinion = new Comentario(respuesta, fecha);
-    vector<string> nickUsuarios = this->ContrUsua->listarNicknamesUsuarios();
-    auto iterUsuario = nickUsuarios.begin();
-    while((iterUsuario != nickUsuarios.end() && (this->UsuarioSeleccionado != this->ContrUsua->getUsuario(*iterUsuario)))){
-        ++iterUsuario;
-    }
-    this->ContrUsua->getUsuario(*iterUsuario)->addComentario(Opinion); //en teoria consigo un usuario con su nick y hago que guarde el comentario
 
-    this->AResponder->AgregarRespuesta(Opinion);
+    if ((this->UsuarioSeleccionado != nullptr) && (this->AResponder != nullptr))
+    {
+        Comentario* Opinion = new Comentario(respuesta, fecha);
+        vector<string> nickUsuarios = this->ContrUsua->listarNicknamesUsuarios();
+        auto iterUsuario = nickUsuarios.begin();
+        while((iterUsuario != nickUsuarios.end() && (this->UsuarioSeleccionado != this->ContrUsua->getUsuario(*iterUsuario)))){
+           
+            ++iterUsuario;
+        }
+        this->ContrUsua->getUsuario(*iterUsuario)->addComentario(Opinion); //en teoria consigo un usuario con su nick y hago que guarde el comentario
+
+        if (this->AResponder->getResp() == nullptr){
+            this->AResponder->setRes(Opinion);
+        }else{
+            Comentario* aux = this->AResponder->getResp();
+            while(aux->getSig() != nullptr){
+                    aux = aux->getSig();
+                }
+                aux->setSig(Opinion);
+            }
+                        //cout << "siguiente del elegido: " << AResponder->getResp()->getTexto() << endl;
+    }
+        
 }

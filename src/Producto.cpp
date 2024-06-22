@@ -21,6 +21,7 @@ Producto::Producto(string nombre, string descripcion, int id, int stock, int pre
     this->precio = precio;
     this->categoria = categoria;
     this->vendedor = vendedor;
+    this->Foro = nullptr;  
 }
 
 string Producto::getNombre() {
