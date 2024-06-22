@@ -35,7 +35,7 @@ public:
 
     void agregarRequisitos(Requisitos requisito);
     void eliminarRequisitos(Requisitos requisito);
-    vector<Requisitos> getRequisitos();
+    const vector<Requisitos>& getRequisitos() const;
 
     DTPromocion toDTPromocion() const;
 };
