@@ -4,13 +4,17 @@
 #include "DTDataCliente.h"
 #include "DTExpCompra.h"
 #include <vector>
+#include <string>
 
-
-class DTExpCliente : public DTDataCliente{
+class DTExpCliente : public DTDataCliente {
 private:
-    vector <DTExpCompra> compras;
-public: 
-    DTExpCliente(string nickname, DTFecha fecha, string calle, string ciudad, int nroPuerta, vector <DTExpCompra> compras);
-    vector <DTExpCompra> getCompras();
+    vector<DTExpCompra> compras;
+
+public:
+    DTExpCliente();
+    DTExpCliente(string nickname, DTFecha fechaNacimiento, string direccion, string ciudad, vector<DTExpCompra> compras);
+    vector<DTExpCompra> getCompras() const;
+    virtual ~DTExpCliente() override;
 };
-#endif 
+
+#endif

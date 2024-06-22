@@ -1,4 +1,4 @@
-#include "../include/DTDatosProducto.h"
+#include "DTDatosProducto.h"
 
 DTDatosProducto::DTDatosProducto(int stock, string nombreProducto, int precio, int codigoProducto) {
     this->stock = stock;

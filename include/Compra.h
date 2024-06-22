@@ -6,6 +6,8 @@
 #include "Cliente.h"
 #include "DTFecha.h"
 #include "Cantidad.h"
+#include "DTExpCompra.h"
+#include "DTExpProducto.h"
 
 using namespace std;
 
@@ -16,7 +18,8 @@ public:
     void eliminarCantidad(Cantidad* cantidad);
     DTFecha getFechaCompra();
     vector<Cantidad*>& getCantidades();
-
+    DTExpCompra toDTExpCompra() const;
+    Cliente* getCliente() const;
 private:
     DTFecha fechaCompra;
     int costo;

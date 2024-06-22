@@ -11,10 +11,12 @@
 #include "Cantidad.h"
 #include "DTInfoProducto.h"
 #include "DTDetalleProducto.h"
+#include "DTExpCliente.h"
 #include "IControlCompra.h"
-#include "ControlPromocion.h"
-#include "ControlUsuario.h"
-#include "ControlFecha.h"
+
+class ControlPromocion;
+class ControlUsuario;
+class ControlFecha;
 
 using namespace std;
 
@@ -36,6 +38,7 @@ public:
     bool agregarCantidad(int codigo, int cantidad) override;
     bool confirmarCompra() override;
     void olvidarCompra() override;
+    DTExpCliente verComprasCliente(string nickCliente);
     DTDetallesCompra verDetallesCompra() override;
     virtual ~ControlCompra();
 };

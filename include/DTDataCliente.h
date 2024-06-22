@@ -2,19 +2,20 @@
 #define DTDATA_CLIENTE_H
 
 #include "DTInfoUsuarios.h"
+#include <string>
 
 class DTDataCliente : public DTInfoUsuarios
 {
 private:
-    string calle;
+    string direccion;
     string ciudad;
-    int nroPuerta;
 
 public:
-    DTDataCliente(string nickname, DTFecha fecha, string calle, string ciudad, int nroPuerta);
-    string getCalle();
+    DTDataCliente();
+    DTDataCliente(string nickname, DTFecha fecha, string direccion, string ciudad);
+    string getDireccion();
     string getCiudad();
-    int getNroPuerta();
+    virtual ~DTDataCliente() override;
 };
 
-#endif 
+#endif

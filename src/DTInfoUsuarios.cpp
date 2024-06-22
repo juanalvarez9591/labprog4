@@ -18,3 +18,6 @@ string DTInfoUsuarios::getNickname(){
 DTFecha DTInfoUsuarios::getFecha(){
     return this->fecha;
 }
+
+DTInfoUsuarios::~DTInfoUsuarios() {
+}

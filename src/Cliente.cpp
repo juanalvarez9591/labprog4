@@ -18,6 +18,14 @@ void Cliente::limpiarNotificaciones() {
     notificaciones.clear();
 }
 
-string Cliente::getNickname() {
-    return nickname;
+string Cliente::getNickname() const {
+    return Usuario::getNickname();
+}
+
+string Cliente::getDireccion() const {
+    return direccion;
+}
+
+string Cliente::getCiudad() const {
+    return ciudad;
 }

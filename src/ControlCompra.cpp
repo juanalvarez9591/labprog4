@@ -2,6 +2,8 @@
 #include "ControlPromocion.h"
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
+#include "DTExpCliente.h"
+#include "Compra.h"
 
 ControlCompra* ControlCompra::instance = nullptr;
 
@@ -107,6 +109,30 @@ DTDetallesCompra ControlCompra::verDetallesCompra() {
     DTFecha fechaCompra = compraEnProceso->getFechaCompra();
 
     return DTDetallesCompra(costoTotal, fechaCompra, productosCompra);
+}
+
+DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
+    Cliente* cliente = controlUsuario->getCliente(nickCliente);
+    if (cliente == nullptr) {
+        return DTExpCliente();
+    }
+
+    vector<DTExpCompra> comprasCliente;
+
+    for (unordered_map<int, Compra*>::iterator it = compras.begin(); it != compras.end(); ++it) {
+        Compra* compra = it->second;
+        if (compra->getCliente() == cliente) {
+            comprasCliente.push_back(compra->toDTExpCompra());
+        }
+    }
+
+    return DTExpCliente(
+            cliente->getNickname(),
+            cliente->getFechaNacimiento(),
+            cliente->getDireccion(),
+            cliente->getCiudad(),
+            comprasCliente
+    );
 }
 
 ControlCompra::~ControlCompra() {

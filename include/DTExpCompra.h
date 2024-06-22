@@ -1,5 +1,5 @@
 #ifndef DTEXP_COMPRA_H
-#define DTEXP_COMRPA_H
+#define DTEXP_COMPRA_H
 
 #include "DTFecha.h"
 #include "DTExpProducto.h"

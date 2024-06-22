@@ -7,7 +7,7 @@ using namespace std;
 
 class DTInfoUsuarios
 {
-private:
+protected:
     string nickname;
     DTFecha fecha;
 
@@ -16,6 +16,7 @@ public:
     DTInfoUsuarios(string nickname, DTFecha fecha);
     string getNickname();
     DTFecha getFecha();
+    virtual ~DTInfoUsuarios();
 };
 
 #endif

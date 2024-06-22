@@ -21,7 +21,7 @@ public:
     virtual vector<DTDatosProducto> listarDataProductos() = 0;
     virtual DTInfoProducto verInfoProducto(int idProducto) = 0;
     virtual void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) = 0;
-    virtual vector<DTProducto> verProductosVendedor() = 0;
+    virtual vector<DTProducto> verProductosVendedorEnMemoria() = 0;
     virtual void agregarProductoPromocion(int idProducto, int cantidad) = 0;
     virtual void confirmarPromocion() = 0;
     virtual set<DTPromocion> listarPromocionesVigentes() = 0;
