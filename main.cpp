@@ -12,17 +12,6 @@
 using namespace std;
 
 void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
-    /*US1 V "ana23", "qwer1234", DTFecha(15,05,1988),  "212345678001"
-    US2 V "carlos78", "asdfghj", DTFecha(18,06,1986),    "356789012345"
-    US3 V "diegom", "zxcvbn", DTFecha(28,07,1993),  "190123456789"
-    US6 V "maria01", "5tgb6yhn", DTFecha(25,03,1985),    "321098765432"
-    US10 V "sofia25", "1234asdf", DTFecha(07,12,1983),  "445678901234"
-
-    US4 C "juan87", "1qaz2wsx", DTFecha(20,10,1992), 456, "Av. 18 de Julio",  "Melo"
-    US5 C "laura", "3edc4rfv", DTFecha(22,09,1979), 1617, "Rondeau",  "Montevideo"
-    US7 C "natalia", "poiuyt", DTFecha(14,04,1982), 2021, "Paysandu",  "Salto"
-    US8 C "pablo10", "lkjhgv", DTFecha(30,11,1995),  1819, "Av. Rivera", "Mercedes"
-    US9 C "roberto", "mnbvcx", DTFecha(12,08,1990), 1011, "Av. Brasil",  "Montevideo"*/
 
     controlUsuario->darDeAltaVendedor("ana23", "qwer1234", DTFecha(15,5, 1988), "212345678001");
     controlUsuario->darDeAltaVendedor("carlos78", "asdfghj", DTFecha(18,6,1986), "356789012345");
