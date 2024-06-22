@@ -52,7 +52,7 @@ Vendedor* Producto::getVendedor() const {
 
 DTProducto Producto::toDTProducto() const {
     return DTProducto(this->nombre, this->id);
-    }
+}
     
 Comentario* Producto::GetComentarios() {
 	return this->Foro;
@@ -82,7 +82,7 @@ void AgregarRespuesta(Comentario *Comentario, string Text){
 	}
 }
 
-void PrintComentariorec(Comentario *Comentario, int Sangria){
+/*void PrintComentariorec(Comentario *Comentario, int Sangria){
 	for (int i = 0; i < Sangria; i++){
 		cout << "> > ";
 	}
@@ -99,7 +99,7 @@ void PrintTodosComentarios(){
 	if (this->Foro != NULL){
 		PrintTodosComentariosAux(this->Foro, 1);
 	}
-}
+}*/
 
 ~Producto(){
 	if (Foro != NULL)

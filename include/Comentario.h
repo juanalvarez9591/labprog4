@@ -2,6 +2,7 @@
 #define COMENTARIO_H
 
 #include <string>
+#include <set>
 #include "DTComentario.h"
 #include "DTFecha.h"
 using namespace std;
@@ -13,7 +14,7 @@ public:
     Comentario(string texto, DTFecha fecha);
 
     //Libera el DTfecha asociado
-    void Liberar();
+    //void Liberar();
 
     Comentario* getSig();
     Comentario* getResp();
@@ -23,9 +24,9 @@ public:
     string getTexto();
 
     //Devuelve un set con las respuestas DIRECTAS del comentario
-    set<Comentario> getRespuestas();
+    set<Comentario*> getRespuestas();
     void eliminarNodo();
-    void borrarRespuestas(Comentario comentario);
+    void borrarRespuestas();        //(Comentario comentario)
     bool eliminarNodoPosterior(string mensaje);
     void AgregarRespuesta(Comentario *respuesta);
 
@@ -35,6 +36,7 @@ public:
     bool UltimoDelNivel();
 
     void PrintComentario();
+    Comentario* ComentarioEnForo(Comentario *It, string Text);
 
 private:
     DTFecha fecha;

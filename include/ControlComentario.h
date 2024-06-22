@@ -2,11 +2,14 @@
 #include "DTFecha.h"
 #include "DTComentario.h"
 #include "ControlUsuario.h"
+#include "ControlPromocion.h"
 #include "ControlSuscripciones.h"
 #include <string>
 #include <vector>
+#include <set>
 #include "Producto.h"
 #include "Usuario.h"
+#include "Comentario.h"
 
 using namespace std;
 
@@ -16,10 +19,10 @@ public:
 //Borrar Comentario
     static ControlComentario* getInstance();
     
-    vector<string> listarComentariosUsuario(string nombreUsuario) override;
+    vector<string> listarComentariosUsuario(string nombreUsuario); //override;
 
        //Devuelve un set con las respuestas DIRECTAS del comentario
-    set<Comentario> getRespuestas();
+    //set<Comentario> getRespuestas();
     void eliminarComentario(string mensaje);
 
 
@@ -42,15 +45,14 @@ private:
     //vector<Comentario> Comentarios; //En casos desesperados activar
 
 
-
+    Usuario* getUsuarioComentario(string texto);
     vector<string> HacerListComentarios(Comentario* Comentario , vector<string> Vec);
-    static ControlComentario* instance;
     //string Comentador;
     Usuario* UsuarioSeleccionado;
     //string Prod;
     Producto* ProdSeleccionado;
     Comentario* AResponder;
 
-    ControlUsuario* ContrUsua = ControlUsuario::getInstance();
-    ControlPromocion* ContrProm = ControlPromocion::getInstance();
+    ControlUsuario* ContrUsua; // = ControlUsuario::getInstance()
+    ControlPromocion* ContrProm ; //= ControlPromocion::getInstance()
 };

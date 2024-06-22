@@ -6,6 +6,7 @@
 #include "DTProducto.h"
 #include "DTInfoProducto.h"
 #include "Categoria.h"
+#include "Comentario.h"
 
 using namespace std;
 

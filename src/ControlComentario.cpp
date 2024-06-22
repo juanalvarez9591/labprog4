@@ -6,7 +6,7 @@
 //Funciones basicas controlador
 ControlComentario* ControlComentario::instance = nullptr;
 
-ControlUsuario* ControlComentario::getInstance() {
+ControlComentario* ControlComentario::getInstance() {
     if (instance == nullptr) {
         instance = new ControlComentario();
         this->ContrUsua = ControlUsuario::getInstance();
@@ -28,10 +28,12 @@ ControlComentario::~ControlComentario() {
 
 //Borrar comentario
 
-vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
-    vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
-    return comentarios;
-}
+vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
+    vector<Comentario*> comentariosUsuario = getUsuario(nombreUsuario)->getComentarios();
+    vector<string> comentarios;
+    for(auto iter = comentariosUsuario.begin(); iter != comentariosUsuario.end(); ++iter) {
+        comentarios.push_back(iter->getTexto());
+    }
 
 Usuario* ControlComentario::getUsuarioComentario(string texto) {
     //ControlUsuario* ControlUsuario = ControlUsuario::getInstance();

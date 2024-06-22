@@ -3,6 +3,7 @@
 
 #include <string>
 #include "DTFecha.h"
+#include "Comentario.h"
 using namespace std;
 
 class Usuario {

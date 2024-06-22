@@ -2,6 +2,9 @@
 #define ICONTROL_COMENTARIO_H
 
 #include <string>
+#include <vector>
+#include "DTFecha.h"
+#include "DTProducto.h"
 
 class IControlComentario {
 public:
@@ -19,3 +22,5 @@ public:
 
     virtual ~IControlComentario() {}
 };
+
+#endif
