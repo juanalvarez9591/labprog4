@@ -46,7 +46,7 @@ void Comentario::borrarRespuestas() {
 //PRE: el mensaje buscado NO es el actual
 bool Comentario::eliminarNodoPosterior(string mensaje) {
 		Comentario *aBorrar;
-		bool borrado;
+		bool borrado = false;
 		if ((this->Sigcomentario != NULL) && (this->Sigcomentario->texto == mensaje)) {
 			aBorrar = this->Sigcomentario;
 			this->Sigcomentario = this->Sigcomentario->Sigcomentario;
@@ -58,8 +58,11 @@ bool Comentario::eliminarNodoPosterior(string mensaje) {
 			aBorrar->borrarRespuestas();
 			borrado = true;
 		} else {
-			borrado = this->Sigcomentario->eliminarNodoPosterior(mensaje);
-			if(!borrado) {
+			if (this->Sigcomentario != nullptr){
+				borrado = this->Sigcomentario->eliminarNodoPosterior(mensaje);
+			}
+			
+			if((!borrado) && (this->Sigcomentario != nullptr)) {
 				borrado = this->Respuesta->eliminarNodoPosterior(mensaje);
 			}
 		}

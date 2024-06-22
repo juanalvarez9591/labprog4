@@ -37,7 +37,6 @@ vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario)
 }
 
 Usuario* ControlComentario::getUsuarioComentario(string texto) {
-    //ControlUsuario* ControlUsuario = ControlUsuario::getInstance();
     vector<string> nicks = this->ContrUsua->listarNicknamesUsuarios();
     Usuario* aEncontrar = nullptr;
     auto iterNick = nicks.begin();
@@ -58,33 +57,43 @@ Usuario* ControlComentario::getUsuarioComentario(string texto) {
 void ControlComentario::eliminarComentario(string mensaje) {
     Comentario *aBorrar;
     Usuario* autor = getUsuarioComentario(mensaje); //Guardamos el que escribió el comentario
+    if (autor != nullptr){
+        cout << "encontre: " << autor->getNickname() << endl;
+    }
+    
     bool borrado = false;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
     auto iterProd = Productos.begin();
         while(iterProd != Productos.end() && !borrado) {
+            cout << "Revisando: " << iterProd->getNombre() << endl;
             Comentario *iterComent = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
-            if (iterComent->getTexto() == mensaje) {
-                autor->olvidarComentario(ContrProm->getProductoByID(iterProd->getId())->GetComentarios());
-                Comentario* Primero = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
-                ContrProm->getProductoByID(iterProd->getId())->SetComentario(Primero->getSig());
-                Primero->borrarRespuestas();
+            if (iterComent == nullptr){
+                //return true   //posible transformacion de la funcion a bool
+            }else if (iterComent->getTexto() == mensaje) {
+                aBorrar = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
+                autor->olvidarComentario(aBorrar);
+                ContrProm->getProductoByID(iterProd->getId())->SetComentario(aBorrar->getSig());
+                aBorrar->borrarRespuestas();
 
                 borrado = true;
-            }else if (iterComent->getSig()->getTexto() == mensaje){
+            }else if ((iterComent->getSig() != nullptr) && (iterComent->getSig()->getTexto() == mensaje)){
                 aBorrar = iterComent->getSig();
                 iterComent->setSig(iterComent->getSig()->getSig());
                 autor->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
-            }else if (iterComent->getResp()->getTexto() == mensaje) {
+            }else if ((iterComent->getResp() != nullptr) && (iterComent->getResp()->getTexto() == mensaje)) {
                 aBorrar = iterComent->getResp();
                 iterComent->setRes(iterComent->getResp()->getSig());
                 autor->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
             }else {
-                borrado = iterComent->getSig()->eliminarNodoPosterior(mensaje);
-                if(!borrado) {
+                if (iterComent->getSig() != nullptr){
+                    borrado = iterComent->getSig()->eliminarNodoPosterior(mensaje);
+                }
+                
+                if((!borrado) && (iterComent->getResp() != nullptr)) {
                     borrado = iterComent->getResp()->eliminarNodoPosterior(mensaje);
                 }
             }
