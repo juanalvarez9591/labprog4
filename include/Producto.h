@@ -7,6 +7,7 @@
 #include "DTInfoProducto.h"
 #include "Categoria.h"
 #include "Comentario.h"
+#include "DTDatosProducto.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ public:
     Vendedor* getVendedor() const;
     DTProducto toDTProducto() const;
     DTInfoProducto toDTInfoProducto() const;
+    DTDatosProducto toDTDatosProducto() const;
     ~Producto();
 
     Comentario* GetComentarios();

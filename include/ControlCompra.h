@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "DTDetallesCompra.h"
 #include "DTInfoProducto.h"
 #include "Producto.h"
@@ -12,29 +13,37 @@
 #include "DTDetalleProducto.h"
 #include "IControlCompra.h"
 #include "ControlPromocion.h"
+#include "ControlUsuario.h"
+#include "ControlFecha.h"
+
+
 using namespace std;
 
 class ControlCompra : public IControlCompra {
 
 private:
     ControlCompra();
-    string clienteEnMemoria;
-    //vector<DTDetalleProducto> Lista;
-    //DTFecha fechaActual;
-    //float costo;
+    Cliente* clienteEnMemoria;
     static ControlCompra* instance;
-    vector <Compra> compras;
-    
+    unordered_map<int, Compra> compras;
+   // vector<DTDetalleProducto> dataProducto;
+    ControlUsuario* controlUsuario;
+    ControlFecha* controlFecha;
+    ControlPromocion* controlPromocion;
+    Compra* compraEnProceso;
 
 public:
      static ControlCompra* getInstance();
      void seleccionarCliente(string nombreCliente);
-     vector <DTInfoProducto> mostrarDatosProducto() ;
-     void agregarProducto(int, int) ;
-     DTDetallesCompra DetallesCompra() ;
-     void ConfirmarCompra();
+     void agregarCantidad(int codigo, int cantidad);
+     bool confirmarCompra();
+     vector <DTDetalleProducto> getDataProducto();
+    // void borrarDataProducto();
+     vector <DTDatosProducto> mostrarDatosProducto();
      //virtual ~IControlCompra(){};
-     //vector<string> listarClientes();
+     vector<string> listarClientes();
+     void olvidarCompra();
+    float calcularPrecioCompra(vector<DTDetalleProducto> parCompra);
 
 };
 

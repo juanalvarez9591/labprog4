@@ -21,10 +21,9 @@ using namespace std;
 class ControlPromocion : public IControlPromocion {
 public:
     static ControlPromocion* getInstance();
-
     set<string> listarNicknameVendedores();
     bool elegirVendedor(string nickVendedor);
-    void ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
+    bool ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
     vector<DTProducto> listarProductos();
     DTInfoProducto verInfoProducto(int idProducto);
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
@@ -33,15 +32,20 @@ public:
     void confirmarPromocion();
     vector<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
+    bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
-    vector <DTInfoProducto> infoProductos();
+    vector<DTDatosProducto> dataProductos();
+    Producto* getProductoByID(int idProducto);
+    const vector<Requisitos>& obtenerRequisitosPromocion(const string nombre);
+    float calcularPrecioTotal(vector<DTDetalleProducto> parCompra);
+
 private:
     ControlPromocion();
     static ControlPromocion* instance;
     ControlUsuario* controlUsuario;
     ControlFecha* controlFecha;
     unordered_map<int, Producto> productos;
-    unordered_map<std::string, Promocion> promociones;
+    unordered_map<string, Promocion> promociones;
     Vendedor* vendedorEnMemoria;
     Promocion promocionEnMemoria;
 };

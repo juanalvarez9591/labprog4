@@ -1,4 +1,5 @@
 #include "ControlUsuario.h"
+#include <sstream>
 #include "Comentario.h"
 #include "Producto.h"
 
@@ -71,6 +72,7 @@ vector<string> ControlUsuario::listarNicknamesClientes() {
 
     return nicknames;
 }
+
 
 vector<string> ControlUsuario::listarNicknamesVendedores() {
     vector<string> nicknames;

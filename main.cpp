@@ -18,7 +18,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     vector<string> vendedores = {"vendedor1", "vendedor2"};
     controlSuscripciones->suscribirACliente(vendedores, "cliente1");
 
-    controlPromocion->elegirVendedor("vendedor1");
+    controlPromocion->elegirVendedor("vendedor1");  
     controlPromocion->ingresarProducto("Producto 1", "Descripcion 1", 1000, 10, "electrodomesticos");
     controlPromocion->ingresarProducto("Producto 2", "Descripcion 2", 2000, 20, "electrodomesticos");
     controlPromocion->ingresarDatosPromocion("Promocion 1", "Descripcion 1", DTFecha(1, 1, 2022), 10);
@@ -128,8 +128,11 @@ void promocionesHandler(IControlPromocion* controlPromocion) {
                 cin >> stock;
                 cout << "Ingresa la categoria del producto: ";
                 cin >> categoria;
-                controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria);
-                cout << "Producto ingresado exitosamente" << endl;
+                if (controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria)) {
+                    cout << "Producto ingresado exitosamente" << endl;
+                } else {
+                    cout << "Error al ingresar el producto, ya se encuentra en otra promocion" << endl;
+                }
                 break;
             case '5':
                 cout << "Ingresa el ID del producto: ";
@@ -301,7 +304,7 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
                 cout << "Ingresa los nicknames de los vendedores (ingresa 'fin' para terminar):" << endl;
-                cin.ignore(); // Add this line to clear the input buffer
+                cin.ignore(); 
                 while (getline(cin, vendedor) && vendedor != "fin") {
                     if (vendedor.find(' ') != string::npos) {
                         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
@@ -351,35 +354,109 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
 }
 
 
-void realizarCompra(IControlCompra* controlCompra, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
+void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra) {
     string nickname;
-    vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
-    
-    
+    vector<string> nicknamesClientes = controlCompra->listarClientes();
+    vector <DTDatosProducto> datosProducto = controlCompra->mostrarDatosProducto();
+    vector<DTDetalleProducto> parCompra;  
+    char choice;
+    char confirmar;
+    int codigo;
+    int cantidad;
+    DTFecha currentDate = controlFecha->getFechaActual();
 
-    cout << "Los clientes son:" << endl;
     
-    for (const string& nickname : nicknamesClientes) {
-        cout << "- " << nickname << endl;
-    }// hasta acá sería listarClientes():set(string)
+    cout << "Los clientes son:" << endl;
+    for (auto it = nicknamesClientes.begin(); it != nicknamesClientes.end(); ++it){
+        cout << "-" << *it << endl;
+
+    }
+    
     cout << "Escriba el nombre del cliente que desea elegir: "; 
     cin.ignore();
     getline(cin, nickname);
     if (nickname.find(' ') != string::npos) {
         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
         return;
-    } // hasta acá sería seleccionarCliente(nickname:string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra.
+    } 
+
+    controlCompra->seleccionarCliente(nickname);//ACÁ SE CREA LA INSTANCIA DE COMPRA Y SE GUARDA EN MEMORIA EN EL CONTROLADOR
+
+    // hasta acá sería seleccionarCliente(string), cuando se confirme la compra, se deberá crear una relación entre el cliente seleccionado y la compra????
 
     cout << "Los productos son: " << endl;
+    for (auto it = datosProducto.begin(); it != datosProducto.end(); ++it){
+         
+       cout << it->toString() << endl;
+    } // hasta acá mostrarDatosProducto():set(DTDatosProducto)
 
-    //crear funcion en controlPromocion q devuelva un vector con DTInfoProducto
-    
+    cout << "¿Desea agregar un producto a la compra? (y/n): ";
+    cin >> choice;
+    if (choice != 'y'){
+        return;
+        }
+    while (choice == 'y'){
+        cout << "Ingrese el código del producto que desea comprar: ";
+        cin >> codigo;
+        cout << codigo << endl;//
+        for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
+                if (it->getCodigoProducto() == codigo) {
+                 cout << "ERROR: Producto ya agregado a la compra anteriormente." << endl;
+                 return;
+                }
+        }
+        cout << "Ingrese la cantidad que desea comprar: ";
+        cin >> cantidad; 
+        bool encontrado = false;
+        auto it = datosProducto.begin();
+        while (!encontrado && it != datosProducto.end()){
+            if (codigo == it->getCodigo()){
+                encontrado = true;
+                if (cantidad > it->getStock()){
+                    cout << "La cantidad no puede exceder el stock." << endl;
+                    return;
+                }
+            }
+            ++it;
 
-    
-    
+        }
+        controlCompra->agregarCantidad(codigo, cantidad);
+        parCompra.push_back(DTDetalleProducto(codigo, cantidad));
+        cout << "¿Desea agregar un producto a la compra? (y/n): ";
+        cin >> choice;
+    } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int), le cambio el nombre a agregarCantidad para que tenga más sentido
+  
+    cout << "Detalle de la compra: " << endl;
+    cout << "Fecha: " << currentDate.getString() << endl;
+
+    for (auto it = parCompra.begin(); it != parCompra.end(); ++it){
+        for (auto itProducto = datosProducto.begin(); itProducto != datosProducto.end(); ++itProducto) {
+            if (it->getCodigoProducto() == itProducto->getCodigo()) {
+                cout << "Producto: " << itProducto->getNombre() << ", Cantidad: " << it->getCantProducto() << ", Precio por unidad: " << itProducto->getPrecio() << endl;
+                break;
+            }
+        }
+    }
+   
+    //esto no anda
+    float precioTotal = controlCompra->calcularPrecioCompra(parCompra);
+
+    cout << "Precio total luego de descuentos: " << to_string(precioTotal) << endl;
+    cout << "Desea confirmar la compra? (y/n): ";
+    cin >> confirmar;
+    if (confirmar != 'y'){
+         controlCompra->olvidarCompra();
+        return;
+    } else {
+        bool aux = controlCompra->confirmarCompra(); 
+        if (aux){
+            cout << "Compra realizada con éxito!" << endl;
+        } else{
+            cout << "ERROR: No se pudo realizar la compra." << endl;
+        }
 
 
-
+    }
 
 
 }
@@ -589,7 +666,7 @@ int main() {
     IControlCompra *controlCompra = factory->getControlCompra();
     IControlComentario *controlComentario = factory->getControlComentario();
 
-   // realizarCompra(controlCompra, controlSuscripciones, controlUsuario);    
+
 
     do {
         system("clear");
@@ -628,6 +705,8 @@ int main() {
             case '8':
                 cout << "Saliendo..." << endl;
                 break;
+            case '7':
+                realizarCompra(controlFecha, controlCompra);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }

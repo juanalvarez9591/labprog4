@@ -1,4 +1,5 @@
 #include "Producto.h"
+#include <iostream>
 #include "Comentario.h"
 
 Producto::Producto() {
@@ -23,6 +24,7 @@ Producto::Producto(string nombre, string descripcion, int id, int stock, int pre
 }
 
 string Producto::getNombre() {
+    
     return this->nombre;
 }
 
@@ -64,6 +66,11 @@ void Producto::SetComentario(Comentario* Nuevaraiz) {
 
 DTInfoProducto Producto::toDTInfoProducto() const {
     return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
+}
+DTDatosProducto Producto::toDTDatosProducto() const{
+    return DTDatosProducto(this->stock, this->nombre, this->precio, this->id);
+
+
 }
 
 Producto::~Producto() {

@@ -11,7 +11,7 @@ using namespace std;
 
 class Compra {
 public:
-    Compra(DTFecha fechaCompra, int costo, Cliente* cliente);
+    Compra(DTFecha fechaCompra, Cliente* cliente);
     void agregarCantidad(Cantidad* cantidad);
     void eliminarCantidad(Cantidad* cantidad);
     vector<Cantidad*> getCantidades();
@@ -19,8 +19,8 @@ public:
 private:
     DTFecha fechaCompra;
     int costo;
-    Cliente* cliente;
     vector<Cantidad*> cantidades;
+    Cliente* cliente;
 };
 
 #endif

@@ -1,9 +1,9 @@
 #include "Compra.h"
 
-Compra::Compra(DTFecha fechaCompra, int costo, Cliente* cliente) {
+Compra::Compra(DTFecha fechaCompra, Cliente* cliente) {
     this->fechaCompra = fechaCompra;
-    this->costo = costo;
-    this->cliente = cliente;
+    this->costo = 0;
+      this->cliente = cliente;
     this->cantidades = vector<Cantidad*>();
 }
 
