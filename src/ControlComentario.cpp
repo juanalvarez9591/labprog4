@@ -9,8 +9,8 @@ ControlComentario* ControlComentario::instance = nullptr;
 ControlComentario* ControlComentario::getInstance() {
     if (instance == nullptr) {
         instance = new ControlComentario();
-        this->ContrUsua = ControlUsuario::getInstance();
-        this->ContrProm = ControlPromocion::getInstance();
+        ContrUsua = ControlUsuario::getInstance();
+        ContrProm = ControlPromocion::getInstance();
     }
     return instance;
 }

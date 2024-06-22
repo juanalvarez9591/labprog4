@@ -14,7 +14,7 @@
 using namespace std;
 
 
-class ControlComentario : public IControlUsuario {
+class ControlComentario : public IControlComentario {
 public:
 //Borrar Comentario
     static ControlComentario* getInstance();
