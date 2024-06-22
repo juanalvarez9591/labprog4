@@ -51,7 +51,7 @@ void Promocion::eliminarRequisitos(Requisitos requisito) {
     }
 }
 
-vector<Requisitos> Promocion::getRequisitos() {
+ const vector<Requisitos>& Promocion::getRequisitos() const {
     return requisitos;
 }
 

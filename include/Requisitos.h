@@ -12,7 +12,7 @@ public:
     int getMinimo();
     void setMinimo(int minimo);
 
-    Producto* getProducto();
+    Producto* getProducto() const;
     void setProducto(Producto* producto);
 
     bool operator==(const Requisitos& other) const;
