@@ -7,13 +7,17 @@
 
 using namespace std;
 
-class DTDataVendedor : public DTInfoUsuarios {
+class DTDataVendedor {
 private:
-    int rut;
+
+    string nickname, rut;
+    DTFecha fechaNacimiento;
 
 public:
-    DTDataVendedor(string nickname, DTFecha fecha, int rut);
-    int getRut();
+    DTDataVendedor(string nickname, DTFecha fechaNacimiento, string rut);
+    string getRut() const;
+    string getNickname() const;
+    DTFecha getFechaNacimiento() const;
 };
 
 #endif

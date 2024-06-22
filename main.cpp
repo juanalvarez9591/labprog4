@@ -8,12 +8,39 @@
 #include "DTInfoProducto.h"
 #include "DTPromocion.h"
 #include "DTProducto.h"
+#include <algorithm>
 using namespace std;
 
 void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
-    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), 123456789012);
-    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), 234567890123);
-    controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
+    /*US1 V "ana23", "qwer1234", DTFecha(15,05,1988),  "212345678001"
+    US2 V "carlos78", "asdfghj", DTFecha(18,06,1986),    "356789012345"
+    US3 V "diegom", "zxcvbn", DTFecha(28,07,1993),  "190123456789"
+    US6 V "maria01", "5tgb6yhn", DTFecha(25,03,1985),    "321098765432"
+    US10 V "sofia25", "1234asdf", DTFecha(07,12,1983),  "445678901234"
+
+    US4 C "juan87", "1qaz2wsx", DTFecha(20,10,1992), 456, "Av. 18 de Julio",  "Melo"
+    US5 C "laura", "3edc4rfv", DTFecha(22,09,1979), 1617, "Rondeau",  "Montevideo"
+    US7 C "natalia", "poiuyt", DTFecha(14,04,1982), 2021, "Paysandu",  "Salto"
+    US8 C "pablo10", "lkjhgv", DTFecha(30,11,1995),  1819, "Av. Rivera", "Mercedes"
+    US9 C "roberto", "mnbvcx", DTFecha(12,08,1990), 1011, "Av. Brasil",  "Montevideo"*/
+
+    controlUsuario->darDeAltaVendedor("ana23", "qwer1234", DTFecha(15,5, 1988), "212345678001");
+    controlUsuario->darDeAltaVendedor("carlos78", "asdfghj", DTFecha(18,6,1986), "356789012345");
+    controlUsuario->darDeAltaVendedor("diegom", "zxcvbn", DTFecha(28,7,1993),  "190123456789");
+    controlUsuario->darDeAltaVendedor("maria01", "5tgb6yhn", DTFecha(25,3,1985),"321098765432");
+    controlUsuario->darDeAltaVendedor("sofia25", "1234asdf", DTFecha(7,12,1983),  "445678901234");
+    controlUsuario->darDeAltaCliente("juan87", "1qaz2wsx", DTFecha(20,10,1992), 456, "Av. 18 de Julio",  "Melo");
+    controlUsuario->darDeAltaCliente("laura", "3edc4rfv", DTFecha(22,9,1979), 1617, "Rondeau",  "Montevideo");
+    controlUsuario->darDeAltaCliente("natalia", "poiuyt", DTFecha(14,4,1982), 2021, "Paysandu",  "Salto");
+    controlUsuario->darDeAltaCliente("pablo10", "lkjhgv", DTFecha(30,11,1995),  1819, "Av. Rivera", "Mercedes");
+    controlUsuario->darDeAltaCliente("roberto", "mnbvcx", DTFecha(12,8,1990), 1011, "Av. Brasil",  "Montevideo");
+
+
+
+
+    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), "123456789012");
+    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), "234567890123");
+    controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), 123, "18 de Julio ", "ciudad1");
 
     vector<string> vendedores = {"vendedor1", "vendedor2"};
     controlSuscripciones->suscribirACliente(vendedores, "cliente1");
@@ -26,6 +53,108 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlPromocion->agregarProductoPromocion(2, 1);
     controlPromocion->confirmarPromocion();
     cout << "Datos de prueba cargados exitosamente" << endl;
+}
+
+void altaDeUsuario(IControlUsuario* controlUsuario){
+     char choice;
+    string nickname, password, calle, ciudad, rut;
+    int dia, mes, anio, nroPuerta;
+
+    
+        cout << "Eliga una opción:" << endl;
+        cout << "1. Dar de alta cliente" << endl;
+        cout << "2. Dar de alta vendedor" << endl;
+       
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                cout << "Ingresa el nickname: ";
+                cin.ignore();
+                getline(cin, nickname);
+                if (nickname.find(' ') != string::npos) {
+                    cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
+                    break;
+                }
+                cout << "Ingresa la contraseña: ";
+                cin >> password;
+                if (password.length() < 6) {
+                    cout << "La contraseña debe tener almenos 6 caracteres. Intenta de nuevo." << endl;
+                    break;
+                }
+                cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
+                cin >> dia >> mes >> anio;
+                cout << "Ingresa la calle: ";
+                cin.ignore();
+                getline(cin, calle);
+                cout << "Ingresa el número de puerta: ";
+                cin >> nroPuerta;
+                cout << "Ingresa la ciudad: ";
+                getline(cin, ciudad);
+                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio),nroPuerta, calle, ciudad)) {
+                    cout << "Cliente dado de alta exitosamente" << endl;
+                } else {
+                    cout << "ERROR: nickname ya registrado en el sistema." << endl;
+                }
+                break;
+            case '2':
+                cout << "Ingresa el nickname: ";
+                cin >> nickname;
+                if (nickname.find(' ') != string::npos) {
+                    cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
+                    break;
+                }
+                cout << "Ingresa la contraseña: ";
+                cin >> password;
+                if (password.length() < 6) {
+                    cout << "La contraseña debe tener almenos 6 caracteres. Intenta de nuevo." << endl;
+                    break;
+                }
+                cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
+                cin >> dia >> mes >> anio;
+                cout << "Ingresa el RUT (12 digitos): ";
+                cin >> rut;
+                if (rut.length() != 12 || !all_of(rut.begin(), rut.end(), ::isdigit)) {
+                cout << "El RUT debe tener exactamente 12 dígitos y solo contener números. Intenta de nuevo." << endl;
+                break;
+                }
+                if (controlUsuario->darDeAltaVendedor(nickname, password, DTFecha(dia, mes, anio), rut)) {
+                    cout << "Vendedor dado de alta exitosamente" << endl;
+                } else {
+                    cout << "ERROR: nickname ya registrado en el sistema." << endl;
+                }
+                break;  
+                
+        }
+        
+
+}
+
+void listadoDeUsuarios(IControlUsuario* controlUsuario){
+    vector<DTDataCliente> dataCliente = controlUsuario->listarInfoClientes();
+    vector<DTDataVendedor> dataVendedor = controlUsuario->listarInfoVendedores();
+    
+    cout << "Los usuarios son: " << endl;
+
+    for (vector<DTDataCliente>::iterator it = dataCliente.begin(); it != dataCliente.end(); ++it){
+        cout << "Nombre: " << it->getNickname() << endl;
+        cout << "Fecha de nacimiento: " << it->getFechaNacimiento().getString() << endl;
+        cout << "Ciudad: " << it-> getCiudad() <<  endl;
+        cout << "Calle: " << it->getCalle() << endl;
+        cout << "Número de puerta: " << it->getNroPuerta() << endl;
+        cout << endl;
+                
+
+    }
+
+    for (vector<DTDataVendedor>::iterator it = dataVendedor.begin(); it != dataVendedor.end(); ++it){
+        cout << "Nombre: " << it->getNickname() << endl;
+        cout << "Fecha de nacimiento: " << it->getFechaNacimiento().getString() << endl;
+        cout << "RUT: " << it->getRut() << endl;
+        cout << endl;
+
+    }
+
 }
 
 void promocionesHandler(IControlPromocion* controlPromocion) {
@@ -408,8 +537,8 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra) 
 
 void usuarioHandler(IControlUsuario* controlUsuario) {
     char choice;
-    string nickname, password, direccion, ciudad;
-    int dia, mes, anio, rut;
+    string nickname, password, calle, ciudad, rut;
+    int dia, mes, anio, nroPuerta;
 
     do {
         cout << "Usuarios:" << endl;
@@ -439,12 +568,14 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
                 }
                 cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
                 cin >> dia >> mes >> anio;
-                cout << "Ingresa la direccion: ";
+                cout << "Ingresa la calle: ";
                 cin.ignore();
-                getline(cin, direccion);
+                getline(cin, calle);
+                cout << "Ingresa el número de puerta: ";
+                cin >> nroPuerta;
                 cout << "Ingresa la ciudad: ";
                 getline(cin, ciudad);
-                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio), direccion, ciudad)) {
+                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio),nroPuerta,  calle, ciudad)) {
                     cout << "Cliente dado de alta exitosamente" << endl;
                 } else {
                     cout << "Error al dar de alta al cliente" << endl;
@@ -467,9 +598,9 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
                 cin >> dia >> mes >> anio;
                 cout << "Ingresa el RUT (12 digitos): ";
                 cin >> rut;
-                if (rut < 10000000 || rut > 99999999) {
-                    cout << "El RUT debe tener exactamente 12 digitos. Intenta de nuevo." << endl;
-                    break;
+                if (rut.length() != 12 || !all_of(rut.begin(), rut.end(), ::isdigit)) {
+                cout << "El RUT debe tener exactamente 12 dígitos y solo contener números. Intenta de nuevo." << endl;
+                break;
                 }
                 if (controlUsuario->darDeAltaVendedor(nickname, password, DTFecha(dia, mes, anio), rut)) {
                     cout << "Vendedor dado de alta exitosamente" << endl;
@@ -538,6 +669,8 @@ int main() {
         cout << "5. Cargar datos de prueba" << endl;
         cout << "6. Salir" << endl;
         cout << "7. Realizar Compra" << endl;
+        cout << "8. Alta de Usuario" << endl;
+        cout << "9. Listado de Usuarios" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -562,6 +695,12 @@ int main() {
                 break;
             case '7':
                 realizarCompra(controlFecha, controlCompra);
+                break;
+            case '8':
+                altaDeUsuario(controlUsuario);
+                break;
+            case '9':
+                listadoDeUsuarios(controlUsuario);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }

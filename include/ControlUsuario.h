@@ -6,14 +6,15 @@
 #include "Usuario.h"
 #include "Cliente.h"
 #include "DTFecha.h"
+
 #include <vector>
 using namespace std;
 
 class ControlUsuario : public IControlUsuario {
 public:
     static ControlUsuario* getInstance();
-    bool darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) override;
-    bool darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) override;
+    bool darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta,  string calle, string ciudad) override;
+    bool darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, string rut) override;
     vector<string> listarNicknamesUsuarios() override;
     vector<string> listarNicknamesClientes() override;
     vector<string> listarNicknamesVendedores() override;
@@ -21,6 +22,8 @@ public:
     Vendedor* getVendedor(string nickname);
     Cliente* getCliente(string nickname);
     vector<Vendedor> getVendedores();
+    vector<DTDataCliente> listarInfoClientes() override;
+    vector<DTDataVendedor> listarInfoVendedores() override;
     virtual ~ControlUsuario();
 
 private:

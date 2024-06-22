@@ -2,20 +2,31 @@
 #include "../include/DTDataCliente.h"
 
 
-DTDataCliente::DTDataCliente(string nickname, DTFecha fecha, string calle, string ciudad, int nroPuerta) : DTInfoUsuarios(nickname, fecha){
-    this-> calle = calle;
+DTDataCliente::DTDataCliente(string nickname, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {
+    this-> nickname = nickname;
     this-> ciudad = ciudad;
-    this-> nroPuerta = nroPuerta;
+    this-> fechaNacimiento = fechaNacimiento;
+    this-> calle = calle;
+    this->nroPuerta = nroPuerta;
+    
 
 }
-string DTDataCliente::getCalle(){
+string DTDataCliente::getCalle() const{
     return this->calle;
 
 }
 
-string DTDataCliente::getCiudad(){
+string DTDataCliente::getCiudad() const{
     return this->ciudad;
 }
-int DTDataCliente::getNroPuerta(){
-    return this->nroPuerta;
+string DTDataCliente::getNickname() const{
+    return this->nickname;
+}
+
+DTFecha DTDataCliente::getFechaNacimiento() const{
+    return this-> fechaNacimiento;
+}
+
+int DTDataCliente::getNroPuerta() const {
+    return this-> nroPuerta;
 }

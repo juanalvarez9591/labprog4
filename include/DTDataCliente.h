@@ -3,18 +3,20 @@
 
 #include "DTInfoUsuarios.h"
 
-class DTDataCliente : public DTInfoUsuarios
+class DTDataCliente 
 {
 private:
-    string calle;
-    string ciudad;
+    string calle, ciudad, nickname;
     int nroPuerta;
+    DTFecha fechaNacimiento;
 
 public:
-    DTDataCliente(string nickname, DTFecha fecha, string calle, string ciudad, int nroPuerta);
-    string getCalle();
-    string getCiudad();
-    int getNroPuerta();
+    DTDataCliente(string nickname, DTFecha fechaNacimiento, int nroPuerta,  string calle, string ciudad);
+    string getCalle() const;
+    string getCiudad() const;
+    string getNickname() const;
+    int getNroPuerta() const; 
+    DTFecha getFechaNacimiento() const;
 };
 
 #endif 

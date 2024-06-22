@@ -14,17 +14,17 @@ ControlUsuario::ControlUsuario() {
     vendedores = vector<Vendedor>();
 }
 
-bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) {
+bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {
     if (nicknameRepetido(nickname)) {
         return false;
     }
 
-    Cliente cliente(nickname, password, fechaNacimiento, direccion, ciudad);
+    Cliente cliente(nickname, password, fechaNacimiento, nroPuerta, calle, ciudad);
     clientes.push_back(cliente);
     return true;
 }
 
-bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) {
+bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, string rut) {
     if (nicknameRepetido(nickname)) {
         return false;
     }
@@ -118,6 +118,46 @@ Cliente* ControlUsuario::getCliente(string nickname) {
 vector<Vendedor> ControlUsuario::getVendedores() {
     return vendedores;
 }
+
+
+vector<DTDataCliente> ControlUsuario::listarInfoClientes() {
+    vector<DTDataCliente> dataClientes;
+    string calle, ciudad, nickname;
+    int nroPuerta;
+    DTFecha fechaNacimiento;
+    for (auto it = clientes.begin(); it != clientes.end(); ++it){
+        nroPuerta = it->getNroPuerta();
+        calle = it->getCalle();
+        ciudad = it->getCiudad();
+        nickname = it->getNickname();
+        fechaNacimiento = it->getFechaNacimiento();
+        dataClientes.push_back(DTDataCliente(nickname, fechaNacimiento, nroPuerta, calle, ciudad));
+    }
+
+    return dataClientes;
+
+
+}
+
+vector<DTDataVendedor> ControlUsuario::listarInfoVendedores() {
+    vector<DTDataVendedor> dataVendedores;
+    string  nickname;
+    DTFecha fechaNacimiento;
+    string rut;
+    for (auto it = vendedores.begin(); it !=vendedores.end(); ++it){
+        nickname = it->getNickname();
+        fechaNacimiento = it->getFechaNacimiento();
+        rut = it->getRut();
+        dataVendedores.push_back(DTDataVendedor(nickname, fechaNacimiento, rut));
+    }
+
+    return dataVendedores;
+
+}
+
+
+
+
 
 ControlUsuario::~ControlUsuario() {
     // no hay que hacer nada aca, cuando se llama a este destructor por default

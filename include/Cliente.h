@@ -10,14 +10,18 @@ using namespace std;
 
 class Cliente: public Usuario, public IObserver {
 public:
-    Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
+    Cliente(string nickname, string password, DTFecha fechaNacimiento,int nroPuerta, string calle, string ciudad);
     void update(DTNotificacion notificacion) override;
-    string getNickname();
+    string getNickname() const;
+    DTFecha getFechaNacimiento() const;
+    string getCalle() const;
+    string getCiudad() const;
+    int getNroPuerta() const;
     vector<DTNotificacion> listarNotificaciones();
     void limpiarNotificaciones();
 private:
-    string direccion;
-    string ciudad;
+    string ciudad, calle;
+    int nroPuerta;
     vector<DTNotificacion> notificaciones;
 };
 #endif
