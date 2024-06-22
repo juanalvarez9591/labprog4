@@ -34,3 +34,4 @@ string Cliente::getCiudad() const {
 int Cliente::getNroPuerta() const {
         return this->nroPuerta;
     }
+

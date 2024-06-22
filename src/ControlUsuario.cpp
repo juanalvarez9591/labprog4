@@ -1,5 +1,9 @@
 #include "ControlUsuario.h"
-#include <sstream>
+#include "ControlPromocion.h"
+#include "ControlCompra.h"
+#include "DTExpCliente.h"
+#include "DTExpVendedor.h"
+
 ControlUsuario* ControlUsuario::instance = nullptr;
 
 ControlUsuario* ControlUsuario::getInstance() {
@@ -12,6 +16,34 @@ ControlUsuario* ControlUsuario::getInstance() {
 ControlUsuario::ControlUsuario() {
     clientes = vector<Cliente>();
     vendedores = vector<Vendedor>();
+    controlPromocion = ControlPromocion::getInstance();
+    controlCompra = ControlCompra::getInstance();
+}
+
+DTInfoUsuarios ControlUsuario::verExpedienteUsuario(string nickUsuario) {
+    Usuario* usuario = getUsuario(nickUsuario);
+    if (usuario == nullptr) {
+        return DTInfoUsuarios();
+    }
+
+    Cliente* cliente = dynamic_cast<Cliente*>(usuario);
+    if (cliente != nullptr) {
+        DTExpCliente expCliente = controlCompra->verComprasCliente(nickUsuario);
+        return expCliente;
+    }
+
+    Vendedor* vendedor = dynamic_cast<Vendedor*>(usuario);
+    if (vendedor != nullptr) {
+        vector<DTPromocion> promociones = controlPromocion->verPromocionesVendedor(nickUsuario);
+        vector<DTProducto> productos = controlPromocion->verProductosVendedor(nickUsuario);
+        return DTExpVendedor(vendedor->getNickname(),
+                                 vendedor->getFechaNacimiento(),
+                                 vendedor->getRut(),
+                                 promociones,
+                                 productos);
+    }
+
+    return DTInfoUsuarios();
 }
 
 bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {

@@ -1,3 +1,5 @@
+#include "DTDataCliente.h"
+
 
 #include "../include/DTDataCliente.h"
 
@@ -10,11 +12,18 @@ DTDataCliente::DTDataCliente(string nickname, DTFecha fechaNacimiento, int nroPu
     this->nroPuerta = nroPuerta;
     
 
+DTDataCliente::DTDataCliente(string nickname, DTFecha fecha, string direccion, string ciudad)
+        : DTInfoUsuarios(nickname, fecha), direccion(direccion), ciudad(ciudad) {
 }
+
 string DTDataCliente::getCalle() const{
     return this->calle;
 
+
+string DTDataCliente::getDireccion() {
+    return this->direccion;
 }
+
 
 string DTDataCliente::getCiudad() const{
     return this->ciudad;
@@ -29,4 +38,8 @@ DTFecha DTDataCliente::getFechaNacimiento() const{
 
 int DTDataCliente::getNroPuerta() const {
     return this-> nroPuerta;
+
+
+DTDataCliente::~DTDataCliente() {
+
 }

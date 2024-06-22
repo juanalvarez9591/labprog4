@@ -1,4 +1,3 @@
-/*
 #include "DTExpProducto.h"
 
 DTExpProducto::DTExpProducto(){
@@ -23,4 +22,4 @@ int DTExpProducto::getCantidadProducto(){
 string DTExpProducto::getNombreProducto(){
     return this-> nombreProducto;
 
-}*/
+}

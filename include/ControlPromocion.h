@@ -9,12 +9,14 @@
 #include "DTFecha.h"
 #include "DTPromocion.h"
 #include "DTInfoProducto.h"
-#include "ControlUsuario.h"
-#include "ControlFecha.h"
 #include "IControlPromocion.h"
 #include "Producto.h"
 #include "Promocion.h"
 #include "Requisitos.h"
+
+class ControlUsuario;
+class ControlFecha;
+class Vendedor;
 
 using namespace std;
 
@@ -27,17 +29,19 @@ public:
     vector<DTProducto> listarProductos();
     DTInfoProducto verInfoProducto(int idProducto);
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
-    vector<DTProducto> verProductosVendedor();
+    vector<DTProducto> verProductosVendedorEnMemoria();
+    vector<DTProducto> verProductosVendedor(string nickUsuario);
     void agregarProductoPromocion(int idProducto, int cantidad);
     void confirmarPromocion();
-    vector<DTPromocion> listarPromocionesVigentes();
+    set<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
-    vector<DTDatosProducto> dataProductos();
+    vector<DTDatosProducto> listarDataProductos();
     Producto* getProductoByID(int idProducto);
-    const vector<Requisitos>& obtenerRequisitosPromocion(const string nombre);
-    float calcularPrecioTotal(vector<DTDetalleProducto> parCompra);
+    vector<Requisitos> obtenerRequisitosPromocion(string nombre);
+    vector<DTPromocion> verPromocionesVendedor(string nickVendedor);
+    float calcularPrecioTotal(int codigoProducto, int cantidad);
 
 private:
     ControlPromocion();

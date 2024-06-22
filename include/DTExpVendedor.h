@@ -2,20 +2,22 @@
 #define DTEXP_VENDEDOR_H
 
 #include "DTDataVendedor.h"
-#include "DTProducto.h"
 #include "DTPromocion.h"
+#include "DTProducto.h"
 #include <vector>
-using namespace std;
+#include <string>
 
-class DTExpVendedor : public DTDataVendedor{
-
+class DTExpVendedor : public DTDataVendedor {
 private:
-    vector <DTPromocion> promociones;
-    vector <DTProducto> productos;
+    vector<DTPromocion> promociones;
+    vector<DTProducto> productos;
 
-public: 
-    DTExpVendedor(string nickname, DTFecha fecha, int rut, vector <DTPromocion> promociones, vector <DTProducto> productos);
-    vector <DTPromocion> getPromociones();
-    vector <DTProducto> getProductos();
-}
-#endif 
+public:
+    DTExpVendedor(string nickname, DTFecha fechaNacimiento, string rut,
+                  vector<DTPromocion> promociones, vector<DTProducto> productos);
+
+    vector<DTPromocion> getPromociones() const;
+    vector<DTProducto> getProductos() const;
+};
+
+#endif

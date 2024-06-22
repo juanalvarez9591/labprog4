@@ -5,6 +5,10 @@ Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, st
     this->rut = rut;
 }
 
+string Vendedor::getRut() {
+    return this->rut;
+}
+
 bool Vendedor::estaSuscrito(IObserver* observer) {
     for (int i = 0; i < this->observers.size(); i++) {
         if (this->observers[i] == observer) {
@@ -13,6 +17,7 @@ bool Vendedor::estaSuscrito(IObserver* observer) {
     }
     return false;
 }
+
 
 string Vendedor::getNickname() const {
     return this->nickname;
@@ -23,6 +28,7 @@ DTFecha Vendedor::getFechaNacimiento() const {
 string Vendedor::getRut() const {
     return this-> rut;
 }
+
 
 void Vendedor::agregarObserver(IObserver* observer) {
     this->observers.push_back(observer);

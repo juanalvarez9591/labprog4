@@ -1,4 +1,4 @@
-#include "../include/DTProducto.h"
+#include "DTProducto.h"
 
 DTProducto::DTProducto(string Nombre, int Id) {
     this->Nombre = Nombre;

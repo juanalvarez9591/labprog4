@@ -10,6 +10,7 @@ using namespace std;
 class DTDataVendedor {
 private:
 
+
     string nickname, rut;
     DTFecha fechaNacimiento;
 
@@ -18,6 +19,7 @@ public:
     string getRut() const;
     string getNickname() const;
     DTFecha getFechaNacimiento() const;
+
 };
 
 #endif

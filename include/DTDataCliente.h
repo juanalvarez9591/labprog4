@@ -2,6 +2,7 @@
 #define DTDATA_CLIENTE_H
 
 #include "DTInfoUsuarios.h"
+#include <string>
 
 class DTDataCliente 
 {
@@ -17,6 +18,8 @@ public:
     string getNickname() const;
     int getNroPuerta() const; 
     DTFecha getFechaNacimiento() const;
+    virtual ~DTDataCliente() override;
+
 };
 
-#endif 
+#endif
