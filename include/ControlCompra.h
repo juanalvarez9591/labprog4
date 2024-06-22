@@ -16,35 +16,28 @@
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
 
-
 using namespace std;
 
 class ControlCompra : public IControlCompra {
-
 private:
     ControlCompra();
-    Cliente* clienteEnMemoria;
     static ControlCompra* instance;
-    unordered_map<int, Compra> compras;
-   // vector<DTDetalleProducto> dataProducto;
     ControlUsuario* controlUsuario;
     ControlFecha* controlFecha;
     ControlPromocion* controlPromocion;
+
+    unordered_map<int, Compra*> compras;
+    Cliente* clienteEnMemoria;
     Compra* compraEnProceso;
 
 public:
-     static ControlCompra* getInstance();
-     void seleccionarCliente(string nombreCliente);
-     void agregarCantidad(int codigo, int cantidad);
-     bool confirmarCompra();
-     vector <DTDetalleProducto> getDataProducto();
-    // void borrarDataProducto();
-     vector <DTDatosProducto> mostrarDatosProducto();
-     //virtual ~IControlCompra(){};
-     vector<string> listarClientes();
-     void olvidarCompra();
-    float calcularPrecioCompra(vector<DTDetalleProducto> parCompra);
-
+    static ControlCompra* getInstance();
+    void seleccionarCliente(string nickCliente) override;
+    bool agregarCantidad(int codigo, int cantidad) override;
+    bool confirmarCompra() override;
+    void olvidarCompra() override;
+    DTDetallesCompra verDetallesCompra() override;
+    virtual ~ControlCompra();
 };
 
 #endif

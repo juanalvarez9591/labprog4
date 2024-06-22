@@ -18,6 +18,7 @@ public:
     string getNombre() const;
     string getDescripcion() const;
     DTFecha getFechaVencimiento() const;
+    bool operator<(const DTPromocion& other) const;
     int getPorcentaje() const;
 };
 

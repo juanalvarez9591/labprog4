@@ -24,6 +24,7 @@ public:
     DTProducto toDTProducto() const;
     DTInfoProducto toDTInfoProducto() const;
     DTDatosProducto toDTDatosProducto() const;
+    void actualizarStock(int cantidad);
     ~Producto();
 
 private:

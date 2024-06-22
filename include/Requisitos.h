@@ -9,10 +9,10 @@ class Requisitos {
 public:
     Requisitos(int minimo, Producto* producto);
 
-    int getMinimo();
+    int getMinimo() const;
     void setMinimo(int minimo);
 
-    Producto* getProducto();
+    Producto* getProducto() const;
     void setProducto(Producto* producto);
 
     bool operator==(const Requisitos& other) const;

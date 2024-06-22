@@ -59,8 +59,15 @@ DTInfoProducto Producto::toDTInfoProducto() const {
 }
 DTDatosProducto Producto::toDTDatosProducto() const{
     return DTDatosProducto(this->stock, this->nombre, this->precio, this->id);
+}
 
+void Producto::actualizarStock(int cantidad) {
+    stock -= cantidad;
 
+    // Nunca deberia de pasar, pero en ese caso es bueno tener este check
+    if (stock < 0) {
+        stock = 0;
+    }
 }
 
 Producto::~Producto() {

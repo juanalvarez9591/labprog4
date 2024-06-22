@@ -16,7 +16,7 @@ public:
     virtual vector<string> listarNicknamesUsuarios() = 0;
     virtual vector<string> listarNicknamesClientes() = 0;
     virtual vector<string> listarNicknamesVendedores() = 0;
-    virtual ~IControlUsuario() {}
+    virtual ~IControlUsuario(){};
 };
 
 

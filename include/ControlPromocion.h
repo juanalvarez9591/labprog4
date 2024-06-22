@@ -30,14 +30,14 @@ public:
     vector<DTProducto> verProductosVendedor();
     void agregarProductoPromocion(int idProducto, int cantidad);
     void confirmarPromocion();
-    vector<DTPromocion> listarPromocionesVigentes();
+    set<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
-    vector<DTDatosProducto> dataProductos();
+    vector<DTDatosProducto> listarDataProductos();
     Producto* getProductoByID(int idProducto);
     vector<Requisitos> obtenerRequisitosPromocion(string nombre);
-    float calcularPrecioTotal(vector<DTDetalleProducto> parCompra);
+    float calcularPrecioTotal(int codigoProducto, int cantidad);
 
 private:
     ControlPromocion();
