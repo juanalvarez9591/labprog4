@@ -28,8 +28,12 @@ ControlComentario::~ControlComentario() {
 
 //Borrar comentario
 
-vector<Comentario*> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
-    vector<Comentario*> comentarios = getUsuario(nombreUsuario)->getComentarios();
+vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
+    vector<Comentario*> comentariosUsuario = getUsuario(nombreUsuario)->getComentarios();
+    vector<string> comentarios;
+    for(auto iter = comentariosUsuario.begin(); iter != comentariosUsuario.end(); ++iter) {
+        comentarios.push_back(iter->getTexto());
+    }
     return comentarios;
 }
 

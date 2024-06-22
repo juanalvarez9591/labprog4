@@ -10,7 +10,7 @@
 #include "DTProducto.h"
 using namespace std;
 
-void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
+void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, controlComentario* controlComentario) {
     controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), 123456789012);
     controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), 234567890123);
     controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
@@ -25,7 +25,62 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlPromocion->agregarProductoPromocion(1, 1);
     controlPromocion->agregarProductoPromocion(2, 1);
     controlPromocion->confirmarPromocion();
+
+
+    controlComentario->seleccionarUsuario("juan87");
+    controlComentario->seleccionarProducto(1);
+    controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?", DTFecha(1,6,2024));
+
+    controlComentario->seleccionarUsuario("carlos78");
+    controlComentario->seleccionarProducto(1);
+    ControlComentario->elegirComentario("¿La camiseta azul esta disponible en talla M?")
+    controlComentario->responderComentario("Si, tenemos la camiseta azul en talla M", DTFecha(1,6,2024)); //no se si está bien crear la misma fecha dos veces
+    
+    controlComentario->seleccionarUsuario("laura");
+    controlComentario->seleccionarProducto(1);
+    ControlComentario->elegirComentario("Si, tenemos la camiseta azul en talla M")
+    controlComentario->responderComentario("¿Es de buen material? Me preocupa la durabilidad.", DTFecha(2,6,2024));
+
+    controlComentario->seleccionarUsuario("juan87");
+    controlComentario->seleccionarProducto(1);
+    ControlComentario->elegirComentario("¿Es de buen material? Me preocupa la durabilidad.")
+    controlComentario->responderComentario("He comprado antes y la calidad es buena.", DTFecha(2,6,2024));
+
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(1);
+    controlComentario->realizarComentario("¿Como es el ajuste? ¿Es ajustada o holgada?", DTFecha(2,6,2024));
+
+    controlComentario->seleccionarUsuario("laura");
+    controlComentario->seleccionarProducto(2);
+    controlComentario->realizarComentario("¿Cual es la resolucion del Televisor LED?", DTFecha(2,6,2024));
+
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(2);
+    ControlComentario->elegirComentario("¿Cual es la resolucion del Televisor LED?")
+    controlComentario->responderComentario("El televisor LED tiene una resolucion de 4K UHD.", DTFecha(2,6,2024));    
+
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(2);
+    controlComentario->realizarComentario("¿Tiene soporte para HDR10?", DTFecha(3,6,2024));
+
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(2);
+    ControlComentario->elegirComentario("¿Tiene soporte para HDR10?")
+    controlComentario->responderComentario("Si, soporta HDR10.", DTFecha(3,6,2024));
+
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->realizarComentario("¿La chaqueta de cuero es resistente al agua?", DTFecha(3,6,2024));
+
+    controlComentario->seleccionarUsuario("carlos78");
+    controlComentario->seleccionarProducto(3);
+    ControlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?")
+    controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua", DTFecha(3,6,2024));
+
+
     cout << "Datos de prueba cargados exitosamente" << endl;
+
+
 }
 
 void promocionesHandler(IControlPromocion* controlPromocion) {
@@ -449,7 +504,7 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
         cout << "1. Dejar comentario" << endl;
         cout << "2. Eliminar comentario" << endl;
         cout << "0. Volver al menú principal" << endl;
-        cin << choice;
+        cin >> choice;
         switch (choice) {
             case '0': 
                 break;
@@ -463,7 +518,7 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                 for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
                     cout << *iter << endl;
                 }
-                cin << usuarioElegido;
+                cin >> usuarioElegido;
                 controlComentario->seleccionarUsuario(usuarioElegido);
                 //Ahora listamos todos los productos y el admin elige sobre cuál se escribira el comentario:
                 cout << "¿Sobre qué producto quieres comentar?" << endl;
@@ -472,17 +527,17 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                     cout << "Nombre: " << iterProd->getNombre() << endl;
                     cout << "ID: " << iterProd->getId() << endl;
                 }
-                cin << productoElegido;
+                cin >> productoElegido;
                 //Luego preguntamos si quiere comentar un producto o responder otro comentario:
                 controlComentario->seleccionarProducto(productoElegido);
                 cout << "¿Comentar sobre el producto o responder otro comentario?" << endl;
                 cout << "1. Comentar sobre el producto" << endl;
                 cout << "2. Responder un comentario" << endl;
-                cin << alt;
+                cin >> alt;
                 switch (alt) {
                     case '1':
                         cout << "Escribe el comentario:" << endl;
-                        cin << texto;
+                        cin >> texto;
                         controlComentario->realizarComentario(texto, fechaActual);
                         break;
                     case '2':
@@ -492,10 +547,11 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                         for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
                             cout << *iterComent << endl;                                
                         }
-                        cin << comentarioElegido;
+                        cin >> comentarioElegido;
+                        ControlComentario->elegirComentario(comentarioElegido)
                         //Y ahora escribe la respuesta:
                         cout << "Escribe la respuesta:" << endl;
-                        cin << texto;
+                        cin >> texto;
                         controlComentario->responderComentario(texto, fechaActual);
                     break;
                 }
@@ -506,14 +562,14 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                 for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
                     cout << *iter << endl;
                 }
-                cin << usuarioElegido;
+                cin >> usuarioElegido;
                 //Ahora se listan todos los comentarios del usuario elegido:
                 vector<string> comentarios = controlComentario->listarComentariosUsuario(usuarioElegido);
                 cout << "¿Qué comentario quieres eliminar?" << endl;
                 for(auto itercoment = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
                     cout << *iter << endl;
                 }
-                cin << texto;
+                cin >> texto;
                 controlComentario->eliminarComentario(texto);
                 break;
             default:
