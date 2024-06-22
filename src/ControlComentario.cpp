@@ -34,6 +34,8 @@ vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario)
     for(auto iter = comentariosUsuario.begin(); iter != comentariosUsuario.end(); ++iter) {
         comentarios.push_back(iter->getTexto());
     }
+    return comentarios;
+}
 
 Usuario* ControlComentario::getUsuarioComentario(string texto) {
     //ControlUsuario* ControlUsuario = ControlUsuario::getInstance();
