@@ -18,6 +18,18 @@ bool Vendedor::estaSuscrito(IObserver* observer) {
     return false;
 }
 
+
+string Vendedor::getNickname() const {
+    return this->nickname;
+}
+DTFecha Vendedor::getFechaNacimiento() const {
+    return this-> fechaNacimiento;
+}
+string Vendedor::getRut() const {
+    return this-> rut;
+}
+
+
 void Vendedor::agregarObserver(IObserver* observer) {
     this->observers.push_back(observer);
 }

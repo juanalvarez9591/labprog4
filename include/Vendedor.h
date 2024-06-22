@@ -16,7 +16,10 @@ public:
     void eliminarObserver(IObserver* observer);
     void notificarObservers(DTNotificacion notificacion);
     bool estaSuscrito(IObserver* observer);
-    string getRut();
+    string getNickname() const;
+    DTFecha getFechaNacimiento() const;
+    string getRut() const;
+
 private:
     string rut;
     vector<IObserver*> observers;
