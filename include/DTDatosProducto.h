@@ -15,11 +15,10 @@ private:
 public:
     DTDatosProducto(int stock, string nombreProducto, int precio, int codigoProducto);
     string toString() const;
-    int getCodigo();
-    int getStock();
-    int getPrecio();
-    string getNombre();
-
+    int getCodigo() const;
+    int getStock() const;
+    int getPrecio() const;
+    string getNombre() const;
 };
 
 #endif

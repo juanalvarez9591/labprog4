@@ -1,80 +1,117 @@
-#include "../include/ControlCompra.h"
+#include "ControlCompra.h"
+#include "ControlPromocion.h"
+#include "ControlUsuario.h"
+#include "ControlFecha.h"
 
+ControlCompra* ControlCompra::instance = nullptr;
 
-    ControlCompra* ControlCompra::instance = NULL;
-
-    ControlCompra::ControlCompra(){
-        compras = unordered_map<int, Compra>();
-        clienteEnMemoria = NULL;
-        controlUsuario = ControlUsuario::getInstance();
-        controlFecha = ControlFecha::getInstance();
-        compraEnProceso = NULL;
-        controlPromocion = ControlPromocion::getInstance();
-
-        
+ControlCompra* ControlCompra::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlCompra();
     }
-    ControlCompra* ControlCompra::getInstance(){
-        if (instance == NULL){
-            instance = new ControlCompra();
-        }
-        return instance;    
-    }
+    return instance;
+}
 
+ControlCompra::ControlCompra() {
+    controlUsuario = ControlUsuario::getInstance();
+    controlFecha = ControlFecha::getInstance();
+    controlPromocion = ControlPromocion::getInstance();
 
-    void ControlCompra::seleccionarCliente(string nombreCliente){//acá creo la instancia de compra.
-        clienteEnMemoria= controlUsuario->getCliente(nombreCliente);
-        compraEnProceso = new Compra(controlFecha->getFechaActual(), clienteEnMemoria);
-    } 
-  
-    void ControlCompra::agregarCantidad(int codigo, int cantidad){
-    
-        Producto* productoElegido = controlPromocion->getProductoByID(codigo);
-     //  Producto * productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
-        Cantidad* aux = new Cantidad(cantidad, NULL);
-        compraEnProceso->agregarCantidad(aux);
+    compras = unordered_map<int, Compra*>();
+    clienteEnMemoria = nullptr;
+    compraEnProceso = nullptr;
+}
 
+void ControlCompra::seleccionarCliente(string nickCliente) {
+    clienteEnMemoria = controlUsuario->getCliente(nickCliente);
+    compraEnProceso = new Compra(controlFecha->getFechaActual(), clienteEnMemoria);
+}
 
-    }
-
-
-    void ControlCompra::olvidarCompra(){
-        compraEnProceso = NULL;
-        clienteEnMemoria = NULL;
-
-    }
-    
-    vector <DTDatosProducto> ControlCompra::mostrarDatosProducto(){
-        //return ControlPromocion::getInstance()->dataProductos();
-        return controlPromocion->dataProductos();
-
-    }
-
-    vector<string> ControlCompra::listarClientes(){
-
-        return controlUsuario->listarNicknamesClientes();
-
-    }
-    float ControlCompra::calcularPrecioCompra(vector<DTDetalleProducto> parCompra){
-       // return ControlPromocion::getInstance()->calcularPrecioTotal(parCompra);
-        return controlPromocion->calcularPrecioTotal(parCompra);
-    }
-
-
-    bool ControlCompra::confirmarCompra(){
-
-        int clave = compras.size() + 1;
-    // Agregar la nueva compra al map
-        compras.emplace(clave, *compraEnProceso);
-        clienteEnMemoria = NULL;
-        compraEnProceso = NULL;
-         if (compras.find(clave) != compras.end()) {
-            return true;
-    }else {
+bool ControlCompra::agregarCantidad(int codigo, int cantidad) {
+    if (compraEnProceso == nullptr) {
         return false;
     }
 
-
+    Producto* productoElegido = controlPromocion->getProductoByID(codigo);
+    if (productoElegido == nullptr) {
+        return false;
     }
 
+    if (cantidad <= 0 || cantidad > productoElegido->getStock()) {
+        return false;
+    }
 
-   // virtual ControlCompra::~IControlCompra(){}
+    vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
+    for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
+        if ((*it)->getProducto() == productoElegido) {
+            int newCantidad = (*it)->getCantidad() + cantidad;
+            if (newCantidad <= productoElegido->getStock()) {
+                (*it)->setCantidad(newCantidad);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    Cantidad* aux = new Cantidad(cantidad, productoElegido);
+    compraEnProceso->agregarCantidad(aux);
+    return true;
+}
+
+void ControlCompra::olvidarCompra() {
+    if (compraEnProceso != nullptr) {
+        delete compraEnProceso;
+        compraEnProceso = nullptr;
+    }
+    clienteEnMemoria = nullptr;
+}
+
+bool ControlCompra::confirmarCompra() {
+    if (compraEnProceso == nullptr) {
+        return false;
+    }
+    int clave = compras.size() + 1;
+    vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
+    for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
+        Producto* producto = (*it)->getProducto();
+        int cantidadComprada = (*it)->getCantidad();
+        producto->actualizarStock(cantidadComprada);
+    }
+    compras[clave] = compraEnProceso;
+    clienteEnMemoria = nullptr;
+    compraEnProceso = nullptr;
+    return true;
+}
+
+DTDetallesCompra ControlCompra::verDetallesCompra() {
+    if (compraEnProceso == nullptr) {
+        return DTDetallesCompra();
+    }
+
+    float costoTotal = 0;
+    vector<DTProducto> productosCompra;
+    vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
+
+    for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
+        Producto* producto = (*it)->getProducto();
+        int cantidad = (*it)->getCantidad();
+
+        float precioProducto = controlPromocion->calcularPrecioTotal(producto->getId(), cantidad);
+
+        costoTotal += precioProducto;
+
+        productosCompra.push_back(producto->toDTProducto());
+    }
+
+    DTFecha fechaCompra = compraEnProceso->getFechaCompra();
+
+    return DTDetallesCompra(costoTotal, fechaCompra, productosCompra);
+}
+
+ControlCompra::~ControlCompra() {
+    for (auto& pair : compras) {
+        delete pair.second;
+    }
+    delete compraEnProceso;
+}

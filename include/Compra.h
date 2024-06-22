@@ -14,7 +14,8 @@ public:
     Compra(DTFecha fechaCompra, Cliente* cliente);
     void agregarCantidad(Cantidad* cantidad);
     void eliminarCantidad(Cantidad* cantidad);
-    vector<Cantidad*> getCantidades();
+    DTFecha getFechaCompra();
+    vector<Cantidad*>& getCantidades();
 
 private:
     DTFecha fechaCompra;

@@ -30,3 +30,7 @@ DTFecha DTPromocion::getFechaVencimiento() const {
 int DTPromocion::getPorcentaje() const {
     return this->porcentaje;
 }
+
+bool DTPromocion::operator<(const DTPromocion& other) const {
+    return this->getPorcentaje() > other.getPorcentaje();
+}

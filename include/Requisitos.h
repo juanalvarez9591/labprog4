@@ -9,7 +9,7 @@ class Requisitos {
 public:
     Requisitos(int minimo, Producto* producto);
 
-    int getMinimo();
+    int getMinimo() const;
     void setMinimo(int minimo);
 
     Producto* getProducto() const;

@@ -3,8 +3,12 @@
 Compra::Compra(DTFecha fechaCompra, Cliente* cliente) {
     this->fechaCompra = fechaCompra;
     this->costo = 0;
-      this->cliente = cliente;
+    this->cliente = cliente;
     this->cantidades = vector<Cantidad*>();
+}
+
+DTFecha Compra::getFechaCompra() {
+    return this->fechaCompra;
 }
 
 void Compra::agregarCantidad(Cantidad* cantidad) {
@@ -12,14 +16,14 @@ void Compra::agregarCantidad(Cantidad* cantidad) {
 }
 
 void Compra::eliminarCantidad(Cantidad* cantidad) {
-    for (int i = 0; i < this->cantidades.size(); i++) {
-        if (this->cantidades[i] == cantidad) {
-            this->cantidades.erase(this->cantidades.begin() + i);
+    for (auto it = this->cantidades.begin(); it != this->cantidades.end(); ++it) {
+        if (*it == cantidad) {
+            this->cantidades.erase(it);
             break;
         }
     }
 }
 
-vector<Cantidad*> Compra::getCantidades() {
+vector<Cantidad*>& Compra::getCantidades() {
     return this->cantidades;
 }
