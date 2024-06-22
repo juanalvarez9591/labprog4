@@ -105,7 +105,7 @@ void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
 Producto* ControlPromocion::getProductoByID(int idProducto){
     unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        return &(it->second);
+        return &(it->second);  
     }
     return NULL; 
 
@@ -121,7 +121,7 @@ void ControlPromocion::confirmarPromocion() {
     string nombrePromo = this->promocionEnMemoria.getNombre();
     string nickVendedor = vendedor->getNickname();
     vector<int> codigosProductos;
-    for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); i++) {
+    for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); ++i) {
         Requisitos requisito = this->promocionEnMemoria.getRequisitos()[i];
         codigosProductos.push_back(requisito.getProducto()->getId());
     }
@@ -182,15 +182,22 @@ bool ControlPromocion::productoEnPromocion(int idProducto) {
     }
      return false;
 }
-vector<Requisitos> ControlPromocion::obtenerRequisitosPromocion(string nombre){
+const vector<Requisitos>& ControlPromocion::obtenerRequisitosPromocion(const string nombre){
     auto it = promociones.find(nombre);
     if (it != promociones.end()) {
+        
         return it->second.getRequisitos();
     }
+    
     return {};
 }
 
 float ControlPromocion::calcularPrecioTotal(vector<DTDetalleProducto> parCompra) {
+    /*Esta función no anda, la estamos testeando todavía*/
+
+
+
+    
     float total = 0.0;
     // Primero, calcular el precio sin promociones
     for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
@@ -206,17 +213,25 @@ float ControlPromocion::calcularPrecioTotal(vector<DTDetalleProducto> parCompra)
     
     for (auto promoIt = promociones.begin(); promoIt != promociones.end(); ++promoIt) {
         vector<Requisitos> requisitos = instance->obtenerRequisitosPromocion(promoIt->getNombre());
-        
+        for (const auto& req : requisitos) {
+    Producto* producto = req.getProducto();
+    if (producto != nullptr) {
+        cout << "Los nombres de los productos son: "<< endl;
+        cout << producto->getNombre() << endl;
+    } else {
+        cout << "El requisito tiene un producto nulo." << endl;
+    }
+}
         bool cumplePromocion = true;
         float descuentoTotal = 0.0;
 
         // Verificar si se cumplen todos los requisitos de la promoción
         /*Se itera sobre los requisitos de una promoción, por cada requisito se itera sobre el vector 
         con los productos de la compra. Si hay un requisito que no se cumple, entonces no se aplica la promoción.*/
-        for (auto req = requisitos.begin(); req != requisitos.end(); ++req) {
+     /*   for (auto req = requisitos.begin(); req != requisitos.end(); ++req) {
             cout << "Los nombres de los productos son: "<< endl;
             cout << req->getProducto()->getNombre()<< endl;
-        } 
+       }*/ 
         
         /*for (auto reqIt = requisitos.begin(); reqIt != requisitos.end(); ++reqIt) {
             bool requisitoCumplido = false;

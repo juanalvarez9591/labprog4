@@ -6,10 +6,10 @@
     ControlCompra::ControlCompra(){
         compras = unordered_map<int, Compra>();
         clienteEnMemoria = NULL;
-        //dataProducto = vector<DTDetalleProducto>();
         controlUsuario = ControlUsuario::getInstance();
         controlFecha = ControlFecha::getInstance();
         compraEnProceso = NULL;
+        controlPromocion = ControlPromocion::getInstance();
 
         
     }
@@ -28,8 +28,8 @@
   
     void ControlCompra::agregarCantidad(int codigo, int cantidad){
     
-       // Producto* productoElegido = controlPromocion->getProductoByID(codigo);
-       Producto * productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
+        Producto* productoElegido = controlPromocion->getProductoByID(codigo);
+     //  Producto * productoElegido = ControlPromocion::getInstance()->getProductoByID(codigo);
         Cantidad* aux = new Cantidad(cantidad, NULL);
         compraEnProceso->agregarCantidad(aux);
 
@@ -44,8 +44,8 @@
     }
     
     vector <DTDatosProducto> ControlCompra::mostrarDatosProducto(){
-        return ControlPromocion::getInstance()->dataProductos();
-        //return controlPromocion->dataProductos();
+        //return ControlPromocion::getInstance()->dataProductos();
+        return controlPromocion->dataProductos();
 
     }
 

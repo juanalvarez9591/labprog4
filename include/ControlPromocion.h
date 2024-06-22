@@ -36,7 +36,7 @@ public:
     virtual ~ControlPromocion();
     vector<DTDatosProducto> dataProductos();
     Producto* getProductoByID(int idProducto);
-    vector<Requisitos> obtenerRequisitosPromocion(string nombre);
+    const vector<Requisitos>& obtenerRequisitosPromocion(const string nombre);
     float calcularPrecioTotal(vector<DTDetalleProducto> parCompra);
 
 private:

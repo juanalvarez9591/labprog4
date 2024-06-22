@@ -249,7 +249,7 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
                 cout << "Ingresa los nicknames de los vendedores (ingresa 'fin' para terminar):" << endl;
-                cin.ignore(); // Add this line to clear the input buffer
+                cin.ignore(); 
                 while (getline(cin, vendedor) && vendedor != "fin") {
                     if (vendedor.find(' ') != string::npos) {
                         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
@@ -371,7 +371,7 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra) 
         cin >> choice;
     } // hasta acá sería el loop de agregarProducto(codigoProducto:int, cantidadAComprar: int), le cambio el nombre a agregarCantidad para que tenga más sentido
   
-    cout << "Detalle de la compra: " << endl;//LE VOY A DEJAR UNA OPERACIÓN DE CONTROLFECHA, PARECE AL PEDO QUE LA INTERFAZ TENGA OPERACIONES QUE SON UN RETURN DE OTROS CONTROLADORES
+    cout << "Detalle de la compra: " << endl;
     cout << "Fecha: " << currentDate.getString() << endl;
 
     for (auto it = parCompra.begin(); it != parCompra.end(); ++it){
@@ -383,10 +383,10 @@ void realizarCompra(IControlFecha* controlFecha, IControlCompra* controlCompra) 
         }
     }
    
-    
+    //esto no anda
     float precioTotal = controlCompra->calcularPrecioCompra(parCompra);
 
-    cout << "Precio total luego de descuentos: " << to_string(precioTotal) << endl;//falta hallar la promocion q aplique y calcular precio
+    cout << "Precio total luego de descuentos: " << to_string(precioTotal) << endl;
     cout << "Desea confirmar la compra? (y/n): ";
     cin >> confirmar;
     if (confirmar != 'y'){
