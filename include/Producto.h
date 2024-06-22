@@ -29,8 +29,7 @@ public:
 
     Comentario* GetComentarios();
     void SetComentario(Comentario* Nuevaraiz);
-    void AgregarComentario(Comentario *Comentario);
-    void AgregarRespuesta(Comentario *Comentario, string Text);
+
     void PrintTodosComentarios();
     void PrintComentario(Comentario *Comentario, int Sangria);
     Comentario* GetComentario(string Text);

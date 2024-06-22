@@ -28,8 +28,8 @@ public:
 
 //Realizar Comentario
     void seleccionarUsuario(string nombreUsuario);
-    vector<string> listarProductos();
-    void seleccionarProducto(string nombreProducto);
+    vector<DTProducto> listarProductos();
+    void seleccionarProducto(int IDProducto);
     void realizarComentario(string texto, DTFecha fecha);
     vector<string> listarComentarios();
     void elegirComentario(string mensaje);

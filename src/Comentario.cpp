@@ -110,20 +110,20 @@ bool Comentario::UltimoDelNivel(){
 	cout << this->texto << endl;
 }*/
 
-Comentario* Comentario::ComentarioEnForo(Comentario *It, string Text){
-    if (It == NULL){
+Comentario* Comentario::ComentarioEnForo(string Text){
+    if (this == NULL){
         return NULL;
     }else{
-        if (It->texto == Text){
-            return It;
+        if (this->texto == Text){
+            return this;
 
         }else{
-            Comentario *Catalejo = ComentarioEnForo(It->Sigcomentario, Text);
+            Comentario *Catalejo = this->Sigcomentario->ComentarioEnForo(Text);
             if (Catalejo != NULL){
                 return Catalejo;
 
             }else{
-                Catalejo = ComentarioEnForo(It->Respuesta, Text);
+                Catalejo = this->Respuesta->ComentarioEnForo(Text);
                 return Catalejo;
         }
         }

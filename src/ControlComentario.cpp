@@ -9,15 +9,13 @@ ControlComentario* ControlComentario::instance = nullptr;
 ControlComentario* ControlComentario::getInstance() {
     if (instance == nullptr) {
         instance = new ControlComentario();
-        ContrUsua = ControlUsuario::getInstance();
-        ContrProm = ControlPromocion::getInstance();
     }
     return instance;
 }
 
 ControlComentario::ControlComentario() {
-    //clientes = vector<Cliente>();
-    //vendedores = vector<Vendedor>();
+    ContrUsua = ControlUsuario::getInstance();
+    ContrProm = ControlPromocion::getInstance();  
 }
 
 ControlComentario::~ControlComentario() {
@@ -29,10 +27,10 @@ ControlComentario::~ControlComentario() {
 //Borrar comentario
 
 vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
-    vector<Comentario*> comentariosUsuario = getUsuario(nombreUsuario)->getComentarios();
+    vector<Comentario*> comentariosUsuario = this->ContrUsua->getUsuario(nombreUsuario)->getComentarios();
     vector<string> comentarios;
     for(auto iter = comentariosUsuario.begin(); iter != comentariosUsuario.end(); ++iter) {
-        comentarios.push_back(iter->getTexto());
+        comentarios.push_back((*iter)->getTexto());
     }
     return comentarios;
 }
@@ -43,10 +41,10 @@ Usuario* ControlComentario::getUsuarioComentario(string texto) {
     Usuario* aEncontrar = NULL;
     auto iterNick = nicks.begin();
     while((iterNick != nicks.end()) && (aEncontrar == NULL)) {
-        vector<Comentario> comentarios = this->ContrUsua->getUsuario(*iterNick)->getComentarios();
+        vector<Comentario*> comentarios = this->ContrUsua->getUsuario(*iterNick)->getComentarios();
         auto iterComent = comentarios.begin();
         while(iterComent != comentarios.end() && (aEncontrar == NULL)) {
-            if (iterComent->getTexto() == texto) {
+            if ((*iterComent)->getTexto() == texto) {
                 aEncontrar = this->ContrUsua->getUsuario(*iterNick);
             }
             ++iterComent;
@@ -58,32 +56,32 @@ Usuario* ControlComentario::getUsuarioComentario(string texto) {
 
 void ControlComentario::eliminarComentario(string mensaje) {
     Comentario *aBorrar;
-    Usuario* autor = this->ContrUsua->getUsuarioComentario(mensaje); //Guardamos el que escribió el comentario
-
+    Usuario* autor = getUsuarioComentario(mensaje); //Guardamos el que escribió el comentario
+    bool borrado = false;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
-    auto iterProd = Productos.begin()
+    auto iterProd = Productos.begin();
         while(iterProd != Productos.end() && !borrado) {
-            Comentario *iterComent = getProductoByID(iterProd->getId())->GetComentarios()
+            Comentario *iterComent = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
             if (iterComent->getTexto() == mensaje) {
-                autor->olvidarComentario(*(getProductoByID(iterProd->getId())->GetComentarios()));
-                Comentario* Primero = getProductoByID(iterProd->getId())->GetComentarios();
-                getProductoByID(iterProd->getId())->SetComentario(Primero->getSig())
+                autor->olvidarComentario(ContrProm->getProductoByID(iterProd->getId())->GetComentarios());
+                Comentario* Primero = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
+                ContrProm->getProductoByID(iterProd->getId())->SetComentario(Primero->getSig());
                 Primero->borrarRespuestas();
 
                 borrado = true;
-            } else if (iterComent->getSig()->getTexto() == mensaje){
+            }else if (iterComent->getSig()->getTexto() == mensaje){
                 aBorrar = iterComent->getSig();
                 iterComent->setSig(iterComent->getSig()->getSig());
-                autor->olvidarComentario(*aBorrar);
+                autor->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
-            } else if (iterComent->getResp()->getTexto() == mensaje) {
+            }else if (iterComent->getResp()->getTexto() == mensaje) {
                 aBorrar = iterComent->getResp();
                 iterComent->setRes(iterComent->getResp()->getSig());
-                autor->olvidarComentario(*aBorrar);
+                autor->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
-            } else {
+            }else {
                 borrado = iterComent->getSig()->eliminarNodoPosterior(mensaje);
                 if(!borrado) {
                     borrado = iterComent->getResp()->eliminarNodoPosterior(mensaje);
@@ -120,7 +118,7 @@ vector<DTProducto> ControlComentario::listarProductos(){
 }*/
 
 void ControlComentario::seleccionarProducto(int IDProducto){
-    this->ProdSeleccionado = this->ContrProm->getProductoByID(idProducto);
+    this->ProdSeleccionado = this->ContrProm->getProductoByID(IDProducto);
 }
 
 
@@ -129,20 +127,28 @@ void ControlComentario::seleccionarProducto(int IDProducto){
  //Falta por hacer Una funcion en vendedor que nos de acceso a la direccion de un producto buscado segun la clave
 void ControlComentario::realizarComentario(string texto, DTFecha fecha){
     Comentario* Opinion = new Comentario(texto, fecha);
-    this->ProdSeleccionado->AgregarComentario(Opinion);
+    Comentario* aux = this->ProdSeleccionado->GetComentarios();   //AgregarComentario(Opinion)
+    if (aux == nullptr){
+        this->ProdSeleccionado->SetComentario(Opinion);
+    }else{
+        while(aux->getSig() != nullptr){
+            aux = aux->getSig();
+        }
+        aux->setSig(Opinion);
+    }
     this->UsuarioSeleccionado->addComentario(Opinion);
    
 }
 
 vector<string> ControlComentario::HacerListComentarios(Comentario* Comentario , vector<string> Vec){
-    Vec.push_back(Comentario->texto);
+    Vec.push_back(Comentario->getTexto());
     HacerListComentarios(Comentario->getResp() , Vec);
     HacerListComentarios(Comentario->getSig() , Vec);
     return Vec;
 }
     
 
-vector<string> ControlUsuario::listarComentarios(){
+vector<string> ControlComentario::listarComentarios(){
     vector<string> Respuesta;
 
                                                                     /*ControlUsuario* ContrUsua = ControlUsuario::getInstance();
@@ -156,12 +162,13 @@ vector<string> ControlUsuario::listarComentarios(){
     }*/ //Funciona pero no se ingresan en orden ni se diferencian los niveles de respuestas
 
     //Version 2
-    vector<DTProducto> Productos = this->ContrProm->listarProductos();
-    for (auto iterProd = Productos.begin(); itnick != Productos.end(); itnick++){
+    /*vector<DTProducto> Productos = this->ContrProm->listarProductos();
+    for (auto iterProd = Productos.begin(); iterProd != Productos.end(); iterProd++){
 
-        Respuesta = HacerListComentarios(getProductoByID(iterProd->getId()).GetComentarios() , Respuesta);
-    }
-
+        Respuesta = HacerListComentarios(this->ContrProm->getProductoByID(iterProd->getId()).GetComentarios() , Respuesta);
+    
+    }*/
+    Respuesta = HacerListComentarios(this->ProdSeleccionado->GetComentarios() , Respuesta);
    
 }
 
@@ -178,13 +185,13 @@ void ControlComentario::elegirComentario(string mensaje){
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
     auto iterProd = Productos.begin();
     while((AResponder == NULL) && (iterProd != Productos.end())){
-        AResponder = ComentarioEnForo(getProductoByID(iterProd->getId())->GetComentarios(), mensaje);
+        AResponder = this->ContrProm->getProductoByID(iterProd->getId())->GetComentarios()->ComentarioEnForo(mensaje);
     }
     this->AResponder = AResponder;
 }
 
 void ControlComentario::responderComentario(string respuesta, DTFecha fecha){
-    Comentario* Opinion = new Comentario(texto, fecha);
+    Comentario* Opinion = new Comentario(respuesta, fecha);
     vector<string> nickUsuarios = this->ContrUsua->listarNicknamesUsuarios();
     auto iterUsuario = nickUsuarios.begin();
     while((iterUsuario != nickUsuarios.end() && (this->UsuarioSeleccionado != this->ContrUsua->getUsuario(*iterUsuario)))){

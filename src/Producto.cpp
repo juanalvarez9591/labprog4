@@ -73,22 +73,10 @@ DTDatosProducto Producto::toDTDatosProducto() const{
 
 }
 
-Producto::~Producto() {
-void AgregarRespuesta(Comentario *Comentario, string Text){
-	Comentario* It = Estecomentario(this->Foro , Text);
-	if (It != NULL){
-		if (It->getResp() == NULL){
-			It->setRes(Comentario);
-		}else{
-			It = It.getResp();
-			while(It.getSig != NULL){
-				It = It.getSig;
-			}
-			It.setSig(Comentario);
-		}
-	}
-}
 
+Producto::~Producto() {
+
+}
 /*void PrintComentariorec(Comentario *Comentario, int Sangria){
 	for (int i = 0; i < Sangria; i++){
 		cout << "> > ";
@@ -108,9 +96,3 @@ void PrintTodosComentarios(){
 	}
 }*/
 
-~Producto(){
-	if (Foro != NULL)
-	{
-		//Voy a ver como borrar un comentario primero
-	}
-}

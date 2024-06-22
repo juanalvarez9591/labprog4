@@ -13,8 +13,8 @@ public:
     virtual void eliminarComentario(string mensaje) = 0;
 
     virtual void seleccionarUsuario(string nombreUsuario) = 0;
-    virtual vector<string> listarProductos() = 0;
-    virtual void seleccionarProducto(string nombreProducto) = 0;
+    virtual vector<DTProducto> listarProductos() = 0;
+    virtual void seleccionarProducto(int IDProducto) = 0;
     virtual void realizarComentario(string texto, DTFecha fecha) = 0;
     virtual vector<string> listarComentarios() = 0;
     virtual void elegirComentario(string mensaje) = 0;

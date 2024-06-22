@@ -36,7 +36,7 @@ public:
     bool UltimoDelNivel();
 
     void PrintComentario();
-    Comentario* ComentarioEnForo(Comentario *It, string Text);
+    Comentario* ComentarioEnForo(string Text);
 
 private:
     DTFecha fecha;

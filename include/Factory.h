@@ -15,7 +15,7 @@ public:
     static IControlSuscripciones* getControlSuscripciones();
     static IControlPromocion* getControlPromocion();
     static IControlCompra* getControlCompra();
-    static IControlSuscripciones* getControlComentario();
+    static IControlComentario* getControlComentario();
 };
 
 #endif

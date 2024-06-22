@@ -10,7 +10,7 @@
 #include "DTProducto.h"
 using namespace std;
 
-void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, controlComentario* controlComentario) {
+void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, IControlComentario* controlComentario) {
     controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), 123456789012);
     controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), 234567890123);
     controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
@@ -27,7 +27,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlPromocion->confirmarPromocion();
 
 
-    controlComentario->seleccionarUsuario("juan87");
+    /*controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
     controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?", DTFecha(1,6,2024));
 
@@ -76,7 +76,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlComentario->seleccionarProducto(3);
     ControlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?")
     controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua", DTFecha(3,6,2024));
-
+    */
 
     cout << "Datos de prueba cargados exitosamente" << endl;
 
@@ -571,7 +571,7 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
     } while (choice != '6');
 }
 
-void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario, IControlFecha* controlFecha) {
+void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion* controlPromocion, IControlUsuario* controlUsuario, IControlFecha* controlFecha) {
         char choice;
         vector<string> usuarios = controlUsuario->listarNicknamesUsuarios();
         string usuarioElegido;
@@ -583,17 +583,18 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
         cout << "0. Volver al menú principal" << endl;
         cin >> choice;
         switch (choice) {
-            case '0': 
+            case '0':{ 
                 break;
-            case '1':
+                }  
+            case '1':{
                 DTFecha fechaActual = controlFecha->getFechaActual();
-                string productoElegido;
+                int productoElegido;
                 string comentarioElegido;
                 char alt;
                 //Primero listamos todos los usuarios y el administrador elige el que escribirá el comentario:
                 cout << "¿Quién escribirá el comentario?" << endl;
                 for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
-                    cout << *iter << endl;
+                    cout << *iterUsuario << endl;
                 }
                 cin >> usuarioElegido;
                 controlComentario->seleccionarUsuario(usuarioElegido);
@@ -612,12 +613,13 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                 cout << "2. Responder un comentario" << endl;
                 cin >> alt;
                 switch (alt) {
-                    case '1':
+                    case '1':{
                         cout << "Escribe el comentario:" << endl;
                         cin >> texto;
                         controlComentario->realizarComentario(texto, fechaActual);
                         break;
-                    case '2':
+                    }
+                    case '2':{
                         //Acá se listan todos los comentarios y se elige cuál responder:
                         vector<string> comentarios = controlComentario->listarComentarios();
                         cout << "¿Qué comentario quieres responder?" << endl;
@@ -625,32 +627,36 @@ void ComentarioHandler(controlComentario* controlComentario, IControlPromocion* 
                             cout << *iterComent << endl;                                
                         }
                         cin >> comentarioElegido;
-                        ControlComentario->elegirComentario(comentarioElegido)
+                        controlComentario->elegirComentario(comentarioElegido);
                         //Y ahora escribe la respuesta:
                         cout << "Escribe la respuesta:" << endl;
                         cin >> texto;
                         controlComentario->responderComentario(texto, fechaActual);
                     break;
+                    }
                 }
                 break;
-            case '2':
+                }
+            case '2':{
                 //Primero listamos todos los usuarios y el administrador elige que escribió el comentario que queremos borrar:
                 cout << "Selecciona el usuario cuyo comentario quieres borrar:" << endl;
                 for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
-                    cout << *iter << endl;
+                    cout << *iterUsuario << endl;
                 }
                 cin >> usuarioElegido;
                 //Ahora se listan todos los comentarios del usuario elegido:
                 vector<string> comentarios = controlComentario->listarComentariosUsuario(usuarioElegido);
                 cout << "¿Qué comentario quieres eliminar?" << endl;
-                for(auto itercoment = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
-                    cout << *iter << endl;
+                for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
+                    cout << *iterComent << endl;
                 }
                 cin >> texto;
                 controlComentario->eliminarComentario(texto);
                 break;
-            default:
+            }
+            default:{
                 cout << "Opcion invalida, intenta de nuevo" << endl;
+            }
         }
         } while (choice != '0');
 }
@@ -696,17 +702,17 @@ int main() {
                 promocionesHandler(controlPromocion);
                 break;
             case '5':
-                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion);
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlComentario);
                 break;
             case '6':
-                realizarCompra(controlCompra, controlPromocion, controlUsuario);
+                //realizarCompra(controlCompra, controlPromocion, controlUsuario);
             case '7':
                 ComentarioHandler(controlComentario, controlPromocion, controlUsuario, controlFecha);
             case '8':
                 cout << "Saliendo..." << endl;
                 break;
-            case '7':
-                realizarCompra(controlFecha, controlCompra);
+            case '9':
+                //realizarCompra(controlFecha, controlCompra);
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
