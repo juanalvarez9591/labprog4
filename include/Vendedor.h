@@ -11,13 +11,14 @@ using namespace std;
 
 class Vendedor : public Usuario {
 public:
-    Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut);
+    Vendedor(string nickname, string password, DTFecha fechaNacimiento, string rut);
     void agregarObserver(IObserver* observer);
     void eliminarObserver(IObserver* observer);
     void notificarObservers(DTNotificacion notificacion);
     bool estaSuscrito(IObserver* observer);
+    string getRut();
 private:
-    int rut;
+    string rut;
     vector<IObserver*> observers;
 };
 

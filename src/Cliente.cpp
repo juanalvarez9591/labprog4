@@ -19,7 +19,7 @@ void Cliente::limpiarNotificaciones() {
 }
 
 string Cliente::getNickname() const {
-    return nickname;
+    return Usuario::getNickname();
 }
 
 string Cliente::getDireccion() const {

@@ -2,6 +2,8 @@
 #include "ControlPromocion.h"
 #include "ControlUsuario.h"
 #include "ControlFecha.h"
+#include "DTExpCliente.h"
+#include "Compra.h"
 
 ControlCompra* ControlCompra::instance = nullptr;
 

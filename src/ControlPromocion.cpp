@@ -5,7 +5,11 @@
 #include "DTInfoProducto.h"
 #include "DTProducto.h"
 #include "Categoria.h"
+#include "Vendedor.h"
+#include "DTDatosProducto.h"
+#include "DTNotificacion.h"
 #include <iostream>
+
 ControlPromocion* ControlPromocion::instance = nullptr;
 
 ControlPromocion* ControlPromocion::getInstance() {
@@ -39,6 +43,34 @@ bool ControlPromocion::elegirVendedor(string nickVendedor) {
     Vendedor* vendedorElegido = controlUsuario->getVendedor(nickVendedor);
     this->vendedorEnMemoria = vendedorElegido;
     return vendedorElegido != nullptr;
+}
+
+vector<DTPromocion> ControlPromocion::verPromocionesVendedor(string nickVendedor) {
+    vector<DTPromocion> promocionesVendedor;
+    Vendedor* vendedor = controlUsuario->getVendedor(nickVendedor);
+
+    if (vendedor == nullptr) {
+        return promocionesVendedor;
+    }
+
+    for (const auto& pair : promociones) {
+        const Promocion& promocion = pair.second;
+        const vector<Requisitos>& requisitos = promocion.getRequisitos();
+
+        bool perteneceAVendedor = false;
+        for (const Requisitos& req : requisitos) {
+            if (req.getProducto()->getVendedor() == vendedor) {
+                perteneceAVendedor = true;
+                break;
+            }
+        }
+
+        if (perteneceAVendedor) {
+            promocionesVendedor.push_back(promocion.toDTPromocion());
+        }
+    }
+
+    return promocionesVendedor;
 }
 
 bool ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
@@ -79,7 +111,7 @@ void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion,
     
 }
 
-vector<DTProducto> ControlPromocion::verProductosVendedor() {
+vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
     vector<DTProducto> dtProductos;
     unordered_map<int, Producto>::iterator it;
     for (it = productos.begin(); it != productos.end(); ++it) {
@@ -179,12 +211,32 @@ bool ControlPromocion::productoEnPromocion(int idProducto) {
     }
      return false;
 }
+
 vector<Requisitos> ControlPromocion::obtenerRequisitosPromocion(string nombre){
     auto it = promociones.find(nombre);
     if (it != promociones.end()) {
         return it->second.getRequisitos();
     }
     return {};
+}
+
+vector<DTProducto> ControlPromocion::verProductosVendedor(string nickUsuario) {
+    vector<DTProducto> dtProductos;
+    Vendedor* vendedor = controlUsuario->getVendedor(nickUsuario);
+
+    if (vendedor == nullptr) {
+        return dtProductos;
+    }
+
+    unordered_map<int, Producto>::const_iterator it;
+    for (it = productos.begin(); it != productos.end(); ++it) {
+        const Producto& producto = it->second;
+        if (producto.getVendedor() == vendedor) {
+            dtProductos.push_back(producto.toDTProducto());
+        }
+    }
+
+    return dtProductos;
 }
 
 float ControlPromocion::calcularPrecioTotal(int codigoProducto, int cantidad) {

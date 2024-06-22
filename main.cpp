@@ -12,8 +12,8 @@
 using namespace std;
 
 void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
-    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), 123456789012);
-    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), 234567890123);
+    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), "123456789012");
+    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), "234567890123");
     controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), "direccion1", "ciudad1");
 
     vector<string> vendedores = {"vendedor1", "vendedor2"};
@@ -130,7 +130,7 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
                 break;
             case 7:
             {
-                vector<DTProducto> productos = controlPromocion->verProductosVendedor();
+                vector<DTProducto> productos = controlPromocion->verProductosVendedorEnMemoria();
                 cout << "Productos del vendedor:" << endl;
                 for (const DTProducto& producto : productos) {
                     cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
@@ -420,8 +420,8 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
 
 void usuarioHandler(IControlUsuario* controlUsuario) {
     char choice;
-    string nickname, password, direccion, ciudad;
-    int dia, mes, anio, rut;
+    string nickname, password, direccion, ciudad, rut;
+    int dia, mes, anio;
 
     do {
         cout << "Usuarios:" << endl;
@@ -477,10 +477,10 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
                 }
                 cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
                 cin >> dia >> mes >> anio;
-                cout << "Ingresa el RUT (12 digitos): ";
+                cout << "Ingresa el RUT (12 caracteres): ";
                 cin >> rut;
-                if (rut < 10000000 || rut > 99999999) {
-                    cout << "El RUT debe tener exactamente 12 digitos. Intenta de nuevo." << endl;
+                if (rut.length() != 12) {
+                    cout << "El RUT debe tener exactamente 12 caracteres. Intenta de nuevo." << endl;
                     break;
                 }
                 if (controlUsuario->darDeAltaVendedor(nickname, password, DTFecha(dia, mes, anio), rut)) {

@@ -1,4 +1,6 @@
 #include "ControlUsuario.h"
+#include "ControlPromocion.h"
+#include "ControlCompra.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
 
@@ -18,35 +20,30 @@ ControlUsuario::ControlUsuario() {
     controlCompra = ControlCompra::getInstance();
 }
 
-DTInfoUsuarios* ControlUsuario::verExpedienteUsuario(string nickUsuario) {
+DTInfoUsuarios ControlUsuario::verExpedienteUsuario(string nickUsuario) {
     Usuario* usuario = getUsuario(nickUsuario);
     if (usuario == nullptr) {
-        return nullptr;
+        return DTInfoUsuarios();
     }
 
     Cliente* cliente = dynamic_cast<Cliente*>(usuario);
     if (cliente != nullptr) {
-        vector<DTExpCompra> compras = controlCompra->getComprasCliente(nickUsuario);
-        return new DTExpCliente(cliente->getNickname(),
-                                cliente->getFechaNacimiento(),
-                                cliente->getDireccion(),
-                                cliente->getCiudad(),
-                                cliente->getNroPuerta(),
-                                compras);
+        DTExpCliente expCliente = controlCompra->verComprasCliente(nickUsuario);
+        return expCliente;
     }
 
     Vendedor* vendedor = dynamic_cast<Vendedor*>(usuario);
     if (vendedor != nullptr) {
-        vector<DTPromocion> promociones = controlPromocion->getPromocionesVendedor(nickUsuario);
-        vector<DTProducto> productos = controlPromocion->getProductosVendedor(nickUsuario);
-        return new DTExpVendedor(vendedor->getNickname(),
+        vector<DTPromocion> promociones = controlPromocion->verPromocionesVendedor(nickUsuario);
+        vector<DTProducto> productos = controlPromocion->verProductosVendedor(nickUsuario);
+        return DTExpVendedor(vendedor->getNickname(),
                                  vendedor->getFechaNacimiento(),
                                  vendedor->getRut(),
                                  promociones,
                                  productos);
     }
 
-    return nullptr;
+    return DTInfoUsuarios();
 }
 
 bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) {
@@ -59,7 +56,7 @@ bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha 
     return true;
 }
 
-bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) {
+bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, string rut) {
     if (nicknameRepetido(nickname)) {
         return false;
     }

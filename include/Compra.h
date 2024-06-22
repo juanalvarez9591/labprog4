@@ -19,6 +19,7 @@ public:
     DTFecha getFechaCompra();
     vector<Cantidad*>& getCantidades();
     DTExpCompra toDTExpCompra() const;
+    Cliente* getCliente() const;
 private:
     DTFecha fechaCompra;
     int costo;

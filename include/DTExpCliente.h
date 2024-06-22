@@ -11,8 +11,10 @@ private:
     vector<DTExpCompra> compras;
 
 public:
+    DTExpCliente();
     DTExpCliente(string nickname, DTFecha fechaNacimiento, string direccion, string ciudad, vector<DTExpCompra> compras);
     vector<DTExpCompra> getCompras() const;
+    virtual ~DTExpCliente() override;
 };
 
 #endif
