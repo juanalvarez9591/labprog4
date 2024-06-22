@@ -9,11 +9,13 @@ class Usuario {
 public:
     Usuario(string nickname, string password, DTFecha fechaNacimiento);
     string getNickname();
+    string getPassword();
+    DTFecha getFechaNacimiento();
 
 protected:
-    string nickname;
-    string password;
-    DTFecha fechaNacimiento;
+    string getNickname() const;
+    string getPassword() const;
+    DTFecha getFechaNacimiento() const;
 };
 
 #endif

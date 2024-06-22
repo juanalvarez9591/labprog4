@@ -16,8 +16,6 @@ public:
     void eliminarObserver(IObserver* observer);
     void notificarObservers(DTNotificacion notificacion);
     bool estaSuscrito(IObserver* observer);
-    string getNickname() const;
-
 private:
     int rut;
     vector<IObserver*> observers;

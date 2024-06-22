@@ -12,8 +12,10 @@ class Cliente: public Usuario, public IObserver {
 public:
     Cliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad);
     void update(DTNotificacion notificacion) override;
-    string getNickname();
     vector<DTNotificacion> listarNotificaciones();
+    string getNickname() const;
+    string getDireccion() const;
+    string getCiudad() const;
     void limpiarNotificaciones();
 private:
     string direccion;

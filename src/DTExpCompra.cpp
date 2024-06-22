@@ -1,4 +1,4 @@
-#include "../include/DTExpCompra.h"
+#include "DTExpCompra.h"
 
 DTExpCompra::DTExpCompra() {
     this->costo = 0;

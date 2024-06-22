@@ -36,6 +36,7 @@ public:
     bool agregarCantidad(int codigo, int cantidad) override;
     bool confirmarCompra() override;
     void olvidarCompra() override;
+    DTExpCliente verComprasCliente(string nickCliente);
     DTDetallesCompra verDetallesCompra() override;
     virtual ~ControlCompra();
 };

@@ -6,6 +6,10 @@
 #include "Usuario.h"
 #include "Cliente.h"
 #include "DTFecha.h"
+#include "ControlPromocion.h"
+#include "ControlCompra.h"
+#include "DTExpCliente.h"
+#include "DTExpVendedor.h"
 #include <vector>
 using namespace std;
 
@@ -21,11 +25,15 @@ public:
     Vendedor* getVendedor(string nickname);
     Cliente* getCliente(string nickname);
     vector<Vendedor> getVendedores();
+    DTInfoUsuarios* verExpedienteUsuario(string nickUsuario);
     virtual ~ControlUsuario();
 
 private:
     ControlUsuario();
     static ControlUsuario* instance;
+    ControlPromocion* controlPromocion;
+    ControlCompra* controlCompra;
+
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
