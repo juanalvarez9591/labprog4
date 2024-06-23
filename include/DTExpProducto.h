@@ -4,18 +4,20 @@
 #include <string>
 using namespace std;
 
-class DTExpProducto{
+class DTExpProducto {
 private:
     int codigoProducto;
     int cantidadProducto;
     string nombreProducto;
+    bool enviado;
 
 public:
     DTExpProducto();
-    DTExpProducto(int codigoProducto, int cantidadProducto, string nombreProducto);
-    int getCodigoProducto();
-    int getCantidadProducto();
-    string getNombreProducto();
+    DTExpProducto(int codigoProducto, int cantidadProducto, string nombreProducto, bool enviado);
+    int getCodigoProducto() const;
+    int getCantidadProducto() const;
+    string getNombreProducto() const;
+    bool getEnviado() const;
 };
 
 #endif

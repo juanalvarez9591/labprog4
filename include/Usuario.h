@@ -10,6 +10,10 @@ using namespace std;
 class Usuario {
 public:
     Usuario(string nickname, string password, DTFecha fechaNacimiento);
+    string getNickname() const;
+    string getPassword() const;
+    DTFecha getFechaNacimiento() const;
+    virtual ~Usuario() = default;
     string getNickname();
     void addComentario(Comentario* c);
     void olvidarComentario(Comentario* c);

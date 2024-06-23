@@ -5,7 +5,7 @@ Requisitos::Requisitos(int minimo, Producto* producto) {
     this->producto = producto;
 }
 
-int Requisitos::getMinimo() {
+int Requisitos::getMinimo() const {
     return minimo;
 }
 
@@ -14,7 +14,6 @@ void Requisitos::setMinimo(int minimo) {
 }
 
 Producto* Requisitos::getProducto() const {
-        
     return producto;
 }
 

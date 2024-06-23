@@ -13,7 +13,7 @@ Producto::Producto() {
     this->Foro = nullptr;   
 }
 
-Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
+Producto::Producto(string nombre, string descripcion, int id, int stock, float precio, Categoria categoria, Vendedor* vendedor) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->id = id;
@@ -37,7 +37,7 @@ Categoria Producto::getCategoria() {
     return this->categoria;
 }
 
-int Producto::getPrecio() {
+float Producto::getPrecio() {
     return this->precio;
 }
 
@@ -70,8 +70,15 @@ DTInfoProducto Producto::toDTInfoProducto() const {
 }
 DTDatosProducto Producto::toDTDatosProducto() const{
     return DTDatosProducto(this->stock, this->nombre, this->precio, this->id);
+}
 
+void Producto::actualizarStock(int cantidad) {
+    stock -= cantidad;
 
+    // Nunca deberia de pasar, pero en ese caso es bueno tener este check
+    if (stock < 0) {
+        stock = 0;
+    }
 }
 
 

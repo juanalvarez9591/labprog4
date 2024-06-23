@@ -26,3 +26,16 @@ vector<DTProducto> DTDetallesCompra::getProductos(){
 
     return this->productos;
 }
+
+string DTDetallesCompra::toString() const {
+    string result = "";
+    result += "Costo: " + to_string(costo) + "\n";
+    result += "Fecha: " + fecha.getString() + "\n";
+    result += "Productos:\n";
+
+    for (vector<DTProducto>::const_iterator it = productos.begin(); it != productos.end(); ++it) {
+        result += "- " + it->toString() + "\n";
+    }
+
+    return result;
+}

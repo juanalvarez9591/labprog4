@@ -1,4 +1,4 @@
-#include "../include/DTExpCompra.h"
+#include "DTExpCompra.h"
 
 DTExpCompra::DTExpCompra() {
     this->costo = 0;
@@ -12,14 +12,14 @@ DTExpCompra::DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto>
     this->productos = productos;
 }
 
-float DTExpCompra::getCosto() {
+float DTExpCompra::getCosto() const {
     return this->costo;
 }
 
-DTFecha DTExpCompra::getFecha() {
+DTFecha DTExpCompra::getFecha() const {
     return this->fechaCompra;
 }
 
-vector<DTExpProducto> DTExpCompra::getProductos() {
+vector<DTExpProducto> DTExpCompra::getProductos() const {
     return this->productos;
 }

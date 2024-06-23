@@ -14,17 +14,18 @@ using namespace std;
 class Producto {
 public:
     Producto();
-    Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor);
+    Producto(string nombre, string descripcion, int id, int stock, float precio, Categoria categoria, Vendedor* vendedor);
     string getNombre();
     string getDescripcion();
     Categoria getCategoria();
-    int getPrecio();
+    float getPrecio();
     int getId();
     int getStock();
     Vendedor* getVendedor() const;
     DTProducto toDTProducto() const;
     DTInfoProducto toDTInfoProducto() const;
     DTDatosProducto toDTDatosProducto() const;
+    void actualizarStock(int cantidad);
     ~Producto();
 
     Comentario* GetComentarios();
@@ -38,7 +39,7 @@ private:
     string nombre;
     int id;
     int stock;
-    int precio;
+    float precio;
     Categoria categoria;
     Vendedor* vendedor;
     Comentario* Foro;

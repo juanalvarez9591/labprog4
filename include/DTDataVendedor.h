@@ -9,11 +9,14 @@ using namespace std;
 
 class DTDataVendedor : public DTInfoUsuarios {
 private:
-    int rut;
+
+    string rut;
 
 public:
-    DTDataVendedor(string nickname, DTFecha fecha, int rut);
-    int getRut();
+    DTDataVendedor(string nickname, DTFecha fechaNacimiento, string rut);
+    string getRut() const;
+   
+
 };
 
 #endif

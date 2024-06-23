@@ -1,4 +1,4 @@
-#include "../include/DTProducto.h"
+#include "DTProducto.h"
 
 DTProducto::DTProducto(string Nombre, int Id) {
     this->Nombre = Nombre;
@@ -16,4 +16,8 @@ string DTProducto::getNombre() const {
 
 int DTProducto::getId() const {
     return this->Id;
+}
+
+string DTProducto::toString() const {
+    return "Nombre: " + Nombre + ", ID: " + to_string(Id);
 }

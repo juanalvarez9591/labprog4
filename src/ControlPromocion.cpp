@@ -5,7 +5,11 @@
 #include "DTInfoProducto.h"
 #include "DTProducto.h"
 #include "Categoria.h"
+#include "Vendedor.h"
+#include "DTDatosProducto.h"
+#include "DTNotificacion.h"
 #include <iostream>
+
 ControlPromocion* ControlPromocion::instance = nullptr;
 
 ControlPromocion* ControlPromocion::getInstance() {
@@ -39,6 +43,45 @@ bool ControlPromocion::elegirVendedor(string nickVendedor) {
     Vendedor* vendedorElegido = controlUsuario->getVendedor(nickVendedor);
     this->vendedorEnMemoria = vendedorElegido;
     return vendedorElegido != nullptr;
+}
+
+vector<DTPromocion> ControlPromocion::verPromocionesVendedor(string nickVendedor) {
+    vector<DTPromocion> promocionesVendedor;
+    Vendedor* vendedor = controlUsuario->getVendedor(nickVendedor);
+
+    if (vendedor == nullptr) {
+        return promocionesVendedor;
+    }
+
+    for (const auto& pair : promociones) {
+        const Promocion& promocion = pair.second;
+        const vector<Requisitos>& requisitos = promocion.getRequisitos();
+
+        bool perteneceAVendedor = false;
+        for (const Requisitos& req : requisitos) {
+            if (req.getProducto()->getVendedor() == vendedor) {
+                perteneceAVendedor = true;
+                break;
+            }
+        }
+
+        if (perteneceAVendedor) {
+            promocionesVendedor.push_back(promocion.toDTPromocion());
+        }
+    }
+
+    return promocionesVendedor;
+}
+bool ControlPromocion::crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido){
+    Vendedor* vendedor = controlUsuario->getVendedor(vendedorElegido);
+    if (vendedor == NULL){
+        return false;
+    }
+    Categoria cat = fromString(categoria);
+    int codigoProducto = productos.size() + 1;
+    Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, vendedor);
+    productos[codigoProducto] = producto;
+    return true;
 }
 
 bool ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
@@ -76,10 +119,9 @@ DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
 
 void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
     this->promocionEnMemoria = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
-    
 }
 
-vector<DTProducto> ControlPromocion::verProductosVendedor() {
+vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
     vector<DTProducto> dtProductos;
     unordered_map<int, Producto>::iterator it;
     for (it = productos.begin(); it != productos.end(); ++it) {
@@ -95,20 +137,18 @@ vector<DTProducto> ControlPromocion::verProductosVendedor() {
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
     unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        Producto producto = it->second;
-        Requisitos requisito = Requisitos(cantidad, &producto);
+        Producto* productoPtr = &(it->second);
+        Requisitos requisito(cantidad, productoPtr);
         this->promocionEnMemoria.agregarRequisitos(requisito);
-        
     }
 }
 
 Producto* ControlPromocion::getProductoByID(int idProducto){
     unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        return &(it->second);  
+        return &(it->second);
     }
-    return NULL; 
-
+    return nullptr;
 }
 
 void ControlPromocion::confirmarPromocion() {
@@ -121,11 +161,13 @@ void ControlPromocion::confirmarPromocion() {
     string nombrePromo = this->promocionEnMemoria.getNombre();
     string nickVendedor = vendedor->getNickname();
     vector<int> codigosProductos;
-    for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); ++i) {
+    vector<string> nombreProductos;
+    for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); i++) {
         Requisitos requisito = this->promocionEnMemoria.getRequisitos()[i];
         codigosProductos.push_back(requisito.getProducto()->getId());
+        nombreProductos.push_back(requisito.getProducto()->getNombre());
     }
-    DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos);
+    DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos, nombreProductos);
     vendedor->notificarObservers(notificacion);
     this->promocionEnMemoria = Promocion();
     this->vendedorEnMemoria = nullptr;
@@ -146,22 +188,20 @@ vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nomb
     return dtInfoProductos;
 }
 
-vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
-    vector<DTPromocion> dtPromociones;
+set<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
+    set<DTPromocion> dtPromociones;
     DTFecha fechaActual = controlFecha->getFechaActual();
-    unordered_map<string, Promocion>::iterator it;
-    for (it = promociones.begin(); it != promociones.end(); ++it) {
-        Promocion promocion = it->second;
-        if (promocion.getFechaVencimiento() >= fechaActual ) {
-            DTPromocion dtPromocion = promocion.toDTPromocion();
-            dtPromociones.push_back(dtPromocion);
-        } 
+    for (const auto& pair : promociones) {
+        const Promocion& promocion = pair.second;
+        if (promocion.getFechaVencimiento() >= fechaActual) {
+            dtPromociones.insert(promocion.toDTPromocion());
+        }
     }
     return dtPromociones;
 }
 
 
-vector<DTDatosProducto> ControlPromocion::dataProductos(){
+vector<DTDatosProducto> ControlPromocion::listarDataProductos(){
     vector <DTDatosProducto>  data;
     for (auto it = productos.begin(); it != productos.end(); ++it){
         data.push_back(it->second.toDTDatosProducto());
@@ -182,89 +222,69 @@ bool ControlPromocion::productoEnPromocion(int idProducto) {
     }
      return false;
 }
-const vector<Requisitos>& ControlPromocion::obtenerRequisitosPromocion(const string nombre){
+
+vector<Requisitos> ControlPromocion::obtenerRequisitosPromocion(string nombre){
     auto it = promociones.find(nombre);
     if (it != promociones.end()) {
-        
         return it->second.getRequisitos();
     }
-    
     return {};
 }
 
-float ControlPromocion::calcularPrecioTotal(vector<DTDetalleProducto> parCompra) {
-    /*Esta función no anda, la estamos testeando todavía*/
+vector<DTProducto> ControlPromocion::verProductosVendedor(string nickUsuario) {
+    vector<DTProducto> dtProductos;
+    Vendedor* vendedor = controlUsuario->getVendedor(nickUsuario);
 
+    if (vendedor == nullptr) {
+        return dtProductos;
+    }
 
-
-    
-    float total = 0.0;
-    // Primero, calcular el precio sin promociones
-    for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
-        Producto* producto = instance->getProductoByID(it->getCodigoProducto());
-        if (producto != NULL) {
-            total += producto->getPrecio() * it->getCantProducto();
+    unordered_map<int, Producto>::const_iterator it;
+    for (it = productos.begin(); it != productos.end(); ++it) {
+        const Producto& producto = it->second;
+        if (producto.getVendedor() == vendedor) {
+            dtProductos.push_back(producto.toDTProducto());
         }
     }
-    
-     // Ahora verificar y aplicar promociones
-     //Se asume que NUNCA existirá más de una promoción posible a aplicar.
-    vector<DTPromocion> promociones = instance->listarPromocionesVigentes();
-    
-    for (auto promoIt = promociones.begin(); promoIt != promociones.end(); ++promoIt) {
-        vector<Requisitos> requisitos = instance->obtenerRequisitosPromocion(promoIt->getNombre());
-        for (const auto& req : requisitos) {
-    Producto* producto = req.getProducto();
-    if (producto != nullptr) {
-        cout << "Los nombres de los productos son: "<< endl;
-        cout << producto->getNombre() << endl;
-    } else {
-        cout << "El requisito tiene un producto nulo." << endl;
-    }
+
+    return dtProductos;
 }
+
+float ControlPromocion::calcularPrecioTotal(int codigoProducto, int cantidad) {
+    float total = 0.0;
+
+    Producto* producto = getProductoByID(codigoProducto);
+    if (producto != NULL) {
+        total = producto->getPrecio() * cantidad;
+    } else {
+        return total;
+    }
+
+    set<DTPromocion> promocionesVigentes = listarPromocionesVigentes();
+
+    for (const DTPromocion& promo : promocionesVigentes) {
+        vector<Requisitos> requisitos = obtenerRequisitosPromocion(promo.getNombre());
+
         bool cumplePromocion = true;
-        float descuentoTotal = 0.0;
+        float descuento = 0.0;
 
-        // Verificar si se cumplen todos los requisitos de la promoción
-        /*Se itera sobre los requisitos de una promoción, por cada requisito se itera sobre el vector 
-        con los productos de la compra. Si hay un requisito que no se cumple, entonces no se aplica la promoción.*/
-     /*   for (auto req = requisitos.begin(); req != requisitos.end(); ++req) {
-            cout << "Los nombres de los productos son: "<< endl;
-            cout << req->getProducto()->getNombre()<< endl;
-       }*/ 
-        
-        /*for (auto reqIt = requisitos.begin(); reqIt != requisitos.end(); ++reqIt) {
-            bool requisitoCumplido = false;
-
-            for (auto it = parCompra.begin(); it != parCompra.end(); ++it) {
-                if (reqIt->getProducto()->getId() == it->getCodigoProducto() && it->getCantProducto() >= reqIt->getMinimo()) {
-                    cout << "El producto con codigo: " << to_string(it->getCodigoProducto()) << "TIENE MISMO ID QUE LA PROMO Y UNA CANTIDAD MAYOR O IGUAL AL MINIMO"<< endl;
-                    float descuento = (reqIt->getProducto()->getPrecio() * it->getCantProducto()) * promoIt->getPorcentaje() / 100.0;
-                    descuentoTotal += descuento;
-                    requisitoCumplido = true;
-                    break;
-                }
-            }
-
-            if (!requisitoCumplido) {
+        for (const Requisitos& req : requisitos) {
+            if (req.getProducto()->getId() == codigoProducto && cantidad >= req.getMinimo()) {
+                descuento = total * (promo.getPorcentaje() / 100.0);
+            } else {
                 cumplePromocion = false;
                 break;
             }
         }
 
-        // Aplicar el descuento si todos los requisitos se cumplen
         if (cumplePromocion) {
-            total -= descuentoTotal;
-            break; // Solo aplicamos una promoción
-        }*/
+            total -= descuento;
+            break;
+        }
     }
 
     return total;
 }
-
-   
-
-
 
 ControlPromocion::~ControlPromocion() {
 }

@@ -1,4 +1,4 @@
-#include "../include/DTDetalleProducto.h"
+#include "DTDetalleProducto.h"
 
 DTDetalleProducto::DTDetalleProducto(){
 this-> codigoProducto = 0;

@@ -1,13 +1,18 @@
 #include "ControlUsuario.h"
+#include "ControlPromocion.h"
+#include "ControlCompra.h"
+#include "DTExpCliente.h"
+#include "DTExpVendedor.h"
 #include <sstream>
 #include "Comentario.h"
 #include "Producto.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;
 
+
 ControlUsuario* ControlUsuario::getInstance() {
     if (instance == nullptr) {
-        instance = new ControlUsuario();
+     instance = new ControlUsuario();
     }
     return instance;
 }
@@ -17,17 +22,52 @@ ControlUsuario::ControlUsuario() {
     vendedores = vector<Vendedor>();
 }
 
-bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, string direccion, string ciudad) {
+DTInfoUsuarios* ControlUsuario::verExpedienteUsuario(string nickUsuario) {
+    Usuario* usuario = getUsuario(nickUsuario);
+    if (usuario == nullptr) {
+        return NULL;
+    }
+
+    Cliente* cliente = dynamic_cast<Cliente*>(usuario);
+    if (cliente != nullptr) {
+        DTExpCliente expClienteOriginal = ControlCompra::getInstance()->verComprasCliente(nickUsuario);
+        DTExpCliente* expCliente = new DTExpCliente(expClienteOriginal.getNickname(),
+                                                    expClienteOriginal.getFechaNacimiento(),
+                                                    expClienteOriginal.getNroPuerta(),
+                                                    expClienteOriginal.getCalle(),
+                                                    expClienteOriginal.getCiudad(),
+                                                    expClienteOriginal.getCompras());
+        //Es correcto copiar DT mientras la copia sea en profundidad (visto en teórico)
+
+        return expCliente;
+    }
+
+    Vendedor* vendedor = dynamic_cast<Vendedor*>(usuario);
+    if (vendedor != nullptr) {
+        vector<DTPromocion> promociones = ControlPromocion::getInstance()->verPromocionesVendedor(nickUsuario);
+        vector<DTProducto> productos = ControlPromocion::getInstance()->verProductosVendedor(nickUsuario);
+        DTExpVendedor* expVendedor = new DTExpVendedor(vendedor->getNickname(),
+                                 vendedor->getFechaNacimiento(),
+                                 vendedor->getRut(),
+                                 promociones,
+                                 productos);
+        return expVendedor;
+    }
+
+    return NULL;
+}
+
+bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {
     if (nicknameRepetido(nickname)) {
         return false;
     }
 
-    Cliente cliente(nickname, password, fechaNacimiento, direccion, ciudad);
+    Cliente cliente(nickname, password, fechaNacimiento, nroPuerta, calle, ciudad);
     clientes.push_back(cliente);
     return true;
 }
 
-bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) {
+bool ControlUsuario::darDeAltaVendedor(string nickname, string password, DTFecha fechaNacimiento, string rut) {
     if (nicknameRepetido(nickname)) {
         return false;
     }
@@ -98,8 +138,6 @@ Usuario* ControlUsuario::getUsuario(string nickname) {
     return nullptr;
 }
 
-
-
 Vendedor* ControlUsuario::getVendedor(string nickname) {
     for (auto it = vendedores.begin(); it != vendedores.end(); it++) {
         if (it->getNickname() == nickname) {
@@ -123,6 +161,45 @@ Cliente* ControlUsuario::getCliente(string nickname) {
 vector<Vendedor> ControlUsuario::getVendedores() {
     return vendedores;
 }
+
+
+vector<DTDataCliente> ControlUsuario::listarInfoClientes() {
+    vector<DTDataCliente> dataClientes;
+    string calle, ciudad, nickname;
+    int nroPuerta;
+    DTFecha fechaNacimiento;
+    for (auto it = clientes.begin(); it != clientes.end(); ++it){
+        nroPuerta = it->getNroPuerta();
+        calle = it->getCalle();
+        ciudad = it->getCiudad();
+        nickname = it->getNickname();
+        fechaNacimiento = it->getFechaNacimiento();
+        dataClientes.push_back(DTDataCliente(nickname, fechaNacimiento, nroPuerta, calle, ciudad));
+    }
+
+    return dataClientes;
+
+
+}
+
+vector<DTDataVendedor> ControlUsuario::listarInfoVendedores() {
+    vector<DTDataVendedor> dataVendedores;
+    string  nickname;
+    DTFecha fechaNacimiento;
+    string rut;
+    for (auto it = vendedores.begin(); it !=vendedores.end(); ++it){
+        nickname = it->getNickname();
+        fechaNacimiento = it->getFechaNacimiento();
+        rut = it->getRut();
+        dataVendedores.push_back(DTDataVendedor(nickname, fechaNacimiento, rut));
+    }
+
+    return dataVendedores;
+
+}
+
+
+
 
 
 ControlUsuario::~ControlUsuario() {

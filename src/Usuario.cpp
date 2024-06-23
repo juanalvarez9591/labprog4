@@ -2,14 +2,20 @@
 #include "Comentario.h"
 #include "Usuario.h"
 
-Usuario::Usuario(string nickname, string password, DTFecha fechaNacimiento) {
-    this->nickname = nickname;
-    this->password = password;
-    this->fechaNacimiento = fechaNacimiento;
+Usuario::Usuario(string nickname, string password, DTFecha fechaNacimiento)
+        : nickname(nickname), password(password), fechaNacimiento(fechaNacimiento) {
 }
 
-string Usuario::getNickname() {
+string Usuario::getNickname() const {
     return nickname;
+}
+
+string Usuario::getPassword() const {
+    return password;
+}
+
+DTFecha Usuario::getFechaNacimiento() const {
+    return fechaNacimiento;
 }
 
 void Usuario::addComentario(Comentario* c) {

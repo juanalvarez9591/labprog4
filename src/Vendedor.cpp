@@ -1,9 +1,10 @@
 #include "Vendedor.h"
 #include "DTNotificacion.h"
 
-Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, int rut) : Usuario(nickname, password, fechaNacimiento) {
+Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, string rut) : Usuario(nickname, password, fechaNacimiento) {
     this->rut = rut;
 }
+
 
 bool Vendedor::estaSuscrito(IObserver* observer) {
     for (int i = 0; i < this->observers.size(); i++) {
@@ -14,9 +15,17 @@ bool Vendedor::estaSuscrito(IObserver* observer) {
     return false;
 }
 
+
 string Vendedor::getNickname() const {
     return this->nickname;
 }
+DTFecha Vendedor::getFechaNacimiento() const {
+    return this-> fechaNacimiento;
+}
+string Vendedor::getRut() const {
+    return this-> rut;
+}
+
 
 void Vendedor::agregarObserver(IObserver* observer) {
     this->observers.push_back(observer);

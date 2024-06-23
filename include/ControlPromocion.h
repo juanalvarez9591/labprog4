@@ -9,12 +9,12 @@
 #include "DTFecha.h"
 #include "DTPromocion.h"
 #include "DTInfoProducto.h"
-#include "ControlUsuario.h"
-#include "ControlFecha.h"
 #include "IControlPromocion.h"
 #include "Producto.h"
 #include "Promocion.h"
 #include "Requisitos.h"
+#include "ControlUsuario.h"
+#include "ControlFecha.h"
 
 using namespace std;
 
@@ -25,19 +25,22 @@ public:
     bool elegirVendedor(string nickVendedor);
     bool ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
     vector<DTProducto> listarProductos();
-    DTInfoProducto verInfoProducto(int idProducto);
+    DTInfoProducto verInfoProducto(int idProducto) override;
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
-    vector<DTProducto> verProductosVendedor();
+    vector<DTProducto> verProductosVendedorEnMemoria();
+    vector<DTProducto> verProductosVendedor(string nickUsuario);
     void agregarProductoPromocion(int idProducto, int cantidad);
     void confirmarPromocion();
-    vector<DTPromocion> listarPromocionesVigentes();
+    set<DTPromocion> listarPromocionesVigentes();
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();
-    vector<DTDatosProducto> dataProductos();
+    vector<DTDatosProducto> listarDataProductos();
     Producto* getProductoByID(int idProducto);
-    const vector<Requisitos>& obtenerRequisitosPromocion(const string nombre);
-    float calcularPrecioTotal(vector<DTDetalleProducto> parCompra);
+    vector<Requisitos> obtenerRequisitosPromocion(string nombre);
+    vector<DTPromocion> verPromocionesVendedor(string nickVendedor);
+    float calcularPrecioTotal(int codigoProducto, int cantidad);
+    bool crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido) override;
 
 private:
     ControlPromocion();
@@ -49,5 +52,7 @@ private:
     Vendedor* vendedorEnMemoria;
     Promocion promocionEnMemoria;
 };
+
+
 
 #endif

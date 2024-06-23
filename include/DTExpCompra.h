@@ -1,5 +1,5 @@
 #ifndef DTEXP_COMPRA_H
-#define DTEXP_COMRPA_H
+#define DTEXP_COMPRA_H
 
 #include "DTFecha.h"
 #include "DTExpProducto.h"
@@ -15,9 +15,9 @@ private:
 public:
     DTExpCompra();
     DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto> productos);
-    float getCosto();
-    DTFecha getFecha();
-    vector<DTExpProducto> getProductos();
+    float getCosto() const;
+    DTFecha getFecha() const;
+    vector<DTExpProducto> getProductos() const;
 };
 
 #endif

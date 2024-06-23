@@ -9,17 +9,16 @@ class DTDatosProducto {
 private:
     int stock;
     string nombreProducto;
-    int precio;
+    float precio;
     int codigoProducto;
 
 public:
-    DTDatosProducto(int stock, string nombreProducto, int precio, int codigoProducto);
+    DTDatosProducto(int stock, string nombreProducto, float precio, int codigoProducto);
     string toString() const;
-    int getCodigo();
-    int getStock();
-    int getPrecio();
-    string getNombre();
-
+    int getCodigo() const;
+    int getStock() const;
+    float getPrecio() const;
+    string getNombre() const;
 };
 
 #endif

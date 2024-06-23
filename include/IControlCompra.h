@@ -7,21 +7,24 @@
 #include "DTInfoProducto.h"
 #include "DTDatosProducto.h"
 #include "DTFecha.h"
+#include "DTCompra.h"
+#include "DTProducto.h"
+
 using namespace std;
 
 class IControlCompra {
 public:
-    virtual void seleccionarCliente(string nombreCliente) = 0;
-    virtual void agregarCantidad(int codigo, int cantidad) = 0;
+    virtual void seleccionarCliente(string nickCliente) = 0;
+    virtual bool agregarCantidad(int codigo, int cantidad) = 0;
     virtual bool confirmarCompra() = 0;
-    virtual vector <DTDatosProducto> mostrarDatosProducto() = 0;
-    virtual ~IControlCompra(){};
-    virtual vector<string> listarClientes() = 0;
     virtual void olvidarCompra() = 0;
-    virtual float calcularPrecioCompra(vector<DTDetalleProducto> parCompra) = 0;
-    //virtual vector<DTDetalleProducto> getDataProducto() = 0; 
-
-
+    virtual DTDetallesCompra verDetallesCompra() = 0;
+    virtual bool elegirVendedor(string nickVendedor) = 0;
+    virtual vector<DTProducto> listarProductosAptosDelVendedor() = 0;
+    virtual bool elegirProducto(int id) = 0;
+    virtual vector<DTCompra> listarComprasCliente() = 0;
+    virtual bool marcarComoEnviado(int codigo) = 0;
+    virtual ~IControlCompra() = default;
 };
 
 #endif

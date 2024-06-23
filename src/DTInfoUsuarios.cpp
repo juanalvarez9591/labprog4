@@ -3,18 +3,21 @@
 
 DTInfoUsuarios::DTInfoUsuarios(){
     this->nickname = "";
-    this->fecha = DTFecha();
+    this->fechaNacimiento = DTFecha();
 }
 
-DTInfoUsuarios::DTInfoUsuarios(string nickname, DTFecha fecha){
+DTInfoUsuarios::DTInfoUsuarios(string nickname, DTFecha fechaNacimiento){
     this->nickname = nickname;
-    this->fecha = fecha;
+    this->fechaNacimiento = fechaNacimiento;
 }
 
-string DTInfoUsuarios::getNickname(){
+string DTInfoUsuarios::getNickname() const{
     return this->nickname;
 }
 
-DTFecha DTInfoUsuarios::getFecha(){
-    return this->fecha;
+DTFecha DTInfoUsuarios::getFechaNacimiento() const{
+    return this->fechaNacimiento;
+}
+
+DTInfoUsuarios::~DTInfoUsuarios() {
 }
