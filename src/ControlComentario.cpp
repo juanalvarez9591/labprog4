@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream> //para debugeo
 
-//Funciones basicas controlador
+//Funciones basicas controlador:
 ControlComentario* ControlComentario::instance = nullptr;
 
 ControlComentario* ControlComentario::getInstance() {
@@ -25,7 +25,7 @@ ControlComentario::~ControlComentario() {
 }
 
 
-//Borrar comentario
+//Funciones para borrar comentario:
 
 vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
     vector<Comentario*> comentariosUsuario = this->ContrUsua->getUsuario(nombreUsuario)->getComentarios();
@@ -56,36 +56,30 @@ Usuario* ControlComentario::getUsuarioComentario(string texto) {
 
 void ControlComentario::eliminarComentario(string mensaje) {
     Comentario *aBorrar;
-    Usuario* autor = getUsuarioComentario(mensaje); //Guardamos el que escribió el comentario
-    if (autor != nullptr){
-        cout << "encontre: " << autor->getNickname() << endl;
-    }
-    
+    //Usuario* autor = getUsuarioComentario(mensaje); //El autor del comentario ya esta guardado en memoria
     bool borrado = false;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
     auto iterProd = Productos.begin();
         while(iterProd != Productos.end() && !borrado) {
-            cout << "Revisando: " << iterProd->getNombre() << endl;
             Comentario *iterComent = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
             if (iterComent == nullptr){
-                //return true   //posible transformacion de la funcion a bool
+
             }else if (iterComent->getTexto() == mensaje) {
                 aBorrar = ContrProm->getProductoByID(iterProd->getId())->GetComentarios();
-                autor->olvidarComentario(aBorrar);
+                this->UsuarioSeleccionado->olvidarComentario(aBorrar);
                 ContrProm->getProductoByID(iterProd->getId())->SetComentario(aBorrar->getSig());
                 aBorrar->borrarRespuestas();
-
                 borrado = true;
             }else if ((iterComent->getSig() != nullptr) && (iterComent->getSig()->getTexto() == mensaje)){
                 aBorrar = iterComent->getSig();
                 iterComent->setSig(iterComent->getSig()->getSig());
-                autor->olvidarComentario(aBorrar);
+                this->UsuarioSeleccionado->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
             }else if ((iterComent->getResp() != nullptr) && (iterComent->getResp()->getTexto() == mensaje)) {
                 aBorrar = iterComent->getResp();
                 iterComent->setRes(iterComent->getResp()->getSig());
-                autor->olvidarComentario(aBorrar);
+                this->UsuarioSeleccionado->olvidarComentario(aBorrar);
                 aBorrar->borrarRespuestas();
                 borrado = true;
             }else {
@@ -99,15 +93,17 @@ void ControlComentario::eliminarComentario(string mensaje) {
             }
             ++iterProd;
         }
+        this->UsuarioSeleccionado = nullptr;
+        this->AResponder = nullptr;
 }
 
 
 
-//Realizar comentario
+//Funciones para realizar comentario:
 
-void ControlComentario::seleccionarUsuario(string nombreUsuario){
-    //this->Comentador = nombreUsuario;
+bool ControlComentario::seleccionarUsuario(string nombreUsuario){
     this->UsuarioSeleccionado = this->ContrUsua->getUsuario(nombreUsuario);
+    return (this->UsuarioSeleccionado != nullptr);
 }
 
 vector<DTProducto> ControlComentario::listarProductos(){
@@ -127,8 +123,9 @@ vector<DTProducto> ControlComentario::listarProductos(){
     this.Prod = nombreProducto;
 }*/
 
-void ControlComentario::seleccionarProducto(int IDProducto){
+bool ControlComentario::seleccionarProducto(int IDProducto){
     this->ProdSeleccionado = this->ContrProm->getProductoByID(IDProducto);
+    return (this->ProdSeleccionado != nullptr);
 }
 
 
@@ -151,8 +148,8 @@ void ControlComentario::realizarComentario(string texto, DTFecha fecha){
         }
         this->UsuarioSeleccionado->addComentario(Opinion);
     }
-    
-   
+    this->UsuarioSeleccionado = nullptr;
+    this->ProdSeleccionado = nullptr;
 }
 
 vector<string> ControlComentario::HacerListComentarios(Comentario* Comentario , vector<string> Vec){
@@ -194,7 +191,7 @@ vector<string> ControlComentario::listarComentarios(){
 }
 
 //Si guarda AResponder = nullptr es que el comentario no existia
-void ControlComentario::elegirComentario(string mensaje){
+bool ControlComentario::elegirComentario(string mensaje){
 
     /*Comentario* AResponder = nullptr;
     vector<DTProducto> Productos = this->ContrProm->listarProductos();
@@ -214,12 +211,12 @@ void ControlComentario::elegirComentario(string mensaje){
     }
 
     this->AResponder = AResponder;
+    return (AResponder != nullptr);
 }
 
 void ControlComentario::responderComentario(string respuesta, DTFecha fecha){
 
-    if ((this->UsuarioSeleccionado != nullptr) && (this->AResponder != nullptr))
-    {
+    if ((this->UsuarioSeleccionado != nullptr) && (this->AResponder != nullptr)) {
         Comentario* Opinion = new Comentario(respuesta, fecha);
         vector<string> nickUsuarios = this->ContrUsua->listarNicknamesUsuarios();
         auto iterUsuario = nickUsuarios.begin();
@@ -240,5 +237,6 @@ void ControlComentario::responderComentario(string respuesta, DTFecha fecha){
             }
                         //cout << "siguiente del elegido: " << AResponder->getResp()->getTexto() << endl;
     }
-        
+    this->UsuarioSeleccionado = nullptr;
+    this->AResponder = nullptr;
 }

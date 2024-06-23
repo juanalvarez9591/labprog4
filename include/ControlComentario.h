@@ -27,12 +27,12 @@ public:
 
 
 //Realizar Comentario
-    void seleccionarUsuario(string nombreUsuario);
+    bool seleccionarUsuario(string nombreUsuario); //Devuelve false si no encontró el usuario
     vector<DTProducto> listarProductos();
-    void seleccionarProducto(int IDProducto);
+    bool seleccionarProducto(int IDProducto); //Devuelve false si no encontró el usuario
     void realizarComentario(string texto, DTFecha fecha);
     vector<string> listarComentarios();
-    void elegirComentario(string mensaje);
+    bool elegirComentario(string mensaje); //Devuelve false si no encontró el comentario
     void responderComentario(string respuesta, DTFecha fecha);
 
     
