@@ -8,8 +8,7 @@
 #include "DTFecha.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
-
-
+#include "DTComentario.h"
 #include <vector>
 
 class ControlUsuario : public IControlUsuario {
@@ -39,7 +38,5 @@ private:
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
 };
-
-
 
 #endif

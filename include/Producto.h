@@ -6,6 +6,7 @@
 #include "DTProducto.h"
 #include "DTInfoProducto.h"
 #include "Categoria.h"
+#include "Comentario.h"
 #include "DTDatosProducto.h"
 
 using namespace std;
@@ -27,6 +28,12 @@ public:
     void actualizarStock(int cantidad);
     ~Producto();
 
+    Comentario* GetComentarios();
+    void SetComentario(Comentario* Nuevaraiz);
+
+    void PrintTodosComentarios();
+    void PrintComentario(Comentario *Comentario, int Sangria);
+    Comentario* GetComentario(string Text);
 private:
     string descripcion;
     string nombre;
@@ -35,6 +42,9 @@ private:
     float precio;
     Categoria categoria;
     Vendedor* vendedor;
+    Comentario* Foro;
+    void PrintTodosComentariosAux(Comentario *Comentario, int Sangria);
+    Comentario *Estecomentario(Comentario *It, string Text);
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "Producto.h"
 #include <iostream>
+#include "Comentario.h"
+
 Producto::Producto() {
     this->nombre = "";
     this->descripcion = "";
@@ -8,6 +10,7 @@ Producto::Producto() {
     this->precio = 0;
     this->categoria = Categoria::Otro;
     this->vendedor = nullptr;
+    this->Foro = nullptr;   
 }
 
 Producto::Producto(string nombre, string descripcion, int id, int stock, float precio, Categoria categoria, Vendedor* vendedor) {
@@ -18,6 +21,7 @@ Producto::Producto(string nombre, string descripcion, int id, int stock, float p
     this->precio = precio;
     this->categoria = categoria;
     this->vendedor = vendedor;
+    this->Foro = nullptr;  
 }
 
 string Producto::getNombre() {
@@ -52,7 +56,14 @@ Vendedor* Producto::getVendedor() const {
 DTProducto Producto::toDTProducto() const {
     return DTProducto(this->nombre, this->id);
 }
+    
+Comentario* Producto::GetComentarios() {
+	return this->Foro;
+}
 
+void Producto::SetComentario(Comentario* Nuevaraiz) {
+	this->Foro = Nuevaraiz;
+}
 
 DTInfoProducto Producto::toDTInfoProducto() const {
     return DTInfoProducto(this->nombre, this->precio, this->stock, this->descripcion, this->vendedor->getNickname(), this->categoria);
@@ -70,5 +81,26 @@ void Producto::actualizarStock(int cantidad) {
     }
 }
 
+
 Producto::~Producto() {
+
 }
+/*void PrintComentariorec(Comentario *Comentario, int Sangria){
+	for (int i = 0; i < Sangria; i++){
+		cout << "> > ";
+	}
+	Comentario->PrintComentario();
+}
+
+void PrintTodosComentariosAux(Comentario *Comentario, int Sangria){
+	PrintComentariorec(Comentario, Sangria);
+	PrintTodosComentariosAux(Comentario->getResp(), Sangria+1 );
+	PrintTodosComentariosAux(Comentario->getSig(), Sangria);
+}
+
+void PrintTodosComentarios(){
+	if (this->Foro != NULL){
+		PrintTodosComentariosAux(this->Foro, 1);
+	}
+}*/
+

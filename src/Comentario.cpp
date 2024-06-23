@@ -1,45 +1,134 @@
-/*
+
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
 
-Comentario Comentario(std::string texto){
+using namespace std;
+
+Comentario::Comentario(string texto, DTFecha fecha){
 	this->texto = texto;
-	this->date = getDTFechaNow();
-	this->Sigcomenario = NULL;
+	this->fecha = fecha;
+	this->Sigcomentario = NULL;
 	this->Respuesta = NULL;
 }
 
-//Libera la el DTfecha asociado, hay que hacer delete aparte
-void Liberar(){
-	LiberarFecha(this->date);
+/* //Libera el DTfecha asociado, hay que hacer delete aparte
+void Comentario::Liberar(){
+	//LiberarFecha(this->fecha);
+	delete this->fecha;
+}*/
+
+//Devuelve un set con las respuestas DIRECTAS del comentario
+set<Comentario*> Comentario::getRespuestas() {
+	set<Comentario*> respuestas;
+	Comentario* i = this->Respuesta;
+	while(i != NULL) {
+		respuestas.insert(i);
+		i = i->Sigcomentario;
+	}
+	return respuestas;
+}
+
+void Comentario::eliminarNodo() {
+	delete this;
+}
+
+//Borra el comentario y TODAS sus respuestas, NO HACE LA RECONEXION ARBORECENTE. ESO SE HACE ANTES DE LLAMAR LA FORMULA
+void Comentario::borrarRespuestas() {
+    auto respuestas = this->getRespuestas();
+    for(auto i = respuestas.begin(); i!=respuestas.end(); ++i) {
+        (*i)->borrarRespuestas();
+    }
+    this->eliminarNodo();
+}
+
+//Busca recursivamente un mensaje y lo borra
+//PRE: el mensaje buscado NO es el actual
+bool Comentario::eliminarNodoPosterior(string mensaje) {
+		Comentario *aBorrar;
+		bool borrado = false;
+		if ((this->Sigcomentario != NULL) && (this->Sigcomentario->texto == mensaje)) {
+			aBorrar = this->Sigcomentario;
+			this->Sigcomentario = this->Sigcomentario->Sigcomentario;
+			aBorrar->borrarRespuestas();
+			borrado = true;
+		} else if ((this->Respuesta != NULL) && (this->Respuesta->texto == mensaje)) {
+			aBorrar = this->Respuesta;
+			this->Respuesta = this->Respuesta->Sigcomentario;
+			aBorrar->borrarRespuestas();
+			borrado = true;
+		} else {
+			if (this->Sigcomentario != nullptr){
+				borrado = this->Sigcomentario->eliminarNodoPosterior(mensaje);
+			}
+			
+			if((!borrado) && (this->Sigcomentario != nullptr)) {
+				borrado = this->Respuesta->eliminarNodoPosterior(mensaje);
+			}
+		}
+		return borrado;
+}
+
+void Comentario::AgregarRespuesta(Comentario *respuesta) {
+	if (this->Respuesta == NULL) {
+		this->Respuesta = respuesta;
+	} else {
+		Comentario *iterComent = this->Respuesta;
+		while (iterComent->Sigcomentario != NULL) {
+			iterComent = iterComent->Sigcomentario;
+		}
+		iterComent->Sigcomentario = respuesta;
+	}
 }
 
 //Devuelve el puntero a la primera respuesta
-Comentario* borrarRespuestas(){
+Comentario* Comentario::getResp(){
 	return this->Respuesta;
 }
 
-Comentario* getResp(){
-	return this->Respuesta;
+Comentario* Comentario::getSig(){
+	return this->Sigcomentario;
 }
 
-Comentario* getSig(){
-	return this->Sigcomenario;
+void Comentario::setSig(Comentario* Sig){
+	this->Sigcomentario = Sig;
+}
+void Comentario::setRes(Comentario* Res){
+	this->Respuesta = Res;
 }
 
-void setSig(Comentario* Sig){
-	this->Sig = Sig;
-}
-void setRes(Comentario* Res){
-	this->Res = Res;
-}
-
-string obtenerTexto(){
-
+string Comentario::getTexto(){
 	return this->texto;
 }
 
-DTComentario getDTComentario(){
-	return DTComentario(this->autor , this->texto);
+DTComentario Comentario::getDTComentario(){
+	return DTComentario(this->texto, this->fecha);
+}
+
+bool Comentario::UltimoDelNivel(){
+	return (this->Sigcomentario == NULL);
+}
+
+/*void Comentario::PrintComentario(){
+	cout << this->texto << endl;
 }*/
+
+Comentario* Comentario::ComentarioEnForo(string Text){
+    if (this == NULL){
+        return NULL;
+    }else{
+        if (this->texto == Text){
+            return this;
+
+        }else{
+            Comentario *Catalejo = this->Sigcomentario->ComentarioEnForo(Text);
+            if (Catalejo != NULL){
+                return Catalejo;
+
+            }else{
+                Catalejo = this->Respuesta->ComentarioEnForo(Text);
+                return Catalejo;
+        }
+        }
+    }
+}
