@@ -9,7 +9,7 @@ DTInfoProducto::DTInfoProducto() {
     this->categoria = Categoria::Otro;
 }
 
-DTInfoProducto::DTInfoProducto(string nombre, int precio, int stock, string descripcion, string nickVendedor, Categoria categoria) {
+DTInfoProducto::DTInfoProducto(string nombre, float precio, int stock, string descripcion, string nickVendedor, Categoria categoria) {
     this->nombre = nombre;
     this->precio = precio;
     this->stock = stock;
@@ -26,3 +26,11 @@ string DTInfoProducto::toString() const {
             "Vendedor: " + nickVendedor + "\n" +
             "Categoria: " + ::toString(categoria) + "\n";
 }
+
+string DTInfoProducto::getNombre() const{
+    return this->nombre;
+}
+
+float DTInfoProducto::getPrecio() const{
+        return this->precio;
+    }

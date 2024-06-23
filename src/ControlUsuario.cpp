@@ -6,9 +6,11 @@
 
 ControlUsuario* ControlUsuario::instance = nullptr;
 
+
 ControlUsuario* ControlUsuario::getInstance() {
     if (instance == nullptr) {
-        instance = new ControlUsuario();
+     instance = new ControlUsuario();
+       
     }
     return instance;
 }
@@ -16,12 +18,12 @@ ControlUsuario* ControlUsuario::getInstance() {
 ControlUsuario::ControlUsuario() {
     clientes = vector<Cliente>();
     vendedores = vector<Vendedor>();
-    controlPromocion = ControlPromocion::getInstance();
-    controlCompra = ControlCompra::getInstance();
+   // controlPromocion = ControlPromocion::getInstance();
+  //  controlCompra = ControlCompra::getInstance();
 }
 
 DTInfoUsuarios ControlUsuario::verExpedienteUsuario(string nickUsuario) {
-    Usuario* usuario = getUsuario(nickUsuario);
+  /*  Usuario* usuario = getUsuario(nickUsuario);
     if (usuario == nullptr) {
         return DTInfoUsuarios();
     }
@@ -43,7 +45,7 @@ DTInfoUsuarios ControlUsuario::verExpedienteUsuario(string nickUsuario) {
                                  productos);
     }
 
-    return DTInfoUsuarios();
+    return DTInfoUsuarios();*/
 }
 
 bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {

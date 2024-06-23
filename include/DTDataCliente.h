@@ -12,13 +12,14 @@ private:
     DTFecha fechaNacimiento;
 
 public:
+    DTDataCliente();
     DTDataCliente(string nickname, DTFecha fechaNacimiento, int nroPuerta,  string calle, string ciudad);
     string getCalle() const;
     string getCiudad() const;
     string getNickname() const;
     int getNroPuerta() const; 
     DTFecha getFechaNacimiento() const;
-    virtual ~DTDataCliente() override;
+    virtual ~DTDataCliente();
 
 };
 
