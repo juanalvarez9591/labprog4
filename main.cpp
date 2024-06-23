@@ -571,7 +571,8 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
     do {
         cout << "Menu de Compra:" << endl;
         cout << "1. Realizar compra" << endl;
-        cout << "2. Volver al menu principal" << endl;
+        cout << "2. Enviar producto" << endl;
+        cout << "0. Volver al menu principal" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -644,10 +645,63 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
                 break;
 
             case '2':
+            {
+                string vendedorElegido;
+                string clienteElegido;
+                int IDElegido;
+                bool sinError;
+                vector<string> nickVendedores = controlUsuario->listarNicknamesVendedores();
+                if (nickVendedores.empty()) {
+                    cout << "No hay vendedores actualmente, vuelve más tarde." << endl;
+                    break;
+                }
+                cout << "Selecciona uno de los siguientes vendedores:" << endl;
+                for (auto iterVendedor = nickVendedores.begin(); iterVendedor != nickVendedores.end(); ++iterVendedor) {
+                    cout << "- " << *iterVendedor << endl;
+                }
+                cin >> vendedorElegido;
+                sinError = controlCompra->elegirVendedor(vendedorElegido);
+                if (!sinError) {
+                    cout << "No se reconoce el vendedor. Recuerda respetar las mayúsculas." << endl;
+                    break;
+                }
+                //Listamos los productos que estén en al menos una compra y no hayan sido enviados:
+                unordered_map<int, DTProducto> productosAptos = controlCompra->listarProductosVendedorAptos();
+                if(productosAptos.empty()) {
+                    cout << "Actualmente no hay productos para enviar." << endl;
+                    break;
+                }
+                cout << "Escribe el ID del producto a enviar entre los siguientes:" << endl;
+                for (auto iterProd = productosAptos.begin(); iterProd != productosAptos.end(); ++iterProd) {
+                    cout << "- Nombre: " << iterProd->second->getNombre() << endl;
+                    cout << "  ID: " << producto->second->getId() << endl;
+                }
+                cin >> IDElegido;
+                sinError = elegirProducto(IDElegido);
+                if(!sinError) {
+                    cout << "Producto no encotrado. Revisa haber escrito el ID correctamente."
+                    break;
+                }
+                //Ahora listamos todas las compras (de forma: clente, fecha de compra) que tienen pendiente enviar el producto:
+                vector<DTCompra> comprasCliente = controlCompra->listarComprasCliente();
+                if (comprasCliente.empty()) {
+                    cout << "Este producto no tiene compras con envío pendiente. Vuelve más tarde." << endl;
+                    break;
+                }
+                cout << "Escribe el nickname de a quién quieras enviar el producto:"
+                for (auto iterCompra = comprasCliente.begin(); iterCompra != comprasCliente.end(); ++iterCompra) {
+                    cout << "- Cliente:" << iterCompra->getNicknameCliente() << ", " << iterCompra->getFechaCompra()->getString() << endl;
+                } 
+                cin >> clienteElegido;
+                controlCompra->marcarComoEnviado(clienteElegido);
+            }
+                break;
+            
+            case '0':
                 break;
 
             default:
-                cout << "Opcion invalida, intenta de nuevo" << endl;
+                cout << "Opcion inválida, intenta de nuevo." << endl;
         }
 
         cout << "Presiona enter para continuar..." << endl;
