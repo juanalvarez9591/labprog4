@@ -13,10 +13,8 @@
 #include "Producto.h"
 #include "Promocion.h"
 #include "Requisitos.h"
-
-class ControlUsuario;
-class ControlFecha;
-class Vendedor;
+#include "ControlUsuario.h"
+#include "ControlFecha.h"
 
 using namespace std;
 
@@ -56,5 +54,5 @@ private:
 };
 
 
-#include "ControlUsuario.h"
+
 #endif

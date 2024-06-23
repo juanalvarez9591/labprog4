@@ -8,11 +8,9 @@
 #include "DTFecha.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
-#include "ControlCompra.h"
+
 
 #include <vector>
-
-class ControlCompra;
 
 class ControlUsuario : public IControlUsuario {
 public:
