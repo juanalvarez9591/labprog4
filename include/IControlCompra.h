@@ -8,6 +8,7 @@
 #include "DTInfoProducto.h"
 #include "DTDatosProducto.h"
 #include "DTFecha.h"
+#include "DTCompra.h"
 using namespace std;
 
 class IControlCompra {

@@ -179,7 +179,7 @@ vector<DTCompra> ControlCompra::listarComprasCliente(){
         Compra* compraactual = itcompra->second;
         vector<Cantidad*>& cantidades = compraactual->getCantidades();
         for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
-                if (itercantidad->getProducto() == this->productoEnMemoria){
+                if ((*itercantidad)->getProducto() == this->productoEnMemoria){
                     Salida.push_back(compraactual->toDTCompra());
                 }
             }
@@ -198,9 +198,9 @@ void ControlCompra::marcarComoEnviado(string nickCliente){
 
             vector<Cantidad*>& cantidades = this->compras[itermap]->getCantidades();
             for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
-                    if (itercantidad->getProducto() == this->productoEnMemoria){
+                    if ((*itercantidad)->getProducto() == this->productoEnMemoria){
                         foundprod = true;
-                        itercantidad->setEnviado(true);
+                        (*itercantidad)->setEnviado(true);
                     }
                 }
         }

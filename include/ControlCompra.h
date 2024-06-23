@@ -15,6 +15,7 @@
 #include "IControlCompra.h"
 #include "ControlPromocion.h"
 #include "ControlUsuario.h"
+#include "DTCompra.h"
 
 
 
