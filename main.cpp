@@ -709,13 +709,13 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                         }
                         cin.ignore();
                         getline(cin, texto);
-                        sinError = controlComentario->elegirComentario(texto)
+                        sinError = controlComentario->elegirComentario(texto);
                         if (!sinError) {
                             cout << "No se encontró el comentario, asegurate de haberlo escrito correctamente" << endl;
                             break;
                         }
                         controlComentario->eliminarComentario(texto);
-                        cout << "¡Comentario creado con éxito!" << endl;
+                        cout << "¡Comentario eliminado con éxito!" << endl;
                         break;
                     }
                 }
@@ -786,7 +786,7 @@ int main() {
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '6');
+    } while (choice != '8');
 
     return 0;
 }
