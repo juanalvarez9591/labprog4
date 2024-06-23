@@ -27,7 +27,7 @@ public:
     bool elegirVendedor(string nickVendedor);
     bool ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria);
     vector<DTProducto> listarProductos();
-    DTInfoProducto verInfoProducto(int idProducto);
+    DTInfoProducto verInfoProducto(int idProducto) override;
     void ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje);
     vector<DTProducto> verProductosVendedorEnMemoria();
     vector<DTProducto> verProductosVendedor(string nickUsuario);
@@ -42,6 +42,7 @@ public:
     vector<Requisitos> obtenerRequisitosPromocion(string nombre);
     vector<DTPromocion> verPromocionesVendedor(string nickVendedor);
     float calcularPrecioTotal(int codigoProducto, int cantidad);
+    bool crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido) override;
 
 private:
     ControlPromocion();
@@ -54,4 +55,6 @@ private:
     Promocion promocionEnMemoria;
 };
 
+
+#include "ControlUsuario.h"
 #endif

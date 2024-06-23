@@ -8,9 +8,10 @@
 #include "DTFecha.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
+#include "ControlCompra.h"
+
 #include <vector>
 
-class ControlPromocion;
 class ControlCompra;
 
 class ControlUsuario : public IControlUsuario {
@@ -27,7 +28,6 @@ public:
     Vendedor* getVendedor(string nickname);
     Cliente* getCliente(string nickname);
     vector<Vendedor> getVendedores();
-
     vector<DTDataCliente> listarInfoClientes() override;
     vector<DTDataVendedor> listarInfoVendedores() override;
     DTInfoUsuarios verExpedienteUsuario(string nickUsuario);
@@ -37,12 +37,14 @@ public:
 private:
     ControlUsuario();
     static ControlUsuario* instance;
-    ControlPromocion* controlPromocion;
-    ControlCompra* controlCompra;
+   // ControlPromocion* controlPromocion;
+     ControlCompra* controlCompra;
 
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
 };
+
+
 
 #endif

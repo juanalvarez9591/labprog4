@@ -5,9 +5,6 @@ Vendedor::Vendedor(string nickname, string password, DTFecha fechaNacimiento, st
     this->rut = rut;
 }
 
-string Vendedor::getRut() {
-    return this->rut;
-}
 
 bool Vendedor::estaSuscrito(IObserver* observer) {
     for (int i = 0; i < this->observers.size(); i++) {

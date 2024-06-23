@@ -72,6 +72,17 @@ vector<DTPromocion> ControlPromocion::verPromocionesVendedor(string nickVendedor
 
     return promocionesVendedor;
 }
+bool ControlPromocion::crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido){
+    Vendedor* vendedor = controlUsuario->getVendedor(vendedorElegido);
+    if (vendedor == NULL){
+        return false;
+    }
+    Categoria cat = fromString(categoria);
+    int codigoProducto = productos.size() + 1;
+    Producto producto = Producto(nombre, descripcion, codigoProducto, stock, precio, cat, vendedor);
+    productos[codigoProducto] = producto;
+    return true;
+}
 
 bool ControlPromocion::ingresarProducto(string nombre, string descripcion, float precio, int stock, string categoria) {
     if (this->vendedorEnMemoria == nullptr) {

@@ -10,7 +10,7 @@ Producto::Producto() {
     this->vendedor = nullptr;
 }
 
-Producto::Producto(string nombre, string descripcion, int id, int stock, int precio, Categoria categoria, Vendedor* vendedor) {
+Producto::Producto(string nombre, string descripcion, int id, int stock, float precio, Categoria categoria, Vendedor* vendedor) {
     this->nombre = nombre;
     this->descripcion = descripcion;
     this->id = id;
@@ -33,7 +33,7 @@ Categoria Producto::getCategoria() {
     return this->categoria;
 }
 
-int Producto::getPrecio() {
+float Producto::getPrecio() {
     return this->precio;
 }
 
