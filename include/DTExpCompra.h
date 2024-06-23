@@ -15,9 +15,9 @@ private:
 public:
     DTExpCompra();
     DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto> productos);
-    float getCosto();
-    DTFecha getFecha();
-    vector<DTExpProducto> getProductos();
+    float getCosto() const;
+    DTFecha getFecha() const;
+    vector<DTExpProducto> getProductos() const;
 };
 
 #endif

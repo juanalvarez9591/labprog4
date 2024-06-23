@@ -2,11 +2,10 @@
 #include "DTFecha.h"
 
 
-DTDataVendedor::DTDataVendedor(string nickname, DTFecha fechaNacimiento, string rut) {
+DTDataVendedor::DTDataVendedor(string nickname, DTFecha fechaNacimiento, string rut): DTInfoUsuarios(nickname, fechaNacimiento) {
 
     this->rut = rut;
-    this-> nickname = nickname;
-    this-> fechaNacimiento = fechaNacimiento;
+   
 }
 
 
@@ -15,11 +14,3 @@ string DTDataVendedor::getRut() const {
     return this->rut;
 }
 
-string DTDataVendedor::getNickname() const{
-    return this->nickname;
-
-}
-
-DTFecha DTDataVendedor::getFechaNacimiento() const {
-    return this->fechaNacimiento;
-}

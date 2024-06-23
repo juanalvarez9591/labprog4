@@ -30,16 +30,13 @@ public:
     vector<Vendedor> getVendedores();
     vector<DTDataCliente> listarInfoClientes() override;
     vector<DTDataVendedor> listarInfoVendedores() override;
-    DTInfoUsuarios verExpedienteUsuario(string nickUsuario);
+    DTInfoUsuarios* verExpedienteUsuario(string nickUsuario) override;
 
     virtual ~ControlUsuario();
 
 private:
     ControlUsuario();
     static ControlUsuario* instance;
-   // ControlPromocion* controlPromocion;
-     ControlCompra* controlCompra;
-
     vector<Cliente> clientes;
     vector<Vendedor> vendedores;
     bool nicknameRepetido(string nickname);
