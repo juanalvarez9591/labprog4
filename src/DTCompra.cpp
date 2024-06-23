@@ -1,21 +1,19 @@
 #include "DTCompra.h"
 #include "DTFecha.h"
 
-DTCompra::DTCompra(){
-    this->nicknameCliente = "";
-    this->fechaCompra = DTFecha();
+DTCompra::DTCompra() : nicknameCliente(""), fechaCompra(), id(0) {}
 
-}
+DTCompra::DTCompra(string nicknameCliente, DTFecha fechaCompra, int id)
+        : nicknameCliente(nicknameCliente), fechaCompra(fechaCompra), id(id) {}
 
-DTCompra::DTCompra(string nicknameCliente, DTFecha fechaCompra){
-    this->nicknameCliente = nicknameCliente;
-    this->fechaCompra = fechaCompra;
-}
-
-string DTCompra::getNicknameCliente(){
+string DTCompra::getNicknameCliente() const {
     return this->nicknameCliente;
 }
 
-DTFecha DTCompra::getFechaCompra(){
+DTFecha DTCompra::getFechaCompra() const {
     return this->fechaCompra;
+}
+
+int DTCompra::getId() const {
+    return this->id;
 }

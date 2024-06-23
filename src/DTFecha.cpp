@@ -19,8 +19,7 @@ bool DTFecha::operator>=(const DTFecha &F) const
     return (anio >= F.anio && mes >= F.mes && dia >= F.dia);
 }
 
-string DTFecha::getString()
-{
+string DTFecha::getString() const {
     return to_string(this->dia) + "/" + to_string(this->mes) + "/" + to_string(this->anio);
 }
 

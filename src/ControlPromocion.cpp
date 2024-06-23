@@ -119,7 +119,6 @@ DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
 
 void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
     this->promocionEnMemoria = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
-    
 }
 
 vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
@@ -138,10 +137,9 @@ vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
     unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        Producto producto = it->second;
-        Requisitos requisito = Requisitos(cantidad, &producto);
+        Producto* productoPtr = &(it->second);
+        Requisitos requisito(cantidad, productoPtr);
         this->promocionEnMemoria.agregarRequisitos(requisito);
-        
     }
 }
 
@@ -163,11 +161,13 @@ void ControlPromocion::confirmarPromocion() {
     string nombrePromo = this->promocionEnMemoria.getNombre();
     string nickVendedor = vendedor->getNickname();
     vector<int> codigosProductos;
+    vector<string> nombreProductos;
     for (int i = 0; i < this->promocionEnMemoria.getRequisitos().size(); i++) {
         Requisitos requisito = this->promocionEnMemoria.getRequisitos()[i];
         codigosProductos.push_back(requisito.getProducto()->getId());
+        nombreProductos.push_back(requisito.getProducto()->getNombre());
     }
-    DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos);
+    DTNotificacion notificacion(nombrePromo, nickVendedor, codigosProductos, nombreProductos);
     vendedor->notificarObservers(notificacion);
     this->promocionEnMemoria = Promocion();
     this->vendedorEnMemoria = nullptr;
@@ -270,7 +270,7 @@ float ControlPromocion::calcularPrecioTotal(int codigoProducto, int cantidad) {
 
         for (const Requisitos& req : requisitos) {
             if (req.getProducto()->getId() == codigoProducto && cantidad >= req.getMinimo()) {
-                descuento = total * promo.getPorcentaje() / 100.0;
+                descuento = total * (promo.getPorcentaje() / 100.0);
             } else {
                 cumplePromocion = false;
                 break;

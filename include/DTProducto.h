@@ -15,6 +15,7 @@ public:
     DTProducto(string Nombre, int Id);
     string getNombre() const;
     int getId() const;
+    string toString() const;
 };
 
 #endif

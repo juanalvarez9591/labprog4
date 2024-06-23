@@ -17,7 +17,8 @@ DTExpCompra Compra::toDTExpCompra() const {
     vector<DTExpProducto> dtProductos;
     float totalCosto = 0;
 
-    for (const auto& cantidad : cantidades) {
+    for (vector<Cantidad*>::const_iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
+        Cantidad* cantidad = *it;
         Producto* producto = cantidad->getProducto();
         int cantidadProducto = cantidad->getCantidad();
         float costoProducto = producto->getPrecio() * cantidadProducto;
@@ -25,7 +26,8 @@ DTExpCompra Compra::toDTExpCompra() const {
         dtProductos.push_back(DTExpProducto(
                 producto->getId(),
                 cantidadProducto,
-                producto->getNombre()
+                producto->getNombre(),
+                cantidad->getEnviado()
         ));
 
         totalCosto += costoProducto;
@@ -33,13 +35,12 @@ DTExpCompra Compra::toDTExpCompra() const {
 
     return DTExpCompra(totalCosto, fechaCompra, dtProductos);
 }
-
-DTCompra Compra::toDTCompra(){
-    return DTCompra(this->cliente->getNickname(), this->fechaCompra);
-}
-
 DTFecha Compra::getFechaCompra() {
     return this->fechaCompra;
+}
+
+void Compra::setCosto(float newCosto) {
+    this->costo = newCosto;
 }
 
 void Compra::agregarCantidad(Cantidad* cantidad) {

@@ -22,6 +22,7 @@ public:
     DTExpCompra toDTExpCompra() const;
     DTCompra toDTCompra();
     Cliente* getCliente() const;
+    void setCosto(float newCosto);
 private:
     DTFecha fechaCompra;
     int costo;

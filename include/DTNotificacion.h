@@ -11,10 +11,11 @@ private:
     string nombrePromo;
     string nickVendedor;
     vector<int> codigosProductos;
+    vector<string> nombreProductos;
 
 public:
     DTNotificacion();
-    DTNotificacion(string nombrePromo, string nickVendedor, vector<int> codigosProductos);
+    DTNotificacion(string nombrePromo, string nickVendedor, vector<int> codigosProductos, vector<string> nombreProductos);
     string toString() const;
 };
 
