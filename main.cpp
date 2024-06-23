@@ -9,6 +9,8 @@
 #include "DTInfoProducto.h"
 #include "DTPromocion.h"
 #include "DTProducto.h"
+#include "DTExpCliente.h"
+#include "DTExpVendedor.h"
 #include <algorithm>
 using namespace std;
 
@@ -213,7 +215,7 @@ void consultarProducto (IControlPromocion* controlPromocion){
 
 }
 
-void expedienteUsuario (IControlCompra* controlCompra, IControlUsuario* controlUsuario){
+void expedienteUsuario (IControlUsuario* controlUsuario){
     vector<string> nombresUsuarios = controlUsuario->listarNicknamesUsuarios();
     string usuarioElegido;
 
@@ -225,11 +227,44 @@ void expedienteUsuario (IControlCompra* controlCompra, IControlUsuario* controlU
     cout << "Escriba el nombre del usuario elegido: ";
     cin.ignore();
     getline(cin, usuarioElegido);
-    
 
+    DTInfoUsuarios* infoUsuario = controlUsuario->verExpedienteUsuario(usuarioElegido);
+
+     if (infoUsuario) {
+         if (const DTExpCliente* clienteElegido = dynamic_cast<const DTExpCliente*>(infoUsuario)) {
+            // Si el downcast fue exitoso, podemos acceder a todos los datos de DTExpCliente
+            cout << "Nickname: " << clienteElegido->getNickname() << endl;
+            cout << "Fecha de nacimiento: " << clienteElegido->getFechaNacimiento().getString() << endl;
+            cout << "Número de puerta: " << clienteElegido->getNroPuerta() << endl;
+            cout << "Calle: " << clienteElegido->getCalle() << endl;
+            cout << "Ciudad: " << clienteElegido->getCiudad() << endl;
+
+            string infoCompras = clienteElegido->getInfoCompras();
+            cout << infoCompras;
+        }   else if (const DTExpVendedor* vendedorElegido = dynamic_cast<const DTExpVendedor*>(infoUsuario)) {
+                 // Si el downcast a DTExpVendedor fue exitoso, mostramos los datos del vendedor
+                cout << "Nickname: " << vendedorElegido->getNickname() << endl;
+                cout << "Fecha de nacimiento: " << vendedorElegido->getFechaNacimiento().getString() << endl;
+                cout << "RUT: " << vendedorElegido->getRut() << endl;
+
+                vector<DTPromocion> promociones = vendedorElegido->getPromociones();
+                cout << "Promociones:" << endl;
+                for (const auto& promocion : promociones) {
+                    cout << " - " << promocion.getNombre() << endl;
+                }
+
+                vector<DTProducto> productos = vendedorElegido->getProductos();
+                cout << "Productos:" << endl;
+                for (const auto& producto : productos) {
+                    cout << " - " << producto.getNombre() << endl;
+                }
+            } 
+        
+    } else {
+        cout << "No se encontró el usuario especificado." << endl;
+    }
 
 }
-
 
 void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
     string choiceStr;
@@ -763,7 +798,7 @@ int main() {
         cout << "9. Listado de Usuarios" << endl;
         cout << "10. Alta de Producto" << endl;
         cout << "11. Consultar Producto" << endl;
-
+        cout << "12. Expediente Usuario" << endl;
         cout << "Ingresa tu opcion: ";
        // cin >> choice;
         cin >> choice;
@@ -800,8 +835,10 @@ int main() {
                 altaDeProducto(controlPromocion, controlUsuario);
                 break;
             case 11:
-                consultarProducto (controlPromocion);
+                consultarProducto(controlPromocion);
                 break;
+            case 12:
+                expedienteUsuario(controlUsuario);
             default:
                 cout << "Opcion invalida, intenta de nuevo." << endl;
                 break;

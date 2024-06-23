@@ -18,34 +18,42 @@ ControlUsuario* ControlUsuario::getInstance() {
 ControlUsuario::ControlUsuario() {
     clientes = vector<Cliente>();
     vendedores = vector<Vendedor>();
-   // controlPromocion = ControlPromocion::getInstance();
-  //  controlCompra = ControlCompra::getInstance();
+  
 }
 
-DTInfoUsuarios ControlUsuario::verExpedienteUsuario(string nickUsuario) {
-  /*  Usuario* usuario = getUsuario(nickUsuario);
+DTInfoUsuarios* ControlUsuario::verExpedienteUsuario(string nickUsuario) {
+    Usuario* usuario = getUsuario(nickUsuario);
     if (usuario == nullptr) {
-        return DTInfoUsuarios();
+        return NULL;
     }
 
     Cliente* cliente = dynamic_cast<Cliente*>(usuario);
     if (cliente != nullptr) {
-        DTExpCliente expCliente = controlCompra->verComprasCliente(nickUsuario);
+        DTExpCliente expClienteOriginal = ControlCompra::getInstance()->verComprasCliente(nickUsuario);
+        DTExpCliente* expCliente = new DTExpCliente(expClienteOriginal.getNickname(),
+                                                    expClienteOriginal.getFechaNacimiento(),
+                                                    expClienteOriginal.getNroPuerta(),
+                                                    expClienteOriginal.getCalle(),
+                                                    expClienteOriginal.getCiudad(),
+                                                    expClienteOriginal.getCompras());
+        //Es correcto copiar DT mientras la copia sea en profundidad (visto en teórico)
+        
         return expCliente;
     }
 
     Vendedor* vendedor = dynamic_cast<Vendedor*>(usuario);
     if (vendedor != nullptr) {
-        vector<DTPromocion> promociones = controlPromocion->verPromocionesVendedor(nickUsuario);
-        vector<DTProducto> productos = controlPromocion->verProductosVendedor(nickUsuario);
-        return DTExpVendedor(vendedor->getNickname(),
+        vector<DTPromocion> promociones = ControlPromocion::getInstance()->verPromocionesVendedor(nickUsuario);
+        vector<DTProducto> productos = ControlPromocion::getInstance()->verProductosVendedor(nickUsuario);
+        DTExpVendedor* expVendedor = new DTExpVendedor(vendedor->getNickname(),
                                  vendedor->getFechaNacimiento(),
                                  vendedor->getRut(),
                                  promociones,
                                  productos);
+        return expVendedor;
     }
 
-    return DTInfoUsuarios();*/
+    return NULL;
 }
 
 bool ControlUsuario::darDeAltaCliente(string nickname, string password, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad) {

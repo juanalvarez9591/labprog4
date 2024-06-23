@@ -15,6 +15,7 @@ public:
     DTExpCliente();
     DTExpCliente(string nickname, DTFecha fechaNacimiento, int nroPuerta,string calle, string ciudad, vector<DTExpCompra> compras);
     vector<DTExpCompra> getCompras() const;
+    string getInfoCompras() const;
     virtual ~DTExpCliente() override;
 };
 

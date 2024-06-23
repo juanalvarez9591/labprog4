@@ -135,8 +135,7 @@ DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
             cliente->getNroPuerta(),
             cliente->getCalle(),
             cliente->getCiudad(),
-            comprasCliente
-    );
+            comprasCliente);
 }
 
 bool ControlCompra::elegirVendedor(string nombre){  

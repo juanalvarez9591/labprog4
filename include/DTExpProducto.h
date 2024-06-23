@@ -13,9 +13,9 @@ private:
 public:
     DTExpProducto();
     DTExpProducto(int codigoProducto, int cantidadProducto, string nombreProducto);
-    int getCodigoProducto();
-    int getCantidadProducto();
-    string getNombreProducto();
+    int getCodigoProducto() const;
+    int getCantidadProducto() const;
+    string getNombreProducto() const;
 };
 
 #endif
