@@ -32,6 +32,7 @@ private:
     Cliente* clienteEnMemoria;
     Compra* compraEnProceso;
     Vendedor* vendedorEnMemoria;
+    Producto* productoEnMemoria;
 
 public:
     static ControlCompra* getInstance();
@@ -43,6 +44,9 @@ public:
     DTDetallesCompra verDetallesCompra() override;
     bool elegirVendedor(string nombre);
     unordered_map<int, DTProducto> listarProductosVendedorAptos();
+    bool elegirProducto(int IDProducto);
+    vector<DTCompra> listarComprasCliente();
+    void marcarComoEnviado(string nickCliente);
     virtual ~ControlCompra();
 };
 

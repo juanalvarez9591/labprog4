@@ -34,6 +34,10 @@ DTExpCompra Compra::toDTExpCompra() const {
     return DTExpCompra(totalCosto, fechaCompra, dtProductos);
 }
 
+DTCompra Compra::toDTCompra(){
+    return DTCompra(this->cliente->getNickname(), this->fechaCompra);
+}
+
 DTFecha Compra::getFechaCompra() {
     return this->fechaCompra;
 }

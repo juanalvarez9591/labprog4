@@ -21,3 +21,6 @@ Producto* Cantidad::getProducto() const {
 bool Cantidad::getEnviado(){
     return this->enviado;
 }
+void Cantidad::setEnviado(bool estado){
+    this->enviado = estado;
+}
