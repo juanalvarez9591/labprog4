@@ -20,6 +20,7 @@ public:
     virtual vector<string> listarNicknamesVendedores() = 0;
     virtual vector<DTDataCliente> listarInfoClientes() = 0;
     virtual vector<DTDataVendedor> listarInfoVendedores() = 0;
+    virtual DTInfoUsuarios* verExpedienteUsuario(string nickUsuario) = 0;
     virtual ~IControlUsuario(){};
 };
 

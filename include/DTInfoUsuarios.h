@@ -7,15 +7,15 @@ using namespace std;
 
 class DTInfoUsuarios
 {
-protected:
+private:
     string nickname;
-    DTFecha fecha;
+    DTFecha fechaNacimiento;
 
 public:
     DTInfoUsuarios();
     DTInfoUsuarios(string nickname, DTFecha fecha);
-    string getNickname();
-    DTFecha getFecha();
+    string getNickname() const;
+    DTFecha getFechaNacimiento() const;
     virtual ~DTInfoUsuarios();
 };
 
