@@ -11,6 +11,8 @@ public:
     int getCantidad() const;
     void setCantidad(int newCantidad);
     Producto* getProducto() const;
+    bool getEnviado();
+    void setEnviado(bool estado);
 
 private:
     int cantidad;

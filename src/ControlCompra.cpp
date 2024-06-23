@@ -138,6 +138,77 @@ DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
             comprasCliente);
 }
 
+bool ControlCompra::elegirVendedor(string nombre){  
+    this->vendedorEnMemoria = controlUsuario->getVendedor(nombre);
+    return (this->vendedorEnMemoria != nullptr); 
+}
+
+unordered_map<int, DTProducto> ControlCompra::listarProductosVendedorAptos(){
+    unordered_map<int, DTProducto> productosAptos;
+    vector<DTProducto> Catalogo = this->controlPromocion->verProductosVendedor(this->vendedorEnMemoria->getNickname());
+
+    for (vector<DTProducto>::iterator iterprod = Catalogo.begin(); iterprod != Catalogo.end(); ++iterprod) {
+        
+        for (unordered_map<int, Compra*>::iterator itcompra = compras.begin(); itcompra != compras.end(); ++itcompra) {
+            Compra* compra = itcompra->second;
+            vector<Cantidad*>& cantidades = compra->getCantidades();
+
+            for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
+                bool estadoCompra = (*itercantidad)->getEnviado();
+                if (!(estadoCompra) && ((iterprod)->getId() == (*itercantidad)->getProducto()->getId())){
+                    int Idprod = (*itercantidad)->getProducto()->getId();
+                    if (productosAptos.find(Idprod) != nullptr ){
+                        productosAptos.insert({Idprod, (*iterprod) });
+                    }
+                }
+            }
+        }
+    }
+    return productosAptos;
+}
+//Dado que control promocion busca por el id tuvimos que cambiar a que pase el ID
+bool ControlCompra::elegirProducto(int IDProducto){
+    this->productoEnMemoria = this->controlPromocion->getProductoByID(IDProducto);
+    return (this->productoEnMemoria != nullptr);
+}
+
+
+vector<DTCompra> ControlCompra::listarComprasCliente(){
+    vector<DTCompra> Salida;
+    for (unordered_map<int, Compra*>::iterator itcompra = compras.begin(); itcompra != compras.end(); ++itcompra) {
+        Compra* compraactual = itcompra->second;
+        vector<Cantidad*>& cantidades = compraactual->getCantidades();
+        for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
+                if ((*itercantidad)->getProducto() == this->productoEnMemoria){
+                    Salida.push_back(compraactual->toDTCompra());
+                }
+            }
+    }
+    return Salida;
+}
+//getCantidades
+//marcarComoEnviado()
+void ControlCompra::marcarComoEnviado(string nickCliente){
+    int clave = this->compras.size();
+    bool foundprod = false;
+    int itermap = 0;
+    Cliente* clienteElegido = nullptr; 
+    while( !(foundprod) && (itermap <= clave)){
+        if (this->compras[itermap]->getCliente()->getNickname() == nickCliente){
+
+            vector<Cantidad*>& cantidades = this->compras[itermap]->getCantidades();
+            for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
+                    if ((*itercantidad)->getProducto() == this->productoEnMemoria){
+                        foundprod = true;
+                        (*itercantidad)->setEnviado(true);
+                    }
+                }
+        }
+            
+        
+    }
+}
+
 ControlCompra::~ControlCompra() {
     for (auto& pair : compras) {
         delete pair.second;

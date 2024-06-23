@@ -13,9 +13,10 @@
 #include "DTDetalleProducto.h"
 #include "DTExpCliente.h"
 #include "IControlCompra.h"
-#include "ControlUsuario.h"
 #include "ControlPromocion.h"
-#include "ControlFecha.h"
+#include "ControlUsuario.h"
+#include "DTCompra.h"
+
 
 
 using namespace std;
@@ -31,6 +32,8 @@ private:
     unordered_map<int, Compra*> compras;
     Cliente* clienteEnMemoria;
     Compra* compraEnProceso;
+    Vendedor* vendedorEnMemoria;
+    Producto* productoEnMemoria;
 
 public:
     static ControlCompra* getInstance();
@@ -40,6 +43,11 @@ public:
     void olvidarCompra() override;
     DTExpCliente verComprasCliente(string nickCliente);
     DTDetallesCompra verDetallesCompra() override;
+    bool elegirVendedor(string nombre);
+    unordered_map<int, DTProducto> listarProductosVendedorAptos();
+    bool elegirProducto(int IDProducto);
+    vector<DTCompra> listarComprasCliente();
+    void marcarComoEnviado(string nickCliente);
     virtual ~ControlCompra();
 };
 
