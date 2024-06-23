@@ -16,6 +16,9 @@ public:
     virtual bool confirmarCompra() = 0;
     virtual void olvidarCompra() = 0;
     virtual DTDetallesCompra verDetallesCompra() = 0;
+
+    virtual bool elegirVendedor(string nombre) = 0;
+    virtual unordered_map<int, DTProducto> listarProductosVendedorAptos();
     virtual ~IControlCompra() = default;
 };
 

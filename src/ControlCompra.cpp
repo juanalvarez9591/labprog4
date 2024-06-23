@@ -135,6 +135,35 @@ DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
     );
 }
 
+bool ControlCompra::elegirVendedor(string nombre){  
+    this->vendedorEnMemoria = controlUsuario->getVendedor(nombre);
+    return (this->vendedorEnMemoria != nullptr); 
+}
+
+unordered_map<int, DTProducto> ControlCompra::listarProductosVendedorAptos(){
+    unordered_map<int, DTProducto> productosAptos;
+    vector<DTProducto> Catalogo = this->controlPromocion->verProductosVendedor(this->vendedorEnMemoria->getNickname());
+
+    for (vector<DTProducto>::iterator iterprod = Catalogo.begin(); iterprod != Catalogo.end(); ++iterprod) {
+        
+        for (unordered_map<int, Compra*>::iterator itcompra = compras.begin(); itcompra != compras.end(); ++itcompra) {
+            Compra* compra = itcompra->second;
+            vector<Cantidad*>& cantidades = compra->getCantidades();
+
+            for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
+                bool estadoCompra = (*itercantidad)->getEnviado();
+                if (!(estadoCompra) && ((iterprod)->getId() == (*itercantidad)->getProducto()->getId())){
+                    int Idprod = (*itercantidad)->getProducto()->getId();
+                    if (productosAptos.find(Idprod) != nullptr ){
+                        productosAptos.insert({Idprod, (*iterprod) });
+                    }
+                }
+            }
+        }
+    }
+    return productosAptos;
+}
+
 ControlCompra::~ControlCompra() {
     for (auto& pair : compras) {
         delete pair.second;

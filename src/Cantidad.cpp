@@ -17,3 +17,7 @@ void Cantidad::setCantidad(int newCantidad) {
 Producto* Cantidad::getProducto() const {
     return this->producto;
 }
+
+bool Cantidad::getEnviado(){
+    return this->enviado;
+}
