@@ -1,6 +1,6 @@
 #include "DTDatosProducto.h"
 
-DTDatosProducto::DTDatosProducto(int stock, string nombreProducto, int precio, int codigoProducto) {
+DTDatosProducto::DTDatosProducto(int stock, string nombreProducto, float precio, int codigoProducto) {
     this->stock = stock;
     this->nombreProducto = nombreProducto;
     this->precio = precio;
@@ -22,7 +22,7 @@ int DTDatosProducto::getStock() const {
     return this->stock;
 }
 
-int DTDatosProducto::getPrecio() const {
+float DTDatosProducto::getPrecio() const {
     return this->precio;
 }
 

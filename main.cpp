@@ -149,6 +149,87 @@ void listadoDeUsuarios(IControlUsuario* controlUsuario){
 
 }
 
+void altaDeProducto(IControlPromocion* controlPromocion, IControlUsuario* controlUsuario){
+    vector<string> nombresVendedores = controlUsuario->listarNicknamesVendedores();
+    string vendedorElegido;
+    string nombreProducto, descripcion, categoria;
+    float precio;
+    int stock;
+
+    cout << "Los vendedores son: " <<endl;
+    for (vector<string>::iterator it = nombresVendedores.begin(); it != nombresVendedores.end(); ++it){
+        cout << "-" << *it << endl;
+    }
+    cout << "Ingrese el nombre del vendedor que desea elegir: ";
+    cin.ignore();
+    getline(cin, vendedorElegido);
+    
+    cout << "Ingrese el nombre del producto: ";
+    getline(cin, nombreProducto);
+    cout << "Ingrese el precio: ";
+    cin >> precio;
+    cout << "Ingrese la cantidad en stock: ";
+    cin >> stock;
+    cout << "Ingrese una descripción: ";
+    cin.ignore();
+    getline(cin, descripcion);
+    cout << "Ingrese la categoría: ";
+    getline(cin, categoria);    
+    cout << endl;
+
+    bool exito = controlPromocion->crearProducto(nombreProducto, precio, stock, descripcion, categoria, vendedorElegido);
+    if (exito){
+        cout << "Producto dado de alta exitosamente!"<< endl;
+    } else {
+        cout << "Error: compruebe el nombre del vendedor." << endl;
+    }
+
+}
+
+void consultarProducto (IControlPromocion* controlPromocion){
+    vector<DTProducto> dataProductos = controlPromocion->listarProductos();
+    int codigo;
+
+    cout << "Información de todos los productos registrados: " << endl;
+    for (vector<DTProducto>::iterator it = dataProductos.begin(); it != dataProductos.end(); ++it){
+        cout << "-" << it->getNombre() << " ID: " << to_string(it->getId()) << endl;
+    }
+    cout << "Ingrese el código del producto seleccionado: ";
+    cin >> codigo;
+
+    DTInfoProducto infoProductoElegido = controlPromocion->verInfoProducto(codigo);
+
+      if ((infoProductoElegido.getNombre() == "") && (infoProductoElegido.getPrecio() == 0)){
+        /*uso esto como manejador de errores, ya que en caos de que el producto no exista, verInfoProducto llama 
+        al constructor por defecto, que setea el nombre con "" y el precio en 0, entre otros.*/
+        cout << "El producto seleccionado no existe." << endl;
+      }  else {
+            // El producto existe, mostrar información
+            string texto = infoProductoElegido.toString();
+            cout << texto <<endl;
+    }
+
+
+
+}
+
+void expedienteUsuario (IControlCompra* controlCompra, IControlUsuario* controlUsuario){
+    vector<string> nombresUsuarios = controlUsuario->listarNicknamesUsuarios();
+    string usuarioElegido;
+
+    cout << "Los nombres de todos los usuarios son: " << endl;
+    cout << endl;
+    for (vector<string>::iterator it = nombresUsuarios.begin(); it !=nombresUsuarios.end(); ++it){
+        cout << "-" << *it << endl;
+    }
+    cout << "Escriba el nombre del usuario elegido: ";
+    cin.ignore();
+    getline(cin, usuarioElegido);
+    
+
+
+}
+
 
 void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* controlUsuario) {
     string choiceStr;
@@ -657,7 +738,7 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
 }
 
 int main() {
-    char choice;
+    int choice;
 
     Factory *factory = new Factory();
     IControlUsuario *controlUsuario = factory->getControlUsuario();
@@ -680,49 +761,61 @@ int main() {
         cout << "7. Realizar Compra" << endl;
         cout << "8. Alta de Usuario" << endl;
         cout << "9. Listado de Usuarios" << endl;
+        cout << "10. Alta de Producto" << endl;
+        cout << "11. Consultar Producto" << endl;
 
         cout << "Ingresa tu opcion: ";
+       // cin >> choice;
         cin >> choice;
 
-            switch (choice) {
-            case '1':
+        switch (choice) {
+            case 1:
                 fechaSistemaHandler(controlFecha);
                 break;
-            case '2':
+            case 2:
                 suscripcionesHandler(controlSuscripciones);
                 break;
-            case '3':
+            case 3:
                 usuarioHandler(controlUsuario);
                 break;
-            case '4':
+            case 4:
                 promocionesHandler(controlPromocion, controlUsuario);
                 break;
-            case '5':
+            case 5:
                 cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion);
                 break;
-            case '6':
-                compraHandler( controlCompra, controlPromocion, controlUsuario);
+            case 6:
+                cout << "Saliendo..." << endl;
                 break;
-            case '7':
-                realizarCompra(controlFecha, controlCompra);
+            case 7:
+                compraHandler(controlCompra, controlPromocion, controlUsuario);
                 break;
-            case '8':
+            case 8:
                 altaDeUsuario(controlUsuario);
                 break;
-            case '9':
+            case 9:
                 listadoDeUsuarios(controlUsuario);
                 break;
-
+            case 10:
+                altaDeProducto(controlPromocion, controlUsuario);
+                break;
+            case 11:
+                consultarProducto (controlPromocion);
+                break;
             default:
-                cout << "Opcion invalida, intenta de nuevo" << endl;
+                cout << "Opcion invalida, intenta de nuevo." << endl;
+                break;
         }
 
-        cout << "Presiona enter para continuar..." << endl;
-        cin.ignore();
-        cin.get();
-    } while (choice != '7');
+        if (choice != 6) {
+            cout << "Presiona enter para continuar..." << endl;
+            cin.ignore();
+            cin.get();
+        }
+    } while (choice != 6);
 
     return 0;
 }
+
             
             

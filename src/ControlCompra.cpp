@@ -5,14 +5,8 @@
 #include "DTExpCliente.h"
 #include "Compra.h"
 
-ControlCompra* ControlCompra::instance = nullptr;
 
-ControlCompra* ControlCompra::getInstance() {
-    if (instance == nullptr) {
-        instance = new ControlCompra();
-    }
-    return instance;
-}
+ControlCompra* ControlCompra::instance = nullptr;
 
 ControlCompra::ControlCompra() {
     controlUsuario = ControlUsuario::getInstance();
@@ -23,6 +17,15 @@ ControlCompra::ControlCompra() {
     clienteEnMemoria = nullptr;
     compraEnProceso = nullptr;
 }
+
+ControlCompra* ControlCompra::getInstance() {
+    if (instance == nullptr) {
+        instance = new ControlCompra();
+    }
+    return instance;
+}
+
+
 
 void ControlCompra::seleccionarCliente(string nickCliente) {
     clienteEnMemoria = controlUsuario->getCliente(nickCliente);
@@ -129,7 +132,8 @@ DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
     return DTExpCliente(
             cliente->getNickname(),
             cliente->getFechaNacimiento(),
-            cliente->getDireccion(),
+            cliente->getNroPuerta(),
+            cliente->getCalle(),
             cliente->getCiudad(),
             comprasCliente
     );

@@ -13,10 +13,10 @@
 #include "DTDetalleProducto.h"
 #include "DTExpCliente.h"
 #include "IControlCompra.h"
+#include "ControlPromocion.h"
+#include "ControlUsuario.h"
 
-class ControlPromocion;
-class ControlUsuario;
-class ControlFecha;
+
 
 using namespace std;
 
@@ -45,5 +45,6 @@ public:
     unordered_map<int, DTProducto> listarProductosVendedorAptos();
     virtual ~ControlCompra();
 };
+
 
 #endif

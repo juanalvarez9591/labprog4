@@ -1,10 +1,11 @@
 #include "DTExpCliente.h"
 
-DTExpCliente::DTExpCliente() : DTDataCliente() {
+DTExpCliente::DTExpCliente(): DTDataCliente(){
+
 }
 
-DTExpCliente::DTExpCliente(string nickname, DTFecha fechaNacimiento, string direccion, string ciudad, vector<DTExpCompra> compras)
-        : DTDataCliente(nickname, fechaNacimiento, direccion, ciudad), compras(compras) {}
+DTExpCliente::DTExpCliente(string nickname, DTFecha fechaNacimiento, int nroPuerta, string calle, string ciudad, vector<DTExpCompra> compras)
+        : DTDataCliente(nickname, fechaNacimiento, nroPuerta, calle, ciudad) {}
 
 vector<DTExpCompra> DTExpCliente::getCompras() const {
     return compras;
