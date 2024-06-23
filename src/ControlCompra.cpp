@@ -188,14 +188,12 @@ vector<DTCompra> ControlCompra::listarComprasCliente(){
 }
 //getCantidades
 //marcarComoEnviado()
-void ControlCompra::marcarComoEnviado(string nickCliente){
+bool ControlCompra::marcarComoEnviado(string nickCliente){
     int clave = this->compras.size();
     bool foundprod = false;
     int itermap = 0;
-    Cliente* clienteElegido = nullptr; 
-    while( !(foundprod) && (itermap <= clave)){
+    while( !(foundprod) && (itermap < (clave + 1))){
         if (this->compras[itermap]->getCliente()->getNickname() == nickCliente){
-
             vector<Cantidad*>& cantidades = this->compras[itermap]->getCantidades();
             for (auto itercantidad = cantidades.begin(); itercantidad != cantidades.end(); ++itercantidad){
                     if ((*itercantidad)->getProducto() == this->productoEnMemoria){
@@ -204,9 +202,9 @@ void ControlCompra::marcarComoEnviado(string nickCliente){
                     }
                 }
         }
-            
-        
+        itermap++;
     }
+    return foundprod;
 }
 
 ControlCompra::~ControlCompra() {

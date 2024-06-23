@@ -679,7 +679,7 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
                 cin >> IDElegido;
                 sinError = elegirProducto(IDElegido);
                 if(!sinError) {
-                    cout << "Producto no encotrado. Revisa haber escrito el ID correctamente."
+                    cout << "Producto no encotrado. Revisa haber escrito el ID correctamente." << endl;
                     break;
                 }
                 //Ahora listamos todas las compras (de forma: clente, fecha de compra) que tienen pendiente enviar el producto:
@@ -688,12 +688,15 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
                     cout << "Este producto no tiene compras con envío pendiente. Vuelve más tarde." << endl;
                     break;
                 }
-                cout << "Escribe el nickname de a quién quieras enviar el producto:"
+                cout << "Escribe el nickname de a quién quieras enviar el producto:" << endl;
                 for (auto iterCompra = comprasCliente.begin(); iterCompra != comprasCliente.end(); ++iterCompra) {
                     cout << "- Cliente:" << iterCompra->getNicknameCliente() << ", " << iterCompra->getFechaCompra()->getString() << endl;
                 } 
                 cin >> clienteElegido;
-                controlCompra->marcarComoEnviado(clienteElegido);
+                sinError = controlCompra->marcarComoEnviado(clienteElegido);
+                if (!sinError) {
+                    cout << "No se encontró el cliente. Revisa haberlo su nickname correctamente." << endl;
+                }
             }
                 break;
             

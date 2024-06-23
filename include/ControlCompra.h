@@ -43,11 +43,11 @@ public:
     void olvidarCompra() override;
     DTExpCliente verComprasCliente(string nickCliente);
     DTDetallesCompra verDetallesCompra() override;
-    bool elegirVendedor(string nombre);
+    bool elegirVendedor(string nombre); //retorna true si halló el vendedor
     unordered_map<int, DTProducto> listarProductosVendedorAptos();
-    bool elegirProducto(int IDProducto);
+    bool elegirProducto(int IDProducto); //retorna true si halló el producto
     vector<DTCompra> listarComprasCliente();
-    void marcarComoEnviado(string nickCliente);
+    bool marcarComoEnviado(string nickCliente); //retorna true si halló el producto del cliente
     virtual ~ControlCompra();
 };
 

@@ -19,11 +19,11 @@ public:
     virtual void olvidarCompra() = 0;
     virtual DTDetallesCompra verDetallesCompra() = 0;
 
-    virtual bool elegirVendedor(string nombre) = 0;
+    virtual bool elegirVendedor(string nombre) = 0; //retorna true si halló el vendedor
     virtual unordered_map<int, DTProducto> listarProductosVendedorAptos() = 0;
-    virtual bool elegirProducto(int IDProducto) = 0;
+    virtual bool elegirProducto(int IDProducto) = 0; //retorna true si halló el producto
     virtual vector<DTCompra> listarComprasCliente() = 0;
-    virtual void marcarComoEnviado(string nickCliente) = 0;
+    virtual bool marcarComoEnviado(string nickCliente) = 0; //retorna true si halló el producto del cliente
     virtual ~IControlCompra() = default;
 };
 
