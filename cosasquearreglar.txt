@@ -4,3 +4,20 @@ llamo a controlusuario, no hago que desde controlpromocion llame a controlusuari
 
 no tener auto :P
 no tener constructores vacios Promocion(), probar creando la memoria y esas cosas
+
+tres cifras decimales para los precios :P
+
+que pasa si al agregar un producto a una promocion agregas el de otro vendedor
+
+en la compra,  validarq ue sea un cliente valido lo que ingresas :P
+no se muestra bien el detalle de la compra
+
+cuando vamos al expediente de usuario a pesar de mostrarlo bien nos tira opcion invalida, intenta de nuevo.
+manejo de memoria del observer
+
+suscribir a cliente controle que es efectivamente un cliente
+en dtnotificacion ponemos productos en promocon y tiramos solamente el codigo, tiremos al menos el nombre del producto
+si no hay notificaciones que salte, no hay notificaciones
+
+eliminar suscripciones controlar que el nick sea valido
+cambiar eso del fin para que sea como la implementacion de santi de (y/n)

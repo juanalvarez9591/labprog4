@@ -119,7 +119,6 @@ DTInfoProducto ControlPromocion::verInfoProducto(int idProducto) {
 
 void ControlPromocion::ingresarDatosPromocion(string nombre, string descripcion, DTFecha fechaVencimiento, int porcentaje) {
     this->promocionEnMemoria = Promocion(nombre, descripcion, fechaVencimiento, porcentaje);
-    
 }
 
 vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
@@ -138,10 +137,9 @@ vector<DTProducto> ControlPromocion::verProductosVendedorEnMemoria() {
 void ControlPromocion::agregarProductoPromocion(int idProducto, int cantidad) {
     unordered_map<int, Producto>::iterator it = productos.find(idProducto);
     if (it != productos.end()) {
-        Producto producto = it->second;
-        Requisitos requisito = Requisitos(cantidad, &producto);
+        Producto* productoPtr = &(it->second);
+        Requisitos requisito(cantidad, productoPtr);
         this->promocionEnMemoria.agregarRequisitos(requisito);
-        
     }
 }
 

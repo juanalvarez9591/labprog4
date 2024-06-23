@@ -15,8 +15,6 @@
 using namespace std;
 
 void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion) {
-
-
     controlUsuario->darDeAltaVendedor("ana23", "qwer1234", DTFecha(15,5, 1988), "212345678001");
     controlUsuario->darDeAltaVendedor("carlos78", "asdfghj", DTFecha(18,6,1986), "356789012345");
     controlUsuario->darDeAltaVendedor("diegom", "zxcvbn", DTFecha(28,7,1993),  "190123456789");
@@ -29,22 +27,50 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlUsuario->darDeAltaCliente("roberto", "mnbvcx", DTFecha(12,8,1990), 1011, "Av. Brasil",  "Montevideo");
 
 
+    // por fuera de los casos de uso pedidos
+    vector<string> vendedores = {"ana23", "carlos78"};
+    controlSuscripciones->suscribirACliente(vendedores, "juan87");
+    controlSuscripciones->suscribirACliente(vendedores, "laura");
 
+    controlPromocion->crearProducto("Camiseta Azul", 1400, 50, "Camiseta de poliester, color azul", "Ropa", "carlos78");
+    controlPromocion->crearProducto("Televisor LED", 40500, 30, "Televisor LED 55 pulgadas", "Electrodomestico", "ana23");
+    controlPromocion->crearProducto("Chaqueta de Cuero", 699.99, 20, "Chaqueta de cuero, color negro", "Ropa", "carlos78");
+    controlPromocion->crearProducto("Microondas Digital", 1199.99, 15, "Microondas digital, 30L", "Electrodomestico", "ana23");
+    controlPromocion->crearProducto("Luz LED", 599.99, 40, "Luz Bluetooth LED", "Otro", "diegom");
+    controlPromocion->crearProducto("Pantalones Vaqueros", 60, 25, "Pantalones vaqueros, talla 32", "Ropa", "carlos78");
+    controlPromocion->crearProducto("Auriculares Bluetooth", 199.99, 35, "Auriculares bluethooth para celular", "Otro", "diegom");
+    controlPromocion->crearProducto("Refrigerador", 15499, 10, "Refrigerador de doble puerta", "Electrodomestico", "ana23");
+    controlPromocion->crearProducto("Cafetera", 23000, 50, "Cafetera de goteo programable", "Electrodomestico", "ana23");
+    controlPromocion->crearProducto("Zapatillas Deportivas", 5500, 20, "Zapatillas para correr, talla 42", "Ropa", "carlos78");
+    controlPromocion->crearProducto("Mochila", 9000, 30, "Mochila de viaje, 40L", "Otro", "carlos78");
+    controlPromocion->crearProducto("Plancha de Ropa", 2534, 25, "Plancha a vapor, 1500W", "Electrodomestico", "diegom");
+    controlPromocion->crearProducto("Gorra", 200, 50, "Gorra para deportes, color rojo", "Ropa", "sofia25");
+    controlPromocion->crearProducto("Tablet", 15000, 15, "Tablet Android de 10 pulgadas", "Electrodomestico", "diegom");
+    controlPromocion->crearProducto("Reloj de Pared", 150.50, 20, "Reloj de pared vintage", "Otro", "sofia25");
 
-    controlUsuario->darDeAltaVendedor("vendedor1", "password1", DTFecha(1, 1, 1990), "123456789012");
-    controlUsuario->darDeAltaVendedor("vendedor2", "password2", DTFecha(2, 2, 1991), "234567890123");
-    controlUsuario->darDeAltaCliente("cliente1", "password3", DTFecha(3, 3, 1992), 123, "18 de Julio ", "ciudad1");
-
-    vector<string> vendedores = {"vendedor1", "vendedor2"};
-    controlSuscripciones->suscribirACliente(vendedores, "cliente1");
-
-    controlPromocion->elegirVendedor("vendedor1");  
-    controlPromocion->ingresarProducto("Producto 1", "Descripcion 1", 1000, 10, "electrodomesticos");
-    controlPromocion->ingresarProducto("Producto 2", "Descripcion 2", 2000, 20, "electrodomesticos");
-    controlPromocion->ingresarDatosPromocion("Promocion 1", "Descripcion 1", DTFecha(1, 1, 2022), 10);
-    controlPromocion->agregarProductoPromocion(1, 1);
+    controlPromocion->elegirVendedor("ana23");
+    controlPromocion->ingresarDatosPromocion("Casa nueva", "Para que puedas ahorrar en la casa nueva", DTFecha(25, 10, 2024), 30);
     controlPromocion->agregarProductoPromocion(2, 1);
+    controlPromocion->agregarProductoPromocion(4, 1);
+    controlPromocion->agregarProductoPromocion(8, 1);
     controlPromocion->confirmarPromocion();
+
+    controlPromocion->elegirVendedor("carlos78");
+    controlPromocion->ingresarDatosPromocion("Fiesta", "Para que no te quedes sin ropa para las fiestas", DTFecha(26, 10, 2024), 20);
+    controlPromocion->agregarProductoPromocion(3, 2);
+    controlPromocion->agregarProductoPromocion(6, 3);
+    controlPromocion->confirmarPromocion();
+
+    controlPromocion->elegirVendedor("diegom");
+    controlPromocion->ingresarDatosPromocion("Domotica", "Para modernizar tu casa", DTFecha(26, 10, 2024), 10);
+    controlPromocion->agregarProductoPromocion(5, 2);
+    controlPromocion->confirmarPromocion();
+
+    controlPromocion->elegirVendedor("diegom");
+    controlPromocion->ingresarDatosPromocion("Liquidacion", "Hasta agotar stock", DTFecha(26, 3, 2024), 10);
+    controlPromocion->agregarProductoPromocion(14, 1);
+    controlPromocion->confirmarPromocion();
+
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
 
