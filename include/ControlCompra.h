@@ -13,9 +13,9 @@
 #include "DTDetalleProducto.h"
 #include "DTExpCliente.h"
 #include "IControlCompra.h"
-#include "ControlPromocion.h"
 #include "ControlUsuario.h"
-
+#include "ControlPromocion.h"
+#include "ControlFecha.h"
 
 
 using namespace std;
