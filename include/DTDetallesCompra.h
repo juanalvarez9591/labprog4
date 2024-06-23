@@ -20,6 +20,7 @@ public:
     float getCosto();
     DTFecha getFecha();
     vector<DTProducto> getProductos();
+    string toString() const;
 };
 
 #endif 

@@ -668,9 +668,10 @@ void compraHandler(IControlCompra* controlCompra, IControlPromocion* controlProm
                 } while (agregarProducto == 'y');
 
                 // Mostrar detalles de la compra
-                DTDetallesCompra detallesCompra = controlCompra->verDetallesCompra();
                 cout << "Detalle de la compra: " << endl;
-                // Aquí deberías mostrar los detalles de la compra según la estructura de DTDetallesCompra
+                DTDetallesCompra detallesCompra = controlCompra->verDetallesCompra();
+
+                cout << detallesCompra.toString() << endl;
 
                 // Confirmar compra
                 char confirmar;

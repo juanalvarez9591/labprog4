@@ -12,7 +12,7 @@ private:
 public:
     DTFecha();
     DTFecha(int dia, int mes, int anio);
-    string getString();
+    string getString() const;
     bool operator>=(const DTFecha &F) const;
     int getDia() const;
     int getMes() const;
