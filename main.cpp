@@ -259,16 +259,35 @@ void expedienteUsuario (IControlUsuario* controlUsuario){
 
      if (infoUsuario) {
          if (const DTExpCliente* clienteElegido = dynamic_cast<const DTExpCliente*>(infoUsuario)) {
-            // Si el downcast fue exitoso, podemos acceder a todos los datos de DTExpCliente
-            cout << "Nickname: " << clienteElegido->getNickname() << endl;
-            cout << "Fecha de nacimiento: " << clienteElegido->getFechaNacimiento().getString() << endl;
-            cout << "Número de puerta: " << clienteElegido->getNroPuerta() << endl;
-            cout << "Calle: " << clienteElegido->getCalle() << endl;
-            cout << "Ciudad: " << clienteElegido->getCiudad() << endl;
+             // Si el downcast fue exitoso, podemos acceder a todos los datos de DTExpCliente
+             cout << "Nickname: " << clienteElegido->getNickname() << endl;
+             cout << "Fecha de nacimiento: " << clienteElegido->getFechaNacimiento().getString() << endl;
+             cout << "Número de puerta: " << clienteElegido->getNroPuerta() << endl;
+             cout << "Calle: " << clienteElegido->getCalle() << endl;
+             cout << "Ciudad: " << clienteElegido->getCiudad() << endl;
 
-            string infoCompras = clienteElegido->getInfoCompras();
-            cout << infoCompras;
-        }   else if (const DTExpVendedor* vendedorElegido = dynamic_cast<const DTExpVendedor*>(infoUsuario)) {
+             cout << "Información de compras:" << endl;
+             vector<DTExpCompra> compras = clienteElegido->getCompras();
+             for (vector<DTExpCompra>::const_iterator compraIt = compras.begin(); compraIt != compras.end(); ++compraIt) {
+                 cout << "Costo: $" << compraIt->getCosto() << endl;
+                 cout << "Fecha de compra: " << compraIt->getFecha().getString() << endl;
+                 cout << "Productos:" << endl;
+                 vector<DTExpProducto> productos = compraIt->getProductos();
+                 for (vector<DTExpProducto>::const_iterator prodIt = productos.begin(); prodIt != productos.end(); ++prodIt) {
+                     cout << " - Código: " << prodIt->getCodigoProducto()
+                          << ", Nombre: " << prodIt->getNombreProducto()
+                          << ", Cantidad: " << prodIt->getCantidadProducto()
+                          << ", Enviado: ";
+                     if (prodIt->getEnviado()) {
+                         cout << "Sí";
+                     } else {
+                         cout << "No";
+                     }
+                     cout << endl;
+                 }
+                 cout << endl;
+             }
+         }   else if (const DTExpVendedor* vendedorElegido = dynamic_cast<const DTExpVendedor*>(infoUsuario)) {
                  // Si el downcast a DTExpVendedor fue exitoso, mostramos los datos del vendedor
                 cout << "Nickname: " << vendedorElegido->getNickname() << endl;
                 cout << "Fecha de nacimiento: " << vendedorElegido->getFechaNacimiento().getString() << endl;

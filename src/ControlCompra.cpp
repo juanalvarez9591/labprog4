@@ -80,11 +80,20 @@ bool ControlCompra::confirmarCompra() {
     }
     int clave = compras.size() + 1;
     vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
+    float costoTotal = 0;
+
     for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
         Producto* producto = (*it)->getProducto();
         int cantidadComprada = (*it)->getCantidad();
+
+        float precioConPromocion = controlPromocion->calcularPrecioTotal(producto->getId(), cantidadComprada);
+        costoTotal += precioConPromocion;
+
         producto->actualizarStock(cantidadComprada);
     }
+
+    compraEnProceso->setCosto(costoTotal);
+
     compras[clave] = compraEnProceso;
     clienteEnMemoria = nullptr;
     compraEnProceso = nullptr;

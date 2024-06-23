@@ -1,25 +1,31 @@
 #include "DTExpProducto.h"
 
-DTExpProducto::DTExpProducto(){
+DTExpProducto::DTExpProducto() {
     this->codigoProducto = 0;
-    this-> cantidadProducto = 0;
-    this-> nombreProducto = "";
-
+    this->cantidadProducto = 0;
+    this->nombreProducto = "";
+    this->enviado = false;
 }
-DTExpProducto::DTExpProducto(int codigoProducto, int cantidadProducto, string nombreProducto){
+
+DTExpProducto::DTExpProducto(int codigoProducto, int cantidadProducto, string nombreProducto, bool enviado) {
     this->codigoProducto = codigoProducto;
-    this->cantidadProducto= cantidadProducto;
-    this-> nombreProducto = nombreProducto;
+    this->cantidadProducto = cantidadProducto;
+    this->nombreProducto = nombreProducto;
+    this->enviado = enviado;
 }
-int DTExpProducto::getCodigoProducto() const{
+
+int DTExpProducto::getCodigoProducto() const {
     return this->codigoProducto;
-
 }
-int DTExpProducto::getCantidadProducto() const{
+
+int DTExpProducto::getCantidadProducto() const {
     return this->cantidadProducto;
-
 }
-string DTExpProducto::getNombreProducto()const{
-    return this-> nombreProducto;
 
+string DTExpProducto::getNombreProducto() const {
+    return this->nombreProducto;
+}
+
+bool DTExpProducto::getEnviado() const {
+    return this->enviado;
 }

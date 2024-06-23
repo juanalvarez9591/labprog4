@@ -12,14 +12,14 @@ DTExpCompra::DTExpCompra(float costo, DTFecha fechaCompra, vector<DTExpProducto>
     this->productos = productos;
 }
 
-float DTExpCompra::getCosto() const{
+float DTExpCompra::getCosto() const {
     return this->costo;
 }
 
-DTFecha DTExpCompra::getFecha() const{
+DTFecha DTExpCompra::getFecha() const {
     return this->fechaCompra;
 }
 
-vector<DTExpProducto> DTExpCompra::getProductos() const{
+vector<DTExpProducto> DTExpCompra::getProductos() const {
     return this->productos;
 }

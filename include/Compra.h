@@ -20,6 +20,7 @@ public:
     vector<Cantidad*>& getCantidades();
     DTExpCompra toDTExpCompra() const;
     Cliente* getCliente() const;
+    void setCosto(float newCosto);
 private:
     DTFecha fechaCompra;
     int costo;

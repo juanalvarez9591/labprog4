@@ -10,8 +10,7 @@ tres cifras decimales para los precios :P
 que pasa si al agregar un producto a una promocion agregas el de otro vendedor
 
 en la compra,  validarq ue sea un cliente valido lo que ingresas :P
-no se muestra bien el detalle de la compra
-
+NO SE MUESTRA EL DETALLE DE LA COMPRA
 manejo de memoria del observer
 
 suscribir a cliente controle que es efectivamente un cliente
@@ -21,11 +20,6 @@ si no hay notificaciones que salte, no hay notificaciones
 eliminar suscripciones controlar que el nick sea valido
 cambiar eso del fin para que sea como la implementacion de santi de (y/n)
 
-aprolijar expediente usuario (low priority)
-
 promocion no aplica bien
 
 si no hay productos aptos para enviar no pedir input
-
-dtexpcompra si el producto esta enviado
-hacer to strings para esos dts
