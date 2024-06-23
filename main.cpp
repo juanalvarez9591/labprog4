@@ -11,6 +11,7 @@
 #include "DTProducto.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
+#include "DTCompra.h"
 #include <algorithm>
 using namespace std;
 
@@ -798,6 +799,73 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
     } while (choice != '6');
 }
 
+void enviarProductoHandler(IControlCompra* controlCompra, IControlUsuario* controlUsuario) {
+    // Listar vendedores
+    vector<string> nicknamesVendedores = controlUsuario->listarNicknamesVendedores();
+    cout << "Los vendedores son:" << endl;
+    for (vector<string>::iterator it = nicknamesVendedores.begin(); it != nicknamesVendedores.end(); ++it) {
+        cout << "- " << *it << endl;
+    }
+
+    // Seleccionar vendedor
+    string nickVendedor;
+    cout << "Escriba el nombre del vendedor que desea elegir: ";
+    cin >> nickVendedor;
+
+    if (controlCompra->elegirVendedor(nickVendedor)) {
+        cout << "Vendedor seleccionado exitosamente." << endl;
+    } else {
+        cout << "Error: No se pudo seleccionar el vendedor." << endl;
+        return;
+    }
+
+    // Listar productos aptos del vendedor
+    vector<DTProducto> productosAptos = controlCompra->listarProductosAptosDelVendedor();
+
+    if (productosAptos.empty()) {
+        cout << "No hay productos aptos para enviar de este vendedor." << endl;
+    } else {
+        cout << "Productos aptos para enviar:" << endl;
+        for (vector<DTProducto>::iterator it = productosAptos.begin(); it != productosAptos.end(); ++it) {
+            cout << it->toString() << endl;
+        }
+    }
+
+    // Elegir producto
+    int idProducto;
+    cout << "Ingrese el ID del producto que desea enviar: ";
+    cin >> idProducto;
+
+    if (!controlCompra->elegirProducto(idProducto)) {
+        cout << "Codigo invalido, intenta de nuevo." << endl;
+        return;
+    }
+
+    // Listar compras del cliente
+    vector<DTCompra> comprasCliente = controlCompra->listarComprasCliente();
+
+    if (comprasCliente.empty()) {
+        cout << "No hay compras pendientes de envío para este producto." << endl;
+    } else {
+        cout << "Compras pendientes de envío:" << endl;
+        for (vector<DTCompra>::iterator it = comprasCliente.begin(); it != comprasCliente.end(); ++it) {
+            cout << "ID: " << it->getId() << ", Cliente: " << it->getNicknameCliente()
+                 << ", Fecha: " << it->getFechaCompra().getString() << endl;
+        }
+
+        // Marcar como enviado
+        int codigoEnvio;
+        cout << "Ingrese el ID de la compra que desea marcar como enviada: ";
+        cin >> codigoEnvio;
+
+        if (controlCompra->marcarComoEnviado(codigoEnvio)) {
+            cout << "Producto marcado como enviado exitosamente." << endl;
+        } else {
+            cout << "Error: No se pudo marcar el producto como enviado. Verifique el ID ingresado." << endl;
+        }
+    }
+}
+
 int main() {
     int choice;
 
@@ -825,6 +893,7 @@ int main() {
         cout << "10. Alta de Producto" << endl;
         cout << "11. Consultar Producto" << endl;
         cout << "12. Expediente Usuario" << endl;
+        cout << "13. Enviar producto" << endl;
         cout << "Ingresa tu opcion: ";
        // cin >> choice;
         cin >> choice;
@@ -865,6 +934,10 @@ int main() {
                 break;
             case 12:
                 expedienteUsuario(controlUsuario);
+                break;
+            case 13:
+                enviarProductoHandler(controlCompra, controlUsuario);
+                break;
             default:
                 cout << "Opcion invalida, intenta de nuevo." << endl;
                 break;

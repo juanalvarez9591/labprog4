@@ -16,6 +16,10 @@ ControlCompra::ControlCompra() {
     compras = unordered_map<int, Compra*>();
     clienteEnMemoria = nullptr;
     compraEnProceso = nullptr;
+
+    vendedorEnMemoria = nullptr;
+    productoEnMemoria = nullptr;
+    comprasEnMemoria = vector<int>();
 }
 
 ControlCompra* ControlCompra::getInstance() {
@@ -24,8 +28,6 @@ ControlCompra* ControlCompra::getInstance() {
     }
     return instance;
 }
-
-
 
 void ControlCompra::seleccionarCliente(string nickCliente) {
     clienteEnMemoria = controlUsuario->getCliente(nickCliente);
@@ -136,6 +138,94 @@ DTExpCliente ControlCompra::verComprasCliente(string nickCliente) {
             cliente->getCalle(),
             cliente->getCiudad(),
             comprasCliente);
+}
+
+bool ControlCompra::elegirVendedor(string nickVendedor) {
+    Vendedor* vendedor = controlUsuario->getVendedor(nickVendedor);
+    if (vendedor != nullptr) {
+        vendedorEnMemoria = vendedor;
+        return true;
+    }
+    return false;
+}
+
+vector<DTProducto> ControlCompra::listarProductosAptosDelVendedor() {
+    vector<DTProducto> productosConEnvioPendiente;
+
+    if (vendedorEnMemoria == nullptr) {
+        return productosConEnvioPendiente;
+    }
+
+    vector<DTProducto> productosVendedor = controlPromocion->verProductosVendedor(vendedorEnMemoria->getNickname());
+
+    for (vector<DTProducto>::iterator it = productosVendedor.begin(); it != productosVendedor.end(); ++it) {
+        Producto* producto = controlPromocion->getProductoByID(it->getId());
+        bool tieneEnvioPendiente = false;
+
+        for (unordered_map<int, Compra*>::iterator compraIt = compras.begin(); compraIt != compras.end(); ++compraIt) {
+            Compra* compra = compraIt->second;
+            vector<Cantidad*>& cantidades = compra->getCantidades();
+            for (vector<Cantidad*>::iterator cantidadIt = cantidades.begin(); cantidadIt != cantidades.end(); ++cantidadIt) {
+                if ((*cantidadIt)->getProducto() == producto && !(*cantidadIt)->getEnviado()) {
+                    tieneEnvioPendiente = true;
+                    break;
+                }
+            }
+            if (tieneEnvioPendiente) break;
+        }
+
+        if (tieneEnvioPendiente) {
+            productosConEnvioPendiente.push_back(DTProducto(it->getNombre(), it->getId()));
+        }
+    }
+
+    return productosConEnvioPendiente;
+}
+
+bool ControlCompra::elegirProducto(int id) {
+    productoEnMemoria = controlPromocion->getProductoByID(id);
+    return productoEnMemoria != nullptr;
+}
+
+vector<DTCompra> ControlCompra::listarComprasCliente() {
+    vector<DTCompra> comprasCliente;
+    comprasEnMemoria.clear();
+    int id = 1;
+
+    for (unordered_map<int, Compra*>::iterator it = compras.begin(); it != compras.end(); ++it) {
+        Compra* compra = it->second;
+        vector<Cantidad*>& cantidades = compra->getCantidades();
+
+        for (vector<Cantidad*>::iterator cantIt = cantidades.begin(); cantIt != cantidades.end(); ++cantIt) {
+            if ((*cantIt)->getProducto() == productoEnMemoria && !(*cantIt)->getEnviado()) {
+                DTFecha fechaCompra = compra->getFechaCompra();
+                string nicknameCliente = compra->getCliente()->getNickname();
+                DTCompra dtCompra(nicknameCliente, fechaCompra, id);
+                comprasCliente.push_back(dtCompra);
+                comprasEnMemoria.push_back(it->first);
+                id++;
+                break;
+            }
+        }
+    }
+
+    return comprasCliente;
+}
+
+bool ControlCompra::marcarComoEnviado(int codigo) {
+    if (codigo > 0 && codigo <= comprasEnMemoria.size()) {
+        int compraId = comprasEnMemoria[codigo - 1];
+        Compra* compra = compras[compraId];
+        vector<Cantidad*>& cantidades = compra->getCantidades();
+
+        for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
+            if ((*it)->getProducto() == productoEnMemoria) {
+                (*it)->setEnviado(true);
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 ControlCompra::~ControlCompra() {
