@@ -21,7 +21,7 @@ public:
     virtual bool elegirVendedor(string nombre) = 0;
     virtual unordered_map<int, DTProducto> listarProductosVendedorAptos() = 0;
     virtual bool elegirProducto(int IDProducto) = 0;
-    virtual vector<DTCompra> ControlCompra::listarComprasCliente() = 0;
+    virtual vector<DTCompra> listarComprasCliente() = 0;
     virtual void marcarComoEnviado(string nickCliente) = 0;
     virtual ~IControlCompra() = default;
 };

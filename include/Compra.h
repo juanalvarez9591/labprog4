@@ -7,6 +7,7 @@
 #include "DTFecha.h"
 #include "Cantidad.h"
 #include "DTExpCompra.h"
+#include "DTCompra.h"
 #include "DTExpProducto.h"
 
 using namespace std;
