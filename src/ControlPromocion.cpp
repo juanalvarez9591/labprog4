@@ -21,7 +21,6 @@ ControlPromocion* ControlPromocion::getInstance() {
 
 ControlPromocion::ControlPromocion() {
     controlUsuario = ControlUsuario::getInstance();
-    controlFecha = ControlFecha::getInstance();
 
     productos = unordered_map<int, Producto>();
     promociones = unordered_map<string, Promocion>();
@@ -200,15 +199,7 @@ vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
         return dtPromociones;
 
 }
-  /*  set<DTPromocion> dtPromociones;
-    DTFecha fechaActual = controlFecha->getFechaActual();
-    for (const auto& pair : promociones) {
-        const Promocion& promocion = pair.second;
-        if (promocion.getFechaVencimiento() >= fechaActual) {
-            dtPromociones.insert(promocion.toDTPromocion());
-        }
-    }
-    return dtPromociones;*/
+
 
 
 
