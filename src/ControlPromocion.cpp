@@ -253,7 +253,6 @@ vector<DTProducto> ControlPromocion::verProductosVendedor(string nickUsuario) {
 float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitosCompra) {
     float totalSinDescuento = 0.0;
 
-    // Calculate total price without discount
     for (const Requisitos& req : requisitosCompra) {
         Producto* producto = req.getProducto();
         if (producto != NULL) {
@@ -261,12 +260,14 @@ float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitos
         }
     }
 
+    float mejorDescuento = 0.0;
     set<DTPromocion> promocionesVigentes = listarPromocionesVigentes();
 
     for (const DTPromocion& promo : promocionesVigentes) {
         vector<Requisitos> requisitosPromocion = obtenerRequisitosPromocion(promo.getNombre());
 
         bool cumplePromocion = true;
+        float subtotalPromocion = 0.0;
 
         for (const Requisitos& reqPromo : requisitosPromocion) {
             bool productoEncontrado = false;
@@ -274,6 +275,7 @@ float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitos
                 if (reqPromo.getProducto()->getId() == reqCompra.getProducto()->getId()) {
                     if (reqCompra.getMinimo() >= reqPromo.getMinimo()) {
                         productoEncontrado = true;
+                        subtotalPromocion += reqCompra.getProducto()->getPrecio() * reqCompra.getMinimo();
                         break;
                     }
                 }
@@ -285,12 +287,15 @@ float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitos
         }
 
         if (cumplePromocion) {
-            float descuento = totalSinDescuento * (promo.getPorcentaje() / 100.0);
-            return totalSinDescuento - descuento;
+            float descuento = subtotalPromocion * (promo.getPorcentaje() / 100.0);
+            if (descuento > mejorDescuento) {
+                mejorDescuento = descuento;
+            }
         }
     }
 
-    return totalSinDescuento;
+    return totalSinDescuento - mejorDescuento;
 }
+
 ControlPromocion::~ControlPromocion() {
 }
