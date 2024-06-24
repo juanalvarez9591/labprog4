@@ -28,12 +28,10 @@ public:
     void actualizarStock(int cantidad);
     ~Producto();
 
-    Comentario* GetComentarios();
-    void SetComentario(Comentario* Nuevaraiz);
-
-    void PrintTodosComentarios();
-    void PrintComentario(Comentario *Comentario, int Sangria);
-    Comentario* GetComentario(string Text);
+    void agregarComentario(Comentario* comentario);
+    Comentario* buscarComentario(const string& texto);
+    void eliminarComentario(Comentario* comentario);
+    vector<string> listarComentarios();
 private:
     string descripcion;
     string nombre;
@@ -42,9 +40,7 @@ private:
     float precio;
     Categoria categoria;
     Vendedor* vendedor;
-    Comentario* Foro;
-    void PrintTodosComentariosAux(Comentario *Comentario, int Sangria);
-    Comentario *Estecomentario(Comentario *It, string Text);
+    Comentario* raizComentarios;
 };
 
 #endif

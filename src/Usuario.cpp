@@ -24,10 +24,8 @@ void Usuario::addComentario(Comentario* c) {
 
 void Usuario::olvidarComentario(Comentario* c) {
     auto iter = this->comentarios.begin();
-    //int pos = 1;
 
     while(iter != this->comentarios.end() && (*iter != c)) {
-        //pos++;
         ++iter;
     }
     /*if (pos <= this->comentarios.size()) {
