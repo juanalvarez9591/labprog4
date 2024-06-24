@@ -10,7 +10,6 @@ ControlCompra* ControlCompra::instance = nullptr;
 
 ControlCompra::ControlCompra() {
     controlUsuario = ControlUsuario::getInstance();
-    controlFecha = ControlFecha::getInstance();
     controlPromocion = ControlPromocion::getInstance();
 
     compras = unordered_map<int, Compra*>();
@@ -31,7 +30,7 @@ ControlCompra* ControlCompra::getInstance() {
 
 void ControlCompra::seleccionarCliente(string nickCliente) {
     clienteEnMemoria = controlUsuario->getCliente(nickCliente);
-    compraEnProceso = new Compra(controlFecha->getFechaActual(), clienteEnMemoria);
+    compraEnProceso = new Compra(ControlFecha::getInstance()->getFechaActual(), clienteEnMemoria);
 }
 
 bool ControlCompra::agregarCantidad(int codigo, int cantidad) {
