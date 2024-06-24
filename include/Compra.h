@@ -25,7 +25,7 @@ public:
     void setCosto(float newCosto);
 private:
     DTFecha fechaCompra;
-    float costo;
+    int costo;
     vector<Cantidad*> cantidades;
     Cliente* cliente;
 };
