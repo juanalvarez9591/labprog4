@@ -85,10 +85,8 @@ bool ControlCompra::confirmarCompra() {
     for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
         Producto* producto = (*it)->getProducto();
         int cantidadComprada = (*it)->getCantidad();
-
         float precioConPromocion = controlPromocion->calcularPrecioTotal(producto->getId(), cantidadComprada);
         costoTotal += precioConPromocion;
-
         producto->actualizarStock(cantidadComprada);
     }
 

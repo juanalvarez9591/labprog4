@@ -4,6 +4,7 @@
 #include "DTDataVendedor.h"
 #include "DTPromocion.h"
 #include "DTProducto.h"
+#include "DTFecha.h"
 #include <vector>
 #include <string>
 
