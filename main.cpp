@@ -15,7 +15,7 @@
 #include <algorithm>
 using namespace std;
 
-void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, IControlComentario* controlComentario, IControlFecha* controlFecha) {
+void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, IControlCompra* controlCompra, IControlFecha* controlFecha, IControlComentario* controlComentario) {
     controlUsuario->darDeAltaVendedor("ana23", "qwer1234", DTFecha(15,5, 1988), "212345678001");
     controlUsuario->darDeAltaVendedor("carlos78", "asdfghj", DTFecha(18,6,1986), "356789012345");
     controlUsuario->darDeAltaVendedor("diegom", "zxcvbn", DTFecha(28,7,1993),  "190123456789");
@@ -65,6 +65,80 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlPromocion->ingresarDatosPromocion("Liquidacion", "Hasta agotar stock", DTFecha(26, 3, 2024), 10);
     controlPromocion->agregarProductoPromocion(14, 1);
     controlPromocion->confirmarPromocion();
+
+    controlFecha->setFechaActual(DTFecha(1,5,2024));
+    controlCompra->seleccionarCliente("juan87");
+    controlCompra->agregarCantidad(2, 2);
+    controlCompra->agregarCantidad(4, 1);
+    controlCompra->agregarCantidad(8,1);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(2);
+    vector<DTCompra> comprasCliente1 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+    controlCompra->seleccionarCliente("juan87");
+    controlCompra->agregarCantidad(5, 1);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(5);
+    vector<DTCompra> comprasCliente2 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+    controlFecha->setFechaActual(DTFecha(15,5,2024));
+    controlCompra->seleccionarCliente("laura");
+    controlCompra->agregarCantidad(14, 10);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(14);
+    vector<DTCompra> comprasCliente3 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+
+    controlFecha->setFechaActual(DTFecha(25,4,2024));
+    controlCompra->seleccionarCliente("natalia");
+    controlCompra->agregarCantidad(11, 1);
+    controlCompra->agregarCantidad(12, 1);
+    controlCompra->agregarCantidad(13, 1);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(11);
+    vector<DTCompra> comprasCliente4 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+    controlCompra->elegirProducto(12);
+    vector<DTCompra> comprasCliente5 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+    controlCompra->elegirProducto(13);
+    vector<DTCompra> comprasCliente6 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+    controlFecha->setFechaActual(DTFecha(20,5,2024));
+    controlCompra->seleccionarCliente("juan87");
+    controlCompra->agregarCantidad(3, 2);
+    controlCompra->agregarCantidad(6, 3);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(6);
+    vector<DTCompra> comprasCliente7 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+    controlFecha->setFechaActual(DTFecha(12,5,2024));
+    controlCompra->seleccionarCliente("laura");
+    controlCompra->agregarCantidad(1, 2);
+    controlCompra->confirmarCompra();
+
+    controlFecha->setFechaActual(DTFecha(13,5,2024));
+    controlCompra->seleccionarCliente("natalia");
+    controlCompra->agregarCantidad(1, 3);
+    controlCompra->confirmarCompra();
+    controlCompra->elegirProducto(1);
+    vector<DTCompra> comprasCliente8 = controlCompra->listarComprasCliente();
+    controlCompra->marcarComoEnviado(1);
+
+    controlFecha->setFechaActual(DTFecha(14,5,2024));
+    controlCompra->seleccionarCliente("pablo10");
+    controlCompra->agregarCantidad(1, 4);
+    controlCompra->confirmarCompra();
+
+    controlFecha->setFechaActual(DTFecha(15,5,2024));
+    controlCompra->seleccionarCliente("roberto");
+    controlCompra->agregarCantidad(1, 5);
+    controlCompra->confirmarCompra();
 
     controlFecha->setFechaActual(DTFecha(1,6,2024));
     controlComentario->seleccionarUsuario("juan87");
@@ -349,7 +423,7 @@ void expedienteUsuario (IControlUsuario* controlUsuario){
                 cout << "RUT: " << vendedorElegido->getRut() << endl;
 
                 vector<DTPromocion> promociones = vendedorElegido->getPromociones();
-                cout << "Promociones:" << endl;
+                cout << "Promociones vigentes:" << endl;
                 for (const auto& promocion : promociones) {
                     cout << " - " << promocion.getNombre() << endl;
                 }
@@ -959,9 +1033,11 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                 break;
             }
             case '1':{
+                DTFecha fechaActual = controlFecha->getFechaActual();
                 int productoElegido;
                 string comentarioElegido;
                 char alt;
+                //Primero listamos todos los usuarios y el administrador elige el que escribirá el comentario:
                 if (usuarios.empty()){
                     cout << "No hay usuarios cargados, Intenta cargar algunos antes" << endl;
                     break;
@@ -1089,6 +1165,8 @@ int main() {
     IControlCompra *controlCompra = factory->getControlCompra();
     IControlComentario *controlComentario = factory->getControlComentario();
 
+
+
     do {
         system("clear");
         cout << "Mercado Finger - Equipo 72" << endl;
@@ -1123,7 +1201,7 @@ int main() {
                 promocionesHandler(controlPromocion, controlUsuario);
                 break;
             case 5:
-                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlComentario, controlFecha);
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlCompra, controlFecha, controlComentario);
                 break;
             case 6:
                 cout << "Saliendo..." << endl;
