@@ -24,7 +24,7 @@ public:
     virtual vector<DTProducto> verProductosVendedorEnMemoria() = 0;
     virtual void agregarProductoPromocion(int idProducto, int cantidad) = 0;
     virtual void confirmarPromocion() = 0;
-    virtual set<DTPromocion> listarPromocionesVigentes() = 0;
+    virtual vector<DTPromocion> listarPromocionesVigentes() = 0;
     virtual vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion) = 0;
     virtual bool crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido) = 0;
     virtual ~IControlPromocion(){};

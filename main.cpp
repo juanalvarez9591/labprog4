@@ -201,6 +201,8 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
     controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua");
 
+    controlFecha->setFechaActual(DTFecha(1,1,2024));
+
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
 
@@ -564,7 +566,7 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
                 break;
             case 10:
             {
-                set<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
+                vector<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
                 cout << "Promociones vigentes:" << endl;
                 for (const DTPromocion& promocion : promociones) {
                     cout << "- " << promocion.getNombre() << " (Vencimiento: " << promocion.getFechaVencimiento().getString() << ")" << endl;
