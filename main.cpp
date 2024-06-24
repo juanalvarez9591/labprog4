@@ -288,82 +288,6 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
 
-
-void altaDeUsuario(IControlUsuario* controlUsuario){
-     char choice;
-    string nickname, password, calle, ciudad, rut;
-    int dia, mes, anio, nroPuerta;
-
-
-        cout << "Eliga una opción:" << endl;
-        cout << "1. Dar de alta cliente" << endl;
-        cout << "2. Dar de alta vendedor" << endl;
-
-        cin >> choice;
-
-        switch (choice) {
-            case '1':
-                cout << "Ingresa el nickname: ";
-                cin.ignore();
-                getline(cin, nickname);
-                if (nickname.find(' ') != string::npos) {
-                    cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
-                    break;
-                }
-                cout << "Ingresa la contraseña: ";
-                cin >> password;
-                if (password.length() < 6) {
-                    cout << "La contraseña debe tener almenos 6 caracteres. Intenta de nuevo." << endl;
-                    break;
-                }
-                cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
-                cin >> dia >> mes >> anio;
-                cout << "Ingresa la calle: ";
-                cin.ignore();
-                getline(cin, calle);
-                cout << "Ingresa el número de puerta: ";
-                cin >> nroPuerta;
-                cout << "Ingresa la ciudad: ";
-                getline(cin, ciudad);
-                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio),nroPuerta, calle, ciudad)) {
-                    cout << "Cliente dado de alta exitosamente" << endl;
-                } else {
-                    cout << "ERROR: nickname ya registrado en el sistema." << endl;
-                }
-                break;
-            case '2':
-                cout << "Ingresa el nickname: ";
-                cin >> nickname;
-                if (nickname.find(' ') != string::npos) {
-                    cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
-                    break;
-                }
-                cout << "Ingresa la contraseña: ";
-                cin >> password;
-                if (password.length() < 6) {
-                    cout << "La contraseña debe tener almenos 6 caracteres. Intenta de nuevo." << endl;
-                    break;
-                }
-                cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
-                cin >> dia >> mes >> anio;
-                cout << "Ingresa el RUT (12 digitos): ";
-                cin >> rut;
-                if (rut.length() != 12 || !all_of(rut.begin(), rut.end(), ::isdigit)) {
-                cout << "El RUT debe tener exactamente 12 dígitos y solo contener números. Intenta de nuevo." << endl;
-                break;
-                }
-                if (controlUsuario->darDeAltaVendedor(nickname, password, DTFecha(dia, mes, anio), rut)) {
-                    cout << "Vendedor dado de alta exitosamente" << endl;
-                } else {
-                    cout << "ERROR: nickname ya registrado en el sistema." << endl;
-                }
-                break;
-
-        }
-
-
-}
-
 void listadoDeUsuarios(IControlUsuario* controlUsuario){
     vector<DTDataCliente> dataCliente = controlUsuario->listarInfoClientes();
     vector<DTDataVendedor> dataVendedor = controlUsuario->listarInfoVendedores();
@@ -896,35 +820,48 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
         cout << "3. Listar nicknames de usuarios" << endl;
         cout << "4. Listar nicknames de clientes" << endl;
         cout << "5. Listar nicknames de vendedores" << endl;
-        cout << "6. Volver al menu principal" << endl;
+        cout << "6. Expediente de Usuario" << endl;
+        cout << "7. Listado de usuarios" << endl;
+        cout << "8. Volver al menu principal" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
         switch (choice) {
             case '1':
                 cout << "Ingresa el nickname: ";
-                cin.ignore();
+                cin.ignore(10000, '\n');
                 getline(cin, nickname);
                 if (nickname.find(' ') != string::npos) {
                     cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
                     break;
                 }
+
                 cout << "Ingresa la contraseña: ";
                 cin >> password;
                 if (password.length() <= 6) {
                     cout << "La contraseña debe tener más de 6 caracteres. Intenta de nuevo." << endl;
                     break;
                 }
+
                 cout << "Ingresa la fecha de nacimiento (formato: dd mm aaaa): ";
                 cin >> dia >> mes >> anio;
+
                 cout << "Ingresa la calle: ";
-                cin.ignore();
+                cin.ignore(10000, '\n');
                 getline(cin, calle);
+
                 cout << "Ingresa el número de puerta: ";
-                cin >> nroPuerta;
+                while (!(cin >> nroPuerta)) {
+                    cout << "Por favor, ingrese un número válido para el número de puerta: ";
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                }
+
                 cout << "Ingresa la ciudad: ";
+                cin.ignore(10000, '\n');
                 getline(cin, ciudad);
-                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio),nroPuerta,  calle, ciudad)) {
+
+                if (controlUsuario->darDeAltaCliente(nickname, password, DTFecha(dia, mes, anio), nroPuerta, calle, ciudad)) {
                     cout << "Cliente dado de alta exitosamente" << endl;
                 } else {
                     cout << "Error al dar de alta al cliente" << endl;
@@ -987,6 +924,13 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
             }
                 break;
             case '6':
+            {
+                expedienteUsuario(controlUsuario);
+            }
+                break;
+            case '7':
+                listadoDeUsuarios(controlUsuario);
+            case '8':
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
@@ -995,7 +939,7 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '6');
+    } while (choice != '8');
 }
 
 void enviarProductoHandler(IControlCompra* controlCompra, IControlUsuario* controlUsuario) {
@@ -1216,6 +1160,41 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
     } while (choice != '0');
 }
 
+void productoHandler(IControlPromocion* controlPromocion, IControlUsuario* controlUsuario, IControlCompra* controlCompra) {
+    char choice;
+    do {
+        cout << "Menu de Producto:" << endl;
+        cout << "1. Alta de Producto" << endl;
+        cout << "2. Consultar Producto" << endl;
+        cout << "3. Enviar Producto" << endl;
+        cout << "4. Volver al menu principal" << endl;
+        cout << "Ingresa tu opcion: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                altaDeProducto(controlPromocion, controlUsuario);
+                break;
+            case '2':
+                consultarProducto(controlPromocion);
+                break;
+            case '3':
+                enviarProductoHandler(controlCompra, controlUsuario);
+                break;
+            case '4':
+                break;
+            default:
+                cout << "Opcion invalida, intenta de nuevo" << endl;
+        }
+
+        if (choice != '4') {
+            cout << "Presiona enter para continuar..." << endl;
+            cin.ignore();
+            cin.get();
+        }
+    } while (choice != '4');
+}
+
 int main() {
     int choice;
 
@@ -1227,8 +1206,6 @@ int main() {
     IControlCompra *controlCompra = factory->getControlCompra();
     IControlComentario *controlComentario = factory->getControlComentario();
 
-
-
     do {
         system("clear");
         cout << "Mercado Finger - Equipo 72" << endl;
@@ -1236,16 +1213,11 @@ int main() {
         cout << "2. Suscripciones" << endl;
         cout << "3. Usuarios" << endl;
         cout << "4. Promociones" << endl;
-        cout << "5. Cargar datos de prueba" << endl;
-        cout << "6. Salir" << endl;
-        cout << "7. Realizar Compra" << endl;
-        cout << "8. Alta de Usuario" << endl;
-        cout << "9. Listado de Usuarios" << endl;
-        cout << "10. Alta de Producto" << endl;
-        cout << "11. Consultar Producto" << endl;
-        cout << "12. Expediente Usuario" << endl;
-        cout << "13. Enviar producto" << endl;
-        cout << "14. Comentarios" << endl;
+        cout << "5. Realizar Compra" << endl;
+        cout << "6. Productos" << endl;
+        cout << "7. Comentarios" << endl;
+        cout << "8. Cargar datos de prueba" << endl;
+        cout << "9. Salir" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -1263,49 +1235,32 @@ int main() {
                 promocionesHandler(controlPromocion, controlUsuario);
                 break;
             case 5:
-                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlCompra, controlFecha, controlComentario);
-                break;
-            case 6:
-                cout << "Saliendo..." << endl;
-                break;
-            case 7:
                 compraHandler(controlCompra, controlPromocion, controlUsuario);
                 break;
+            case 6:
+                productoHandler(controlPromocion, controlUsuario, controlCompra);
+                break;
+            case 7:
+                ComentarioHandler(controlComentario, controlPromocion, controlUsuario, controlFecha);
+                break;
             case 8:
-                altaDeUsuario(controlUsuario);
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlCompra, controlFecha, controlComentario);
                 break;
             case 9:
-                listadoDeUsuarios(controlUsuario);
-                break;
-            case 10:
-                altaDeProducto(controlPromocion, controlUsuario);
-                break;
-            case 11:
-                consultarProducto(controlPromocion);
-                break;
-            case 12:
-                expedienteUsuario(controlUsuario);
-                break;
-            case 13:
-                enviarProductoHandler(controlCompra, controlUsuario);
-                break;
-            case 14:
-                ComentarioHandler(controlComentario, controlPromocion, controlUsuario, controlFecha);
+                cout << "Saliendo..." << endl;
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo." << endl;
                 break;
         }
 
-        if (choice != 6) {
+        if (choice != 9) {
             cout << "Presiona enter para continuar..." << endl;
             cin.ignore();
             cin.get();
         }
-    } while (choice != 6);
+    } while (choice != 9);
 
     return 0;
 }
-
-
             
