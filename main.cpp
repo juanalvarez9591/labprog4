@@ -15,9 +15,7 @@
 #include <algorithm>
 using namespace std;
 
-
 void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones* controlSuscripciones, IControlPromocion* controlPromocion, IControlCompra* controlCompra, IControlFecha* controlFecha, IControlComentario* controlComentario) {
-
     controlUsuario->darDeAltaVendedor("ana23", "qwer1234", DTFecha(15,5, 1988), "212345678001");
     controlUsuario->darDeAltaVendedor("carlos78", "asdfghj", DTFecha(18,6,1986), "356789012345");
     controlUsuario->darDeAltaVendedor("diegom", "zxcvbn", DTFecha(28,7,1993),  "190123456789");
@@ -28,12 +26,6 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlUsuario->darDeAltaCliente("natalia", "poiuyt", DTFecha(14,4,1982), 2021, "Paysandu",  "Salto");
     controlUsuario->darDeAltaCliente("pablo10", "lkjhgv", DTFecha(30,11,1995),  1819, "Av. Rivera", "Mercedes");
     controlUsuario->darDeAltaCliente("roberto", "mnbvcx", DTFecha(12,8,1990), 1011, "Av. Brasil",  "Montevideo");
-
-
-    // por fuera de los casos de uso pedidos
-    vector<string> vendedores = {"ana23", "carlos78"};
-    controlSuscripciones->suscribirACliente(vendedores, "juan87");
-    controlSuscripciones->suscribirACliente(vendedores, "laura");
 
     controlPromocion->crearProducto("Camiseta Azul", 1400, 50, "Camiseta de poliester, color azul", "Ropa", "carlos78");
     controlPromocion->crearProducto("Televisor LED", 40500, 30, "Televisor LED 55 pulgadas", "Electrodomestico", "ana23");
@@ -148,70 +140,66 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlCompra->agregarCantidad(1, 5);
     controlCompra->confirmarCompra();
 
-
-
-
-//Para probar comentario
-    controlComentario->seleccionarUsuario("vendedor1");
-    controlComentario->seleccionarProducto(1);
-    controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?", DTFecha(1,6,2024));
-
-    controlComentario->seleccionarUsuario("vendedor2");
-    controlComentario->seleccionarProducto(1);
-    controlComentario->elegirComentario("¿La camiseta azul esta disponible en talla M?");
-    controlComentario->responderComentario("Si, tenemos la camiseta azul en talla M", DTFecha(1,6,2024));
-
-
+    controlFecha->setFechaActual(DTFecha(1,6,2024));
     controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
-    controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?", DTFecha(1,6,2024));
+    controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?");
 
+    controlFecha->setFechaActual(DTFecha(1,6,2024));
     controlComentario->seleccionarUsuario("carlos78");
     controlComentario->seleccionarProducto(1);
     controlComentario->elegirComentario("¿La camiseta azul esta disponible en talla M?");
-    controlComentario->responderComentario("Si, tenemos la camiseta azul en talla M", DTFecha(1,6,2024)); //no se si está bien crear la misma fecha dos veces
+    controlComentario->responderComentario("Si, tenemos la camiseta azul en talla M");
 
+    controlFecha->setFechaActual(DTFecha(2,6,2024));
     controlComentario->seleccionarUsuario("laura");
     controlComentario->seleccionarProducto(1);
     controlComentario->elegirComentario("Si, tenemos la camiseta azul en talla M");
-    controlComentario->responderComentario("¿Es de buen material? Me preocupa la durabilidad.", DTFecha(2,6,2024));
+    controlComentario->responderComentario("¿Es de buen material? Me preocupa la durabilidad.");
 
+    controlFecha->setFechaActual(DTFecha(2,6,2024));
     controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
     controlComentario->elegirComentario("¿Es de buen material? Me preocupa la durabilidad.");
-    controlComentario->responderComentario("He comprado antes y la calidad es buena.", DTFecha(2,6,2024));
+    controlComentario->responderComentario("He comprado antes y la calidad es buena.");
 
+    controlFecha->setFechaActual(DTFecha(2,6,2024));
     controlComentario->seleccionarUsuario("natalia");
     controlComentario->seleccionarProducto(1);
-    controlComentario->realizarComentario("¿Como es el ajuste? ¿Es ajustada o holgada?", DTFecha(2,6,2024));
+    controlComentario->realizarComentario("¿Como es el ajuste? ¿Es ajustada o holgada?");
 
+    controlFecha->setFechaActual(DTFecha(2,6,2024));
     controlComentario->seleccionarUsuario("laura");
     controlComentario->seleccionarProducto(2);
-    controlComentario->realizarComentario("¿Cual es la resolucion del Televisor LED?", DTFecha(2,6,2024));
+    controlComentario->realizarComentario("¿Cual es la resolucion del Televisor LED?");
 
+    controlFecha->setFechaActual(DTFecha(2,6,2024));
     controlComentario->seleccionarUsuario("ana23");
     controlComentario->seleccionarProducto(2);
     controlComentario->elegirComentario("¿Cual es la resolucion del Televisor LED?");
-    controlComentario->responderComentario("El televisor LED tiene una resolucion de 4K UHD.", DTFecha(2,6,2024));
+    controlComentario->responderComentario("El televisor LED tiene una resolucion de 4K UHD.");
 
+    controlFecha->setFechaActual(DTFecha(3,6,2024));
     controlComentario->seleccionarUsuario("pablo10");
     controlComentario->seleccionarProducto(2);
-    controlComentario->realizarComentario("¿Tiene soporte para HDR10?", DTFecha(3,6,2024));
+    controlComentario->realizarComentario("¿Tiene soporte para HDR10?");
 
+    controlFecha->setFechaActual(DTFecha(3,6,2024));
     controlComentario->seleccionarUsuario("ana23");
     controlComentario->seleccionarProducto(2);
     controlComentario->elegirComentario("¿Tiene soporte para HDR10?");
-    controlComentario->responderComentario("Si, soporta HDR10.", DTFecha(3,6,2024));
+    controlComentario->responderComentario("Si, soporta HDR10.");
 
+    controlFecha->setFechaActual(DTFecha(3,6,2024));
     controlComentario->seleccionarUsuario("natalia");
     controlComentario->seleccionarProducto(3);
-    controlComentario->realizarComentario("¿La chaqueta de cuero es resistente al agua?", DTFecha(3,6,2024));
+    controlComentario->realizarComentario("¿La chaqueta de cuero es resistente al agua?");
 
+    controlFecha->setFechaActual(DTFecha(3,6,2024));
     controlComentario->seleccionarUsuario("carlos78");
     controlComentario->seleccionarProducto(3);
     controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
-    controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua", DTFecha(3,6,2024));
-
+    controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua");
 
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
@@ -1053,36 +1041,28 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                 if (usuarios.empty()){
                     cout << "No hay usuarios cargados, Intenta cargar algunos antes" << endl;
                     break;
-                }else{
+                } else {
                     cout << "¿Quién escribirá el comentario? " << endl;
-                    for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
-                        cout << *iterUsuario << endl;
+                    for(const auto& usuario : usuarios) {
+                        cout << usuario << endl;
                     }
                     cin >> usuarioElegido;
-                    sinError = controlComentario->seleccionarUsuario(usuarioElegido);
-                    if(!sinError) {
-                        cout << "Usuario no encontrado, intenta de nuevo. Recuerda que tienes que respetar mayúsculas" << endl;
-                        break;
-                    }
-                    //Ahora listamos todos los productos y el admin elige sobre cuál se escribira el comentario:
+                    controlComentario->seleccionarUsuario(usuarioElegido);
+
                     cout << "¿Sobre qué producto quieres comentar?" << endl;
                     vector<DTProducto> productos = controlPromocion->listarProductos();
                     if (productos.empty()){
                         cout << "Ups, parece que no tenemos productos, vuelve luego" << endl;
                         break;
-                    }else{
-                        for(auto iterProd = productos.begin(); iterProd != productos.end(); ++iterProd) {
-                            cout << "Nombre: " << iterProd->getNombre() << endl;
-                            cout << "ID: " << iterProd->getId() << endl;
+                    } else {
+                        for(const auto& prod : productos) {
+                            cout << "Nombre: " << prod.getNombre() << endl;
+                            cout << "ID: " << prod.getId() << endl;
                         }
                         cout << "Ingresa el ID del producto que quieras" << endl;
                         cin >> productoElegido;
-                        //Luego preguntamos si quiere comentar un producto o responder otro comentario:
-                        sinError = controlComentario->seleccionarProducto(productoElegido);
-                        if(!sinError) {
-                            cout << "Producto no encontrado, intenta de nuevo" << endl;
-                            break;
-                        }
+                        controlComentario->seleccionarProducto(productoElegido);
+
                         cout << "¿Comentar sobre el producto o responder otro comentario?" << endl;
                         cout << "1. Comentar sobre el producto" << endl;
                         cout << "2. Responder un comentario" << endl;
@@ -1092,21 +1072,22 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                                 cout << "Escribe el comentario:" << endl;
                                 cin.ignore();
                                 getline(cin, texto);
-                                controlComentario->realizarComentario(texto, fechaActual);
-                                cout << "¡Comentario creado con éxito!" << endl;
+                                sinError = controlComentario->realizarComentario(texto);
+                                if (sinError) {
+                                    cout << "¡Comentario creado con éxito!" << endl;
+                                } else {
+                                    cout << "Hubo un error al crear el comentario." << endl;
+                                }
                                 break;
                             }
                             case '2':{
-                                //Acá se listan todos los comentarios y se elige cuál responder:
-                                vector<string> comentarios = controlComentario->listarComentarios();
+                                string comentarios = controlComentario->listarComentarios();
                                 if (comentarios.empty()){
                                     cout << "Este producto no tiene comentarios actualmente" << endl;
                                     break;
-                                }else{
+                                } else {
                                     cout << "¿Qué comentario quieres responder?" << endl;
-                                    for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
-                                        cout << *iterComent << endl;
-                                    }
+                                    cout << comentarios << endl;
                                     cin.ignore();
                                     getline(cin, comentarioElegido);
                                     sinError = controlComentario->elegirComentario(comentarioElegido);
@@ -1114,11 +1095,14 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                                         cout << "No se encontró el comentario, asegurate de haberlo escrito correctamente" << endl;
                                         break;
                                     }
-                                    //Y ahora escribe la respuesta:
                                     cout << "Escribe la respuesta:" << endl;
                                     getline(cin, texto);
-                                    controlComentario->responderComentario(texto, fechaActual);
-                                    cout << "¡Comentario creado con éxito!" << endl;
+                                    sinError = controlComentario->responderComentario(texto);
+                                    if (sinError) {
+                                        cout << "¡Comentario creado con éxito!" << endl;
+                                    } else {
+                                        cout << "Hubo un error al crear el comentario." << endl;
+                                    }
                                     break;
                                 }
                             }
@@ -1128,32 +1112,24 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                 }
             }
             case '2':{
-                //Primero listamos todos los usuarios y el administrador elige que escribió el comentario que queremos borrar:
-
                 if (usuarios.empty()){
                     cout << "No hay usuarios cargados, Intenta cargar algunos antes" << endl;
                     break;
-                }else{
+                } else {
                     cout << "Selecciona el usuario cuyo comentario quieres borrar:" << endl;
-                    for(auto iterUsuario = usuarios.begin(); iterUsuario != usuarios.end(); ++iterUsuario) {
-                        cout << *iterUsuario << endl;
+                    for(const auto& usuario : usuarios) {
+                        cout << usuario << endl;
                     }
                     cin >> usuarioElegido;
-                    sinError = controlComentario->seleccionarUsuario(usuarioElegido);
-                    if (!sinError) {
-                        cout << "Usuario no encontrado, intenta de nuevo. Recuerda que tienes que respetar mayúsculas" << endl;
-                        break;
-                    }
-                    //Ahora se listan todos los comentarios del usuario elegido:
-                    vector<string> comentarios = controlComentario->listarComentariosUsuario(usuarioElegido);
+                    controlComentario->seleccionarUsuario(usuarioElegido);
+
+                    string comentarios = controlComentario->listarComentarios();
                     if (comentarios.empty()){
                         cout << "Este usuario no tiene comentarios por el momento" << endl;
                         break;
-                    }else{
+                    } else {
                         cout << "¿Qué comentario quieres eliminar?" << endl;
-                        for(auto iterComent = comentarios.begin(); iterComent != comentarios.end(); ++iterComent) {
-                            cout << *iterComent << endl;
-                        }
+                        cout << comentarios << endl;
                         cin.ignore();
                         getline(cin, texto);
                         sinError = controlComentario->elegirComentario(texto);
@@ -1161,8 +1137,12 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                             cout << "No se encontró el comentario, asegurate de haberlo escrito correctamente" << endl;
                             break;
                         }
-                        controlComentario->eliminarComentario(texto);
-                        cout << "¡Comentario eliminado con éxito!" << endl;
+                        sinError = controlComentario->eliminarComentario();
+                        if (sinError) {
+                            cout << "¡Comentario eliminado con éxito!" << endl;
+                        } else {
+                            cout << "Hubo un error al eliminar el comentario." << endl;
+                        }
                         break;
                     }
                 }
