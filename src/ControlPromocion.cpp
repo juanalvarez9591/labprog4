@@ -250,41 +250,47 @@ vector<DTProducto> ControlPromocion::verProductosVendedor(string nickUsuario) {
     return dtProductos;
 }
 
-float ControlPromocion::calcularPrecioTotal(int codigoProducto, int cantidad) {
-    float total = 0.0;
+float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitosCompra) {
+    float totalSinDescuento = 0.0;
 
-    Producto* producto = getProductoByID(codigoProducto);
-    if (producto != NULL) {
-        total = producto->getPrecio() * cantidad;
-    } else {
-        return total;
+    // Calculate total price without discount
+    for (const Requisitos& req : requisitosCompra) {
+        Producto* producto = req.getProducto();
+        if (producto != NULL) {
+            totalSinDescuento += producto->getPrecio() * req.getMinimo();
+        }
     }
 
     set<DTPromocion> promocionesVigentes = listarPromocionesVigentes();
 
     for (const DTPromocion& promo : promocionesVigentes) {
-        vector<Requisitos> requisitos = obtenerRequisitosPromocion(promo.getNombre());
+        vector<Requisitos> requisitosPromocion = obtenerRequisitosPromocion(promo.getNombre());
 
         bool cumplePromocion = true;
-        float descuento = 0.0;
 
-        for (const Requisitos& req : requisitos) {
-            if (req.getProducto()->getId() == codigoProducto && cantidad >= req.getMinimo()) {
-                descuento = total * (promo.getPorcentaje() / 100.0);
-            } else {
+        for (const Requisitos& reqPromo : requisitosPromocion) {
+            bool productoEncontrado = false;
+            for (const Requisitos& reqCompra : requisitosCompra) {
+                if (reqPromo.getProducto()->getId() == reqCompra.getProducto()->getId()) {
+                    if (reqCompra.getMinimo() >= reqPromo.getMinimo()) {
+                        productoEncontrado = true;
+                        break;
+                    }
+                }
+            }
+            if (!productoEncontrado) {
                 cumplePromocion = false;
                 break;
             }
         }
 
         if (cumplePromocion) {
-            total -= descuento;
-            break;
+            float descuento = totalSinDescuento * (promo.getPorcentaje() / 100.0);
+            return totalSinDescuento - descuento;
         }
     }
 
-    return total;
+    return totalSinDescuento;
 }
-
 ControlPromocion::~ControlPromocion() {
 }
