@@ -91,11 +91,11 @@ ComentarioArbol* ControlComentario::buscarArbol(int codigoProducto) {
     return nullptr;
 }
 
-bool ControlComentario::eliminarComentario() {
-    if (productoEnMemoria != -1 && comentarioNodoEnMemoria != nullptr) {
-        ComentarioArbol* arbol = buscarArbol(productoEnMemoria);
-        if (arbol != nullptr) {
-            bool resultado = arbol->eliminarComentario(comentarioNodoEnMemoria);
+bool ControlComentario::eliminarComentario(string texto) {
+    for (ComentarioArbol* arbol : arboles) {
+        ComentarioNodo* nodo = arbol->buscarComentario(texto.c_str());
+        if (nodo != nullptr) {
+            bool resultado = arbol->eliminarComentario(nodo);
             if (resultado) {
                 comentarioEnMemoria = "";
                 comentarioNodoEnMemoria = nullptr;
@@ -104,6 +104,14 @@ bool ControlComentario::eliminarComentario() {
         }
     }
     return false;
+}
+
+string ControlComentario::listarComentariosProducto(int codigoProducto) {
+    ComentarioArbol* arbol = buscarArbol(codigoProducto);
+    if (arbol != nullptr) {
+        return listarComentariosRecursivo(arbol->getRaiz(), 0);
+    }
+    return "No se encontraron comentarios para este producto.";
 }
 
 bool ControlComentario::responderComentario(string texto) {
@@ -134,5 +142,13 @@ string ControlComentario::listarComentariosRecursivo(ComentarioNodo* nodo, int n
     resultado += listarComentariosRecursivo(nodo->getHijo(), nivel + 1);
     resultado += listarComentariosRecursivo(nodo->getHermano(), nivel);
 
+    return resultado;
+}
+
+string ControlComentario::listarComentariosDeUsuario(string nickUsuario) {
+    string resultado = "";
+    for (ComentarioArbol* arbol : arboles) {
+        resultado += arbol->obtenerComentariosDeUsuario(nickUsuario);
+    }
     return resultado;
 }
