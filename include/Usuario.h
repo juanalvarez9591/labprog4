@@ -14,7 +14,6 @@ public:
     string getPassword() const;
     DTFecha getFechaNacimiento() const;
     virtual ~Usuario() = default;
-    string getNickname();
 
 protected:
     string nickname;

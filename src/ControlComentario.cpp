@@ -127,7 +127,7 @@ string ControlComentario::listarComentariosRecursivo(ComentarioNodo* nodo, int n
     string resultado = indentacion + nodo->getTexto();
 
     DTFecha fecha = nodo->getFecha();
-    resultado += " ("+to_string(fecha.getDia()) + "/" + to_string(fecha.getMes()) + "/" + to_string(fecha.getAnio()) + ")\n";
+    resultado += " "+nodo->getUsuarioNick()+" ("+to_string(fecha.getDia()) + "/" + to_string(fecha.getMes()) + "/" + to_string(fecha.getAnio()) + ")\n";
 
     resultado += listarComentariosRecursivo(nodo->getHijo(), nivel + 1);
     resultado += listarComentariosRecursivo(nodo->getHermano(), nivel);

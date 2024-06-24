@@ -1,7 +1,7 @@
 #include "ComentarioNodo.h"
 #include "Usuario.h"
 #include <cstring>
-
+#include <string>
 
 ComentarioNodo::ComentarioNodo(const char* texto, Usuario* usuario, DTFecha fecha)
         : usuario(usuario), fecha(fecha), hijo(nullptr), hermano(nullptr) {
@@ -15,6 +15,10 @@ ComentarioNodo::~ComentarioNodo() {
 
 Usuario* ComentarioNodo::getUsuario() const {
     return usuario;
+}
+
+string ComentarioNodo::getUsuarioNick() const {
+    return usuario->getNickname();
 }
 
 const char* ComentarioNodo::getTexto() const {

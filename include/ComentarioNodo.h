@@ -17,6 +17,7 @@ public:
     ~ComentarioNodo();
 
     Usuario* getUsuario() const;
+    string getUsuarioNick() const;
     const char* getTexto() const;
     DTFecha getFecha() const;
     ComentarioNodo* getHijo() const;
