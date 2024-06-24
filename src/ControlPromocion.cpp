@@ -188,8 +188,19 @@ vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nomb
     return dtInfoProductos;
 }
 
-set<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
-    set<DTPromocion> dtPromociones;
+vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
+    vector<DTPromocion> dtPromociones;
+   DTFecha fechaActual = ControlFecha::getInstance()->getFechaActual();
+    for (const auto& pair : promociones) {
+            const Promocion& promocion = pair.second;
+            if (promocion.getFechaVencimiento() >= fechaActual) {
+                dtPromociones.push_back(promocion.toDTPromocion());
+            }
+        }
+        return dtPromociones;
+
+}
+  /*  set<DTPromocion> dtPromociones;
     DTFecha fechaActual = controlFecha->getFechaActual();
     for (const auto& pair : promociones) {
         const Promocion& promocion = pair.second;
@@ -197,8 +208,8 @@ set<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
             dtPromociones.insert(promocion.toDTPromocion());
         }
     }
-    return dtPromociones;
-}
+    return dtPromociones;*/
+
 
 
 vector<DTDatosProducto> ControlPromocion::listarDataProductos(){
@@ -261,7 +272,7 @@ float ControlPromocion::calcularPrecioTotal(const vector<Requisitos>& requisitos
     }
 
     float mejorDescuento = 0.0;
-    set<DTPromocion> promocionesVigentes = listarPromocionesVigentes();
+    vector<DTPromocion> promocionesVigentes = listarPromocionesVigentes();
 
     for (const DTPromocion& promo : promocionesVigentes) {
         vector<Requisitos> requisitosPromocion = obtenerRequisitosPromocion(promo.getNombre());

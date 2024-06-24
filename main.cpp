@@ -212,6 +212,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
     controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua", DTFecha(3,6,2024));
 
+    controlFecha->setFechaActual(DTFecha(1,1,2024));
 
     cout << "Datos de prueba cargados exitosamente" << endl;
 }
@@ -474,7 +475,8 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
         cout << "9. Confirmar promocion" << endl;
         cout << "10. Listar promociones vigentes" << endl;
         cout << "11. Consultar productos de promocion" << endl;
-        cout << "12. Volver al menu principal" << endl;
+        cout << "12. Consultar Promoción" << endl;
+        cout << "13. Volver al menu principal" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choiceStr;
 
@@ -576,7 +578,7 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
                 break;
             case 10:
             {
-                set<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
+                vector<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
                 cout << "Promociones vigentes:" << endl;
                 for (const DTPromocion& promocion : promociones) {
                     cout << "- " << promocion.getNombre() << " (Vencimiento: " << promocion.getFechaVencimiento().getString() << ")" << endl;
@@ -596,18 +598,51 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
                 }
                 break;
             case 12:
+            {
+                char eleccion;
+                vector<DTPromocion> dataPromociones = controlPromocion->listarPromocionesVigentes();
+                cout << endl;
+                cout << "Las promociones vigentes son: "<< endl;
+                for (vector<DTPromocion>::iterator it = dataPromociones.begin(); it != dataPromociones.end(); ++it){
+                    cout << "Nombre: " << it->getNombre() << endl;
+                    cout << "Descripcion: " << it->getDescripcion() << endl;
+                    cout << "Fecha Vencimiento: " <<it->getFechaVencimiento().getString() << endl;
+                    cout << "Descuento: " << to_string(it->getPorcentaje()) << "%" << endl;
+                    cout << endl; 
+
+                }
+                cout << "Quiere más información de alguna promoción? (y/n): ";
+                cin >> eleccion;
+                if (eleccion == 'y'){
+                    string nombrePromo;
+                    cout << "Escriba el nombre de la promoción: ";
+                    cin.ignore();
+                    getline(cin,nombrePromo);
+                    cout << endl;
+                    vector<DTInfoProducto> infoProducto = controlPromocion->consultarProductosPromocion(nombrePromo);
+                    for(vector<DTInfoProducto>::iterator it = infoProducto.begin(); it !=infoProducto.end(); ++it){
+                        cout << it->toString() << endl;
+                    }
+                } else{
+                    break;
+                }
+            break;
+            }
+                
+
+            case 13:
                 cout << "Volviendo al menu principal..." << endl;
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
 
-        if (choice != 12) {
+        if (choice != 13) {
             cout << "Presiona enter para continuar...";
             cin.ignore();
             cin.get();
         }
-    } while (choice != 12);
+    } while (choice != 13);
 }
 
 void fechaSistemaHandler(IControlFecha* controlFecha) {
