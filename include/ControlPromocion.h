@@ -31,7 +31,8 @@ public:
     vector<DTProducto> verProductosVendedor(string nickUsuario);
     void agregarProductoPromocion(int idProducto, int cantidad);
     void confirmarPromocion();
-    vector<DTPromocion> listarPromocionesVigentes();
+
+    vector<DTPromocion> listarPromocionesVigentes() override;
     vector<DTInfoProducto> consultarProductosPromocion(string nombrePromocion);
     bool productoEnPromocion(int idProducto);
     virtual ~ControlPromocion();

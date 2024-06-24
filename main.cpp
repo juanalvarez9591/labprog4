@@ -140,7 +140,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlCompra->agregarCantidad(1, 5);
     controlCompra->confirmarCompra();
 
-    controlFecha->setFechaActual(DTFecha(1,6,2024));
+        controlFecha->setFechaActual(DTFecha(1,6,2024));
     controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
     controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?");
@@ -200,6 +200,88 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlComentario->seleccionarProducto(3);
     controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
     controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("laura");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
+    controlComentario->responderComentario("¿Viene en otros colores?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("carlos78");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿Viene en otros colores?");
+    controlComentario->responderComentario("Si, tambien esta disponible en marron");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
+    controlComentario->responderComentario("¿Es adecuada para climas frios?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->realizarComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("Si, el microondas digital incluye una funcion de descongelacion rapida.");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("¿Cuantos niveles de potencia tiene?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿Cuantos niveles de potencia tiene?");
+    controlComentario->responderComentario("Tiene 10 niveles de potencia.");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("¿Es facil de limpiar?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->realizarComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("diegom");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("Si, la luz LED se puede controlar a traves de una aplicacion movil.");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿Es compatible con Alexa o Google Home?");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("diegom");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿Es compatible con Alexa o Google Home?");
+    controlComentario->responderComentario("Si, es compatible con ambos.");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿Cuanto dura la bateria?");
+
+    controlFecha->setFechaActual(DTFecha(7,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿La aplicacion movil es facil de usar?");
 
     controlFecha->setFechaActual(DTFecha(1,1,2024));
 
@@ -377,18 +459,9 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
 
     do {
         cout << "Promociones:" << endl;
-        cout << "1. Listar nicknames de vendedores" << endl;
-        cout << "2. Elegir vendedor" << endl;
-        cout << "3. Ingresar producto" << endl;
-        cout << "4. Listar productos" << endl;
-        cout << "5. Ver info de producto" << endl;
-        cout << "6. Ingresar datos de promocion" << endl;
-        cout << "7. Ver productos del vendedor" << endl;
-        cout << "8. Agregar producto a promocion" << endl;
-        cout << "9. Confirmar promocion" << endl;
-        cout << "10. Listar promociones vigentes" << endl;
-        cout << "11. Consultar productos de promocion" << endl;
-        cout << "12. Volver al menu principal" << endl;
+        cout << "1. Crear Promocion" << endl;
+        cout << "2. Consultar Promoción" << endl;
+        cout << "3. Volver al menu principal" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choiceStr;
 
@@ -401,58 +474,6 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
         switch (choice) {
             case 1:
             {
-                vector<string> nicknames = controlUsuario->listarNicknamesVendedores();
-                cout << "Nicknames de vendedores:" << endl;
-                for (const string& nickname : nicknames) {
-                    cout << "- " << nickname << endl;
-                }
-            }
-                break;
-            case 2:
-                cout << "Ingresa el nickname del vendedor: ";
-                cin >> nickVendedor;
-                if (controlPromocion->elegirVendedor(nickVendedor)) {
-                    cout << "Vendedor elegido exitosamente" << endl;
-                } else {
-                    cout << "Error al elegir vendedor" << endl;
-                }
-                break;
-            case 3:
-                cout << "Ingresa el nombre del producto: ";
-                cin.ignore();
-                getline(cin, nombre);
-                cout << "Ingresa la descripcion del producto: ";
-                getline(cin, descripcion);
-                cout << "Ingresa el precio del producto: ";
-                cin >> precio;
-                cout << "Ingresa el stock del producto: ";
-                cin >> stock;
-                cout << "Ingresa la categoria del producto: ";
-                cin >> categoria;
-                if (controlPromocion->ingresarProducto(nombre, descripcion, precio, stock, categoria)) {
-                    cout << "Producto ingresado exitosamente" << endl;
-                } else {
-                    cout << "Error al ingresar el producto, ya se encuentra en otra promocion" << endl;
-                }
-                break;
-            case 4:
-            {
-                vector<DTProducto> productos = controlPromocion->listarProductos();
-                cout << "Productos disponibles:" << endl;
-                for (const DTProducto& producto : productos) {
-                    cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
-                }
-            }
-                break;
-            case 5:
-                cout << "Ingresa el ID del producto: ";
-                cin >> idProducto;
-                {
-                    DTInfoProducto infoProducto = controlPromocion->verInfoProducto(idProducto);
-                    cout << infoProducto.toString() << endl;
-                }
-                break;
-            case 6:
                 cout << "Ingresa el nombre de la promocion: ";
                 cin.ignore();
                 getline(cin, nombre);
@@ -466,62 +487,89 @@ void promocionesHandler(IControlPromocion* controlPromocion, IControlUsuario* co
                 cin >> porcentaje;
                 controlPromocion->ingresarDatosPromocion(nombre, descripcion, fechaVencimiento, porcentaje);
                 cout << "Datos de promocion ingresados exitosamente" << endl;
-                break;
-            case 7:
-            {
+                
+                vector<string> nicknames = controlUsuario->listarNicknamesVendedores();
+                cout << "Nicknames de vendedores:" << endl;
+                for (const string& nickname : nicknames) {
+                    cout << "- " << nickname << endl;
+                }
+                
+                cout << endl << "Ingresa el nickname del vendedor: ";
+                cin >> nickVendedor;
+                if (controlPromocion->elegirVendedor(nickVendedor)) {
+                    cout << "Vendedor elegido exitosamente" << endl;
+                } else {
+                    cout << "Error al elegir vendedor" << endl;
+                }
+
                 vector<DTProducto> productos = controlPromocion->verProductosVendedorEnMemoria();
-                cout << "Productos del vendedor:" << endl;
+                cout << endl << "Productos del vendedor:" << endl;
                 for (const DTProducto& producto : productos) {
                     cout << "- " << producto.getNombre() << " (ID: " << producto.getId() << ")" << endl;
                 }
-            }
-                break;
-            case 8:
-                cout << "Ingresa el ID del producto: ";
+                char eleccion;
+                cout << "Desea agregar un producto a la promoción? (y/n): ";
+                cin >> eleccion;
+                while (eleccion == 'y'){
+                    cout << "Ingresa el ID del producto: ";
                 cin >> idProducto;
-                cout << "Ingresa la cantidad a agregar: ";
+                cout << "Ingresa la cantidad mínima para aplicar la promoción: ";
                 cin >> cantidad;
                 controlPromocion->agregarProductoPromocion(idProducto, cantidad);
-                cout << "Producto agregado a la promocion exitosamente" << endl;
-                break;
-            case 9:
+                cout << "Producto agregado a la promocion exitosamente." << endl;
+                cout << "Desea agregar un producto a la promoción? (y/n): ";
+                cin >> eleccion;
+                }
                 controlPromocion->confirmarPromocion();
                 cout << "Promocion confirmada exitosamente" << endl;
-                break;
-            case 10:
-            {
-                vector<DTPromocion> promociones = controlPromocion->listarPromocionesVigentes();
-                cout << "Promociones vigentes:" << endl;
-                for (const DTPromocion& promocion : promociones) {
-                    cout << "- " << promocion.getNombre() << " (Vencimiento: " << promocion.getFechaVencimiento().getString() << ")" << endl;
-                }
+
             }
                 break;
-            case 11:
-                cout << "Ingresa el nombre de la promocion: ";
-                cin.ignore();
-                getline(cin, nombre);
-                {
-                    vector<DTInfoProducto> productosPromocion = controlPromocion->consultarProductosPromocion(nombre);
-                    cout << "Productos de la promocion:" << endl;
-                    for (const DTInfoProducto& producto : productosPromocion) {
-                        cout << "- " << producto.toString() << endl;
-                    }
+            case 2:
+                char eleccion;
+               {
+                    vector<DTPromocion> dataPromociones = controlPromocion->listarPromocionesVigentes();
+                cout << endl;
+                cout << "Las promociones vigentes son: "<< endl;
+                for (vector<DTPromocion>::iterator it = dataPromociones.begin(); it != dataPromociones.end(); ++it){
+                    cout << "Nombre: " << it->getNombre() << endl;
+                    cout << "Descripcion: " << it->getDescripcion() << endl;
+                    cout << "Fecha Vencimiento: " <<it->getFechaVencimiento().getString() << endl;
+                    cout << "Descuento: " << to_string(it->getPorcentaje()) << "%" << endl;
+                    cout << endl; 
+
                 }
-                break;
-            case 12:
+                cout << "Quiere más información de alguna promoción? (y/n): ";
+                cin >> eleccion;
+                if (eleccion == 'y'){
+                    string nombrePromo;
+                    cout << "Escriba el nombre de la promoción: ";
+                    cin.ignore();
+                    getline(cin,nombrePromo);
+                    cout << endl;
+                    vector<DTInfoProducto> infoProducto = controlPromocion->consultarProductosPromocion(nombrePromo);
+                    for(vector<DTInfoProducto>::iterator it = infoProducto.begin(); it !=infoProducto.end(); ++it){
+                        cout << it->toString() << endl;
+                    } 
+                }
+               else {
+                    break;
+                 }
+            }break;
+            
+            case 3:
                 cout << "Volviendo al menu principal..." << endl;
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
         }
 
-        if (choice != 12) {
+        if (choice != 3) {
             cout << "Presiona enter para continuar...";
             cin.ignore();
             cin.get();
         }
-    } while (choice != 12);
+    } while (choice != 3);
 }
 
 void fechaSistemaHandler(IControlFecha* controlFecha) {

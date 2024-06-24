@@ -30,8 +30,10 @@ ControlComentario::~ControlComentario() {
     }
 }
 
+
 void ControlComentario::seleccionarUsuario(string nickUsuario) {
     usuarioEnMemoria = nickUsuario;
+
 }
 
 void ControlComentario::seleccionarProducto(int codigoProducto) {
