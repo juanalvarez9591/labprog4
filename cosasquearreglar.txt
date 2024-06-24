@@ -1,4 +1,0 @@
-alta de producto controlar que sea un entero
-consultar producto que sea un entero
-ennviar producto que sea un entero
-
