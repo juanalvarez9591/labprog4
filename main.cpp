@@ -140,7 +140,7 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlCompra->agregarCantidad(1, 5);
     controlCompra->confirmarCompra();
 
-    controlFecha->setFechaActual(DTFecha(1,6,2024));
+        controlFecha->setFechaActual(DTFecha(1,6,2024));
     controlComentario->seleccionarUsuario("juan87");
     controlComentario->seleccionarProducto(1);
     controlComentario->realizarComentario("¿La camiseta azul esta disponible en talla M?");
@@ -200,6 +200,88 @@ void cargarDatosDePrueba(IControlUsuario* controlUsuario, IControlSuscripciones*
     controlComentario->seleccionarProducto(3);
     controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
     controlComentario->responderComentario("No, la chaqueta de cuero no es resistente al agua");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("laura");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
+    controlComentario->responderComentario("¿Viene en otros colores?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("carlos78");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿Viene en otros colores?");
+    controlComentario->responderComentario("Si, tambien esta disponible en marron");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(3);
+    controlComentario->elegirComentario("¿La chaqueta de cuero es resistente al agua?");
+    controlComentario->responderComentario("¿Es adecuada para climas frios?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->realizarComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+
+    controlFecha->setFechaActual(DTFecha(4,6,2024));
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("Si, el microondas digital incluye una funcion de descongelacion rapida.");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("¿Cuantos niveles de potencia tiene?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("ana23");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿Cuantos niveles de potencia tiene?");
+    controlComentario->responderComentario("Tiene 10 niveles de potencia.");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(4);
+    controlComentario->elegirComentario("¿El microondas digital tiene funcion de descongelacion rapida?");
+    controlComentario->responderComentario("¿Es facil de limpiar?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("roberto");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->realizarComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+
+    controlFecha->setFechaActual(DTFecha(5,6,2024));
+    controlComentario->seleccionarUsuario("diegom");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("Si, la luz LED se puede controlar a traves de una aplicacion movil.");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿Es compatible con Alexa o Google Home?");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("diegom");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿Es compatible con Alexa o Google Home?");
+    controlComentario->responderComentario("Si, es compatible con ambos.");
+
+    controlFecha->setFechaActual(DTFecha(6,6,2024));
+    controlComentario->seleccionarUsuario("natalia");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿Cuanto dura la bateria?");
+
+    controlFecha->setFechaActual(DTFecha(7,6,2024));
+    controlComentario->seleccionarUsuario("pablo10");
+    controlComentario->seleccionarProducto(5);
+    controlComentario->elegirComentario("¿La luz LED se puede controlar con una aplicacion movil?");
+    controlComentario->responderComentario("¿La aplicacion movil es facil de usar?");
 
     controlFecha->setFechaActual(DTFecha(1,1,2024));
 
