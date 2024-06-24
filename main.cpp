@@ -773,7 +773,8 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
         cout << "4. Listar nicknames de clientes" << endl;
         cout << "5. Listar nicknames de vendedores" << endl;
         cout << "6. Expediente de Usuario" << endl;
-        cout << "7. Volver al menu principal" << endl;
+        cout << "7. Listado de usuarios" << endl;
+        cout << "8. Volver al menu principal" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -876,32 +877,12 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
                 break;
             case '6':
             {
-                vector<string> nombresUsuarios = controlUsuario->listarNicknamesUsuarios();
-                string usuarioElegido;
-
-                cout << "Los nombres de todos los usuarios son: " << endl;
-                cout << endl;
-                for (vector<string>::iterator it = nombresUsuarios.begin(); it != nombresUsuarios.end(); ++it) {
-                    cout << "-" << *it << endl;
-                }
-                cout << "Escriba el nombre del usuario elegido: ";
-                cin.ignore();
-                getline(cin, usuarioElegido);
-
-                DTInfoUsuarios* infoUsuario = controlUsuario->verExpedienteUsuario(usuarioElegido);
-
-                if (infoUsuario) {
-                    if (const DTExpCliente* clienteElegido = dynamic_cast<const DTExpCliente*>(infoUsuario)) {
-                        // ... (existing code for displaying client info)
-                    } else if (const DTExpVendedor* vendedorElegido = dynamic_cast<const DTExpVendedor*>(infoUsuario)) {
-                        // ... (existing code for displaying vendor info)
-                    }
-                } else {
-                    cout << "No se encontró el usuario especificado." << endl;
-                }
+                expedienteUsuario(controlUsuario);
             }
                 break;
             case '7':
+                listadoDeUsuarios(controlUsuario);
+            case '8':
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo" << endl;
@@ -910,7 +891,7 @@ void usuarioHandler(IControlUsuario* controlUsuario) {
         cout << "Presiona enter para continuar..." << endl;
         cin.ignore();
         cin.get();
-    } while (choice != '7');
+    } while (choice != '8');
 }
 
 void enviarProductoHandler(IControlCompra* controlCompra, IControlUsuario* controlUsuario) {
@@ -1131,6 +1112,41 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
     } while (choice != '0');
 }
 
+void productoHandler(IControlPromocion* controlPromocion, IControlUsuario* controlUsuario, IControlCompra* controlCompra) {
+    char choice;
+    do {
+        cout << "Menu de Producto:" << endl;
+        cout << "1. Alta de Producto" << endl;
+        cout << "2. Consultar Producto" << endl;
+        cout << "3. Enviar Producto" << endl;
+        cout << "4. Volver al menu principal" << endl;
+        cout << "Ingresa tu opcion: ";
+        cin >> choice;
+
+        switch (choice) {
+            case '1':
+                altaDeProducto(controlPromocion, controlUsuario);
+                break;
+            case '2':
+                consultarProducto(controlPromocion);
+                break;
+            case '3':
+                enviarProductoHandler(controlCompra, controlUsuario);
+                break;
+            case '4':
+                break;
+            default:
+                cout << "Opcion invalida, intenta de nuevo" << endl;
+        }
+
+        if (choice != '4') {
+            cout << "Presiona enter para continuar..." << endl;
+            cin.ignore();
+            cin.get();
+        }
+    } while (choice != '4');
+}
+
 int main() {
     int choice;
 
@@ -1142,8 +1158,6 @@ int main() {
     IControlCompra *controlCompra = factory->getControlCompra();
     IControlComentario *controlComentario = factory->getControlComentario();
 
-
-
     do {
         system("clear");
         cout << "Mercado Finger - Equipo 72" << endl;
@@ -1151,14 +1165,11 @@ int main() {
         cout << "2. Suscripciones" << endl;
         cout << "3. Usuarios" << endl;
         cout << "4. Promociones" << endl;
-        cout << "5. Cargar datos de prueba" << endl;
-        cout << "6. Salir" << endl;
-        cout << "7. Realizar Compra" << endl;
-        cout << "9. Listado de Usuarios" << endl;
-        cout << "10. Alta de Producto" << endl;
-        cout << "11. Consultar Producto" << endl;
-        cout << "13. Enviar producto" << endl;
-        cout << "14. Comentarios" << endl;
+        cout << "5. Realizar Compra" << endl;
+        cout << "6. Productos" << endl;
+        cout << "7. Comentarios" << endl;
+        cout << "8. Cargar datos de prueba" << endl;
+        cout << "9. Salir" << endl;
         cout << "Ingresa tu opcion: ";
         cin >> choice;
 
@@ -1176,46 +1187,32 @@ int main() {
                 promocionesHandler(controlPromocion, controlUsuario);
                 break;
             case 5:
-                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlCompra, controlFecha, controlComentario);
-                break;
-            case 6:
-                cout << "Saliendo..." << endl;
-                break;
-            case 7:
                 compraHandler(controlCompra, controlPromocion, controlUsuario);
                 break;
-            case 9:
-                listadoDeUsuarios(controlUsuario);
+            case 6:
+                productoHandler(controlPromocion, controlUsuario, controlCompra);
                 break;
-            case 10:
-                altaDeProducto(controlPromocion, controlUsuario);
-                break;
-            case 11:
-                consultarProducto(controlPromocion);
-                break;
-            case 12:
-                expedienteUsuario(controlUsuario);
-                break;
-            case 13:
-                enviarProductoHandler(controlCompra, controlUsuario);
-                break;
-            case 14:
+            case 7:
                 ComentarioHandler(controlComentario, controlPromocion, controlUsuario, controlFecha);
+                break;
+            case 8:
+                cargarDatosDePrueba(controlUsuario, controlSuscripciones, controlPromocion, controlCompra, controlFecha, controlComentario);
+                break;
+            case 9:
+                cout << "Saliendo..." << endl;
                 break;
             default:
                 cout << "Opcion invalida, intenta de nuevo." << endl;
                 break;
         }
 
-        if (choice != 6) {
+        if (choice != 9) {
             cout << "Presiona enter para continuar..." << endl;
             cin.ignore();
             cin.get();
         }
-    } while (choice != 6);
+    } while (choice != 9);
 
     return 0;
 }
-
-
             
