@@ -189,15 +189,18 @@ vector<DTInfoProducto> ControlPromocion::consultarProductosPromocion(string nomb
 
 vector<DTPromocion> ControlPromocion::listarPromocionesVigentes() {
     vector<DTPromocion> dtPromociones;
-    DTFecha fechaActual = ControlFecha::getInstance()->getFechaActual();
+   DTFecha fechaActual = ControlFecha::getInstance()->getFechaActual();
     for (const auto& pair : promociones) {
-        const Promocion& promocion = pair.second;
-        if (promocion.getFechaVencimiento() >= fechaActual) {
-            dtPromociones.push_back(promocion.toDTPromocion());
+            const Promocion& promocion = pair.second;
+            if (promocion.getFechaVencimiento() >= fechaActual) {
+                dtPromociones.push_back(promocion.toDTPromocion());
+            }
         }
-    }
-    return dtPromociones;
+        return dtPromociones;
+
 }
+
+
 
 
 vector<DTDatosProducto> ControlPromocion::listarDataProductos(){
