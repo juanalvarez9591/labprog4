@@ -8,19 +8,18 @@
 
 class IControlComentario {
 public:
-    
     virtual vector<string> listarComentariosUsuario(string nombreUsuario) = 0;
     virtual void eliminarComentario(string mensaje) = 0;
 
-    virtual bool seleccionarUsuario(string nombreUsuario) = 0; //Devuelve false si no encontró el usuario
+    virtual bool seleccionarUsuario(string nombreUsuario) = 0;
     virtual vector<DTProducto> listarProductos() = 0;
-    virtual bool seleccionarProducto(int IDProducto) = 0; //Devuelve false si no encontró el producto
+    virtual bool seleccionarProducto(int IDProducto) = 0;
     virtual void realizarComentario(string texto, DTFecha fecha) = 0;
     virtual vector<string> listarComentarios() = 0;
-    virtual bool elegirComentario(string mensaje) = 0; //Devuelve false si no encontró el comentario
+    virtual bool elegirComentario(string mensaje) = 0;
     virtual void responderComentario(string respuesta, DTFecha fecha) = 0;
 
     virtual ~IControlComentario() {}
 };
 
-#endif
+#endif // ICONTROL_COMENTARIO_H

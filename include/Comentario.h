@@ -3,46 +3,35 @@
 
 #include <string>
 #include <set>
+#include <vector>
 #include "DTComentario.h"
 #include "DTFecha.h"
-using namespace std;
 
 class Comentario {
-public:
-
-    //falta agregar lo de la fecha(En su DT) y crea un comentario que no es apuntado ni apunta a nada, el control se va a tener que hacer una funcion de agragar cuando se haga
-    Comentario(string texto, DTFecha fecha);
-
-    //Libera el DTfecha asociado
-    //void Liberar();
-
-    Comentario* getSig();
-    Comentario* getResp();
-    void setSig(Comentario* Sig);
-    void setRes(Comentario* Res);
-    DTFecha* getFecha();
-    string getTexto();
-
-    //Devuelve un set con las respuestas DIRECTAS del comentario
-    set<Comentario*> getRespuestas();
-    void eliminarNodo();
-    void borrarRespuestas();        //(Comentario comentario)
-    bool eliminarNodoPosterior(string mensaje);
-    void AgregarRespuesta(Comentario *respuesta);
-
-    //Crea y devuelve un DTComentario de este comentario
-    DTComentario getDTComentario();
-
-    bool UltimoDelNivel();
-
-    void PrintComentario();
-    Comentario* ComentarioEnForo(string Text);
-
 private:
-    DTFecha fecha;
     string texto;
+    DTFecha fecha;
     Comentario* Sigcomentario;
     Comentario* Respuesta;
+
+public:
+    Comentario(string texto, DTFecha fecha);
+    ~Comentario();
+
+    set<Comentario*> getRespuestas();
+    void borrarRespuestas();
+    Comentario* buscarComentario(const string& mensaje);
+    void agregarRespuesta(Comentario* respuesta);
+
+    Comentario* getResp();
+    Comentario* getSig();
+    void setSig(Comentario* Sig);
+    void setRes(Comentario* Res);
+    string getTexto();
+    DTComentario getDTComentario();
+    bool UltimoDelNivel();
+
+    void listarComentariosRecursivo(vector<string>& lista, int nivel);
 };
 
-#endif
+#endif // COMENTARIO_H

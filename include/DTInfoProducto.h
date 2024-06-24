@@ -1,4 +1,3 @@
-// DTInfoProducto.h
 #ifndef DTINFOPRODUCTO_H
 #define DTINFOPRODUCTO_H
 

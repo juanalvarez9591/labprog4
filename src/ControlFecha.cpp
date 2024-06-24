@@ -10,7 +10,7 @@ ControlFecha* ControlFecha::getInstance() {
 }
 
 ControlFecha::ControlFecha() {
-    fechaActual = DTFecha(1, 1, 2000); // Set default date
+    fechaActual = DTFecha(1, 1, 2024);
 }
 
 DTFecha ControlFecha::getFechaActual() {
