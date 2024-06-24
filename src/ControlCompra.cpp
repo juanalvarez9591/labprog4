@@ -80,17 +80,16 @@ bool ControlCompra::confirmarCompra() {
     }
     int clave = compras.size() + 1;
     vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
-    float costoTotal = 0;
+    vector<Requisitos> requisitosCompra;
 
     for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
         Producto* producto = (*it)->getProducto();
         int cantidadComprada = (*it)->getCantidad();
-
-        float precioConPromocion = controlPromocion->calcularPrecioTotal(producto->getId(), cantidadComprada);
-        costoTotal += precioConPromocion;
-
+        requisitosCompra.push_back(Requisitos(cantidadComprada, producto));
         producto->actualizarStock(cantidadComprada);
     }
+
+    float costoTotal = controlPromocion->calcularPrecioTotal(requisitosCompra);
 
     compraEnProceso->setCosto(costoTotal);
 
@@ -105,20 +104,18 @@ DTDetallesCompra ControlCompra::verDetallesCompra() {
         return DTDetallesCompra();
     }
 
-    float costoTotal = 0;
     vector<DTProducto> productosCompra;
     vector<Cantidad*>& cantidades = compraEnProceso->getCantidades();
+    vector<Requisitos> requisitosCompra;
 
     for (vector<Cantidad*>::iterator it = cantidades.begin(); it != cantidades.end(); ++it) {
         Producto* producto = (*it)->getProducto();
         int cantidad = (*it)->getCantidad();
-
-        float precioProducto = controlPromocion->calcularPrecioTotal(producto->getId(), cantidad);
-
-        costoTotal += precioProducto;
-
+        requisitosCompra.push_back(Requisitos(cantidad, producto));
         productosCompra.push_back(producto->toDTProducto());
     }
+
+    float costoTotal = controlPromocion->calcularPrecioTotal(requisitosCompra);
 
     DTFecha fechaCompra = compraEnProceso->getFechaCompra();
 

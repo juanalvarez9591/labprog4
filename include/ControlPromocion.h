@@ -39,7 +39,7 @@ public:
     Producto* getProductoByID(int idProducto);
     vector<Requisitos> obtenerRequisitosPromocion(string nombre);
     vector<DTPromocion> verPromocionesVendedor(string nickVendedor);
-    float calcularPrecioTotal(int codigoProducto, int cantidad);
+    float calcularPrecioTotal(const vector<Requisitos>& requisitosCompra);
     bool crearProducto(string nombre, float precio, int stock, string descripcion, string categoria, string vendedorElegido) override;
 
 private:
