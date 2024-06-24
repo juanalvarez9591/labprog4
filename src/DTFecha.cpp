@@ -16,8 +16,21 @@ DTFecha::DTFecha(int dia, int mes, int anio)
 
 bool DTFecha::operator>=(const DTFecha &F) const
 {
-    return (anio >= F.anio && mes >= F.mes && dia >= F.dia);
+    
+    if (anio > F.anio) {
+        return true;
+    } else if (anio == F.anio) {
+        if (mes > F.mes) {
+            return true;
+        } else if (mes == F.mes) {
+            if (dia >= F.dia) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
+
 
 string DTFecha::getString() const {
     return to_string(this->dia) + "/" + to_string(this->mes) + "/" + to_string(this->anio);
