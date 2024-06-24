@@ -34,13 +34,34 @@ void ComentarioArbol::agregarComentario(const char* texto, Usuario* usuario, DTF
     }
 }
 
-void ComentarioArbol::eliminarComentario(ComentarioNodo* nodo) {
-    if (!nodo) return;
+bool ComentarioArbol::eliminarComentario(ComentarioNodo* nodo) {
+    if (!nodo) return false;
 
-    eliminarComentario(nodo->getHijo());
-    eliminarComentario(nodo->getHermano());
+    if (nodo == raiz) {
+        raiz = nodo->getHermano();
+        delete nodo;
+        return true;
+    }
 
-    delete nodo;
+    ComentarioNodo* padre = raiz;
+    while (padre) {
+        if (padre->getHijo() == nodo) {
+            padre->setHijo(nodo->getHermano());
+            delete nodo;
+            return true;
+        }
+        ComentarioNodo* hermano = padre->getHijo();
+        while (hermano && hermano->getHermano() != nodo) {
+            hermano = hermano->getHermano();
+        }
+        if (hermano && hermano->getHermano() == nodo) {
+            hermano->setHermano(nodo->getHermano());
+            delete nodo;
+            return true;
+        }
+        padre = padre->getHermano();
+    }
+    return false;
 }
 
 ComentarioNodo* ComentarioArbol::buscarComentario(const char* texto) {

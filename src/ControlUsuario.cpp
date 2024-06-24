@@ -4,7 +4,6 @@
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
 #include <sstream>
-#include "Comentario.h"
 #include "Producto.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;

@@ -3,9 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "Usuario.h"
-#include "Producto.h"
 #include "ComentarioArbol.h"
+#include "IControlComentario.h"
 
 using namespace std;
 
@@ -26,6 +25,7 @@ public:
     bool responderComentario(string texto) override;
     bool eliminarComentario() override;
 
+
 private:
     ControlComentario();
     static ControlComentario* instance;
@@ -34,8 +34,8 @@ private:
     ControlPromocion* controlPromocion;
     ControlFecha* controlFecha;
 
-    Usuario* usuarioEnMemoria;
-    Producto* productoEnMemoria;
+    string usuarioEnMemoria;
+    int productoEnMemoria;
     string comentarioEnMemoria;
 
     vector<ComentarioArbol*> arboles;

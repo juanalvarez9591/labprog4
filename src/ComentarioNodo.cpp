@@ -3,7 +3,7 @@
 #include <cstring>
 
 
-ComentarioNodo::ComentarioNodo(const char* texto, Usuario* usuario, DTFecha* fecha)
+ComentarioNodo::ComentarioNodo(const char* texto, Usuario* usuario, DTFecha fecha)
         : usuario(usuario), fecha(fecha), hijo(nullptr), hermano(nullptr) {
     this->texto = new char[strlen(texto) + 1];
     strcpy(this->texto, texto);
@@ -11,7 +11,6 @@ ComentarioNodo::ComentarioNodo(const char* texto, Usuario* usuario, DTFecha* fec
 
 ComentarioNodo::~ComentarioNodo() {
     delete[] texto;
-    delete fecha;
 }
 
 Usuario* ComentarioNodo::getUsuario() const {
@@ -22,7 +21,7 @@ const char* ComentarioNodo::getTexto() const {
     return texto;
 }
 
-DTFecha* ComentarioNodo::getFecha() const {
+DTFecha ComentarioNodo::getFecha() const {
     return fecha;
 }
 

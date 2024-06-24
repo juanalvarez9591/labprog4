@@ -4,8 +4,7 @@
 #include "Producto.h"
 #include "Usuario.h"
 #include "DTFecha.h"
-
-class ComentarioNodo;
+#include "ComentarioNodo.h"
 
 class ComentarioArbol {
 private:
@@ -18,8 +17,11 @@ public:
     ComentarioArbol(Producto* prod);
     ~ComentarioArbol();
 
+    Producto* getProducto() const { return producto; }
+    ComentarioNodo* getRaiz() const { return raiz; }
+
     void agregarComentario(const char* texto, Usuario* usuario, DTFecha fecha, ComentarioNodo* padre = nullptr);
-    void eliminarComentario(ComentarioNodo* nodo);
+    bool eliminarComentario(ComentarioNodo* nodo);
     ComentarioNodo* buscarComentario(const char* texto);
 };
 

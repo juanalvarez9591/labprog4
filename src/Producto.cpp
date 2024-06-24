@@ -1,6 +1,5 @@
 #include "Producto.h"
 #include <iostream>
-#include "Comentario.h"
 
 Producto::Producto() {
     this->nombre = "";
