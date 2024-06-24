@@ -26,7 +26,6 @@ vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario)
     if (!usuario) return {};
 
     vector<string> comentarios;
-    vector<string> comentarios;
     for (Comentario* c : usuario->getComentarios()) {
         comentarios.push_back(c->getTexto());
     }
