@@ -620,7 +620,7 @@ void fechaSistemaHandler(IControlFecha* controlFecha) {
     } while (choice != '4');
 }
 
-void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
+void suscripcionesHandler(IControlSuscripciones* controlSuscripciones, IControlUsuario* controlUsuario) {
     char choice;
     string nickCliente;
 
@@ -637,38 +637,72 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
 
         switch (choice) {
             case '1':
+            {
+                vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+                cout << "Clientes disponibles:" << endl;
+                for (const string& nick : nicknamesClientes) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
-                {
-                    vector<string> vendedoresNoSuscritos = controlSuscripciones->getVendedoresNoSuscritos(nickCliente);
-                    cout << "Vendedores no suscritos:" << endl;
-                    for (const string& vendedor : vendedoresNoSuscritos) {
-                        cout << "- " << vendedor << endl;
-                    }
+                if (find(nicknamesClientes.begin(), nicknamesClientes.end(), nickCliente) == nicknamesClientes.end()) {
+                    cout << "Cliente no encontrado." << endl;
+                    break;
                 }
+                vector<string> vendedoresNoSuscritos = controlSuscripciones->getVendedoresNoSuscritos(nickCliente);
+                cout << "Vendedores no suscritos:" << endl;
+                for (const string& vendedor : vendedoresNoSuscritos) {
+                    cout << "- " << vendedor << endl;
+                }
+            }
                 break;
             case '2':
+            {
+                vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+                cout << "Clientes disponibles:" << endl;
+                for (const string& nick : nicknamesClientes) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
-                {
-                    vector<string> vendedoresSuscritos = controlSuscripciones->getVendedoresSuscritos(nickCliente);
-                    cout << "Vendedores suscritos:" << endl;
-                    for (const string& vendedor : vendedoresSuscritos) {
-                        cout << "- " << vendedor << endl;
-                    }
+                if (find(nicknamesClientes.begin(), nicknamesClientes.end(), nickCliente) == nicknamesClientes.end()) {
+                    cout << "Cliente no encontrado." << endl;
+                    break;
                 }
+                vector<string> vendedoresSuscritos = controlSuscripciones->getVendedoresSuscritos(nickCliente);
+                cout << "Vendedores suscritos:" << endl;
+                for (const string& vendedor : vendedoresSuscritos) {
+                    cout << "- " << vendedor << endl;
+                }
+            }
                 break;
             case '3':
             {
-                vector<string> nickVendedores;
-                string vendedor;
+                vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+                cout << "Clientes disponibles:" << endl;
+                for (const string& nick : nicknamesClientes) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
+                if (find(nicknamesClientes.begin(), nicknamesClientes.end(), nickCliente) == nicknamesClientes.end()) {
+                    cout << "Cliente no encontrado." << endl;
+                    break;
+                }
+                vector<string> nickVendedores;
+                string vendedor;
+                vector<string> nicknamesVendedores = controlUsuario->listarNicknamesVendedores();
+                cout << "Vendedores disponibles:" << endl;
+                for (const string& nick : nicknamesVendedores) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa los nicknames de los vendedores (ingresa 'fin' para terminar):" << endl;
                 cin.ignore();
                 while (getline(cin, vendedor) && vendedor != "fin") {
                     if (vendedor.find(' ') != string::npos) {
                         cout << "Los nicknames no pueden contener espacios. Intenta de nuevo." << endl;
+                    } else if (find(nicknamesVendedores.begin(), nicknamesVendedores.end(), vendedor) == nicknamesVendedores.end()) {
+                        cout << "Vendedor no encontrado. Intenta de nuevo." << endl;
                     } else {
                         nickVendedores.push_back(vendedor);
                     }
@@ -679,28 +713,55 @@ void suscripcionesHandler(IControlSuscripciones* controlSuscripciones) {
                 break;
             case '4':
             {
-                vector<string> nickVendedores;
-                string vendedor;
+                vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+                cout << "Clientes disponibles:" << endl;
+                for (const string& nick : nicknamesClientes) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
+                if (find(nicknamesClientes.begin(), nicknamesClientes.end(), nickCliente) == nicknamesClientes.end()) {
+                    cout << "Cliente no encontrado." << endl;
+                    break;
+                }
+                vector<string> nickVendedores;
+                string vendedor;
+                vector<string> vendedoresSuscritos = controlSuscripciones->getVendedoresSuscritos(nickCliente);
+                cout << "Vendedores suscritos:" << endl;
+                for (const string& nick : vendedoresSuscritos) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa los nicknames de los vendedores a eliminar (ingresa 'fin' para terminar):" << endl;
                 while (cin >> vendedor && vendedor != "fin") {
-                    nickVendedores.push_back(vendedor);
+                    if (find(vendedoresSuscritos.begin(), vendedoresSuscritos.end(), vendedor) == vendedoresSuscritos.end()) {
+                        cout << "Vendedor no encontrado o no suscrito. Intenta de nuevo." << endl;
+                    } else {
+                        nickVendedores.push_back(vendedor);
+                    }
                 }
                 controlSuscripciones->eliminarSuscripciones(nickVendedores, nickCliente);
                 cout << "Suscripciones eliminadas con exito" << endl;
             }
                 break;
             case '5':
+            {
+                vector<string> nicknamesClientes = controlUsuario->listarNicknamesClientes();
+                cout << "Clientes disponibles:" << endl;
+                for (const string& nick : nicknamesClientes) {
+                    cout << "- " << nick << endl;
+                }
                 cout << "Ingresa el nickname del cliente: ";
                 cin >> nickCliente;
-                {
-                    vector<DTNotificacion> notificaciones = controlSuscripciones->listarNotificaciones(nickCliente);
-                    cout << "Notificaciones:" << endl;
-                    for (const DTNotificacion& notificacion : notificaciones) {
-                        cout << "- " << notificacion.toString() << endl;
-                    }
+                if (find(nicknamesClientes.begin(), nicknamesClientes.end(), nickCliente) == nicknamesClientes.end()) {
+                    cout << "Cliente no encontrado." << endl;
+                    break;
                 }
+                vector<DTNotificacion> notificaciones = controlSuscripciones->listarNotificaciones(nickCliente);
+                cout << "Notificaciones:" << endl;
+                for (const DTNotificacion& notificacion : notificaciones) {
+                    cout << "- " << notificacion.toString() << endl;
+                }
+            }
                 break;
             case '6':
                 break;
@@ -1226,7 +1287,7 @@ int main() {
                 fechaSistemaHandler(controlFecha);
                 break;
             case 2:
-                suscripcionesHandler(controlSuscripciones);
+                suscripcionesHandler(controlSuscripciones, controlUsuario);
                 break;
             case 3:
                 usuarioHandler(controlUsuario);
