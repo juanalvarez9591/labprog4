@@ -1,5 +1,9 @@
 #include "ControlComentario.h"
-#include <algorithm>
+#include "ControlUsuario.h"
+#include "ControlPromocion.h"
+#include "ControlFecha.h"
+
+using namespace std;
 
 ControlComentario* ControlComentario::instance = nullptr;
 
@@ -11,84 +15,74 @@ ControlComentario* ControlComentario::getInstance() {
 }
 
 ControlComentario::ControlComentario() {
-    ContrUsua = ControlUsuario::getInstance();
-    ContrProm = ControlPromocion::getInstance();
-    UsuarioSeleccionado = nullptr;
-    ProdSeleccionado = nullptr;
-    AResponder = nullptr;
+    controlUsuario = ControlUsuario::getInstance();
+    controlPromocion = ControlPromocion::getInstance();
+    controlFecha = ControlFecha::getInstance();
+    usuarioEnMemoria = nullptr;
+    productoEnMemoria = nullptr;
+    comentarioEnMemoria = "";
+    arboles = vector<ComentarioArbol*>();
 }
 
 ControlComentario::~ControlComentario() {
-}
-
-vector<string> ControlComentario::listarComentariosUsuario(string nombreUsuario) {
-    Usuario* usuario = ContrUsua->getUsuario(nombreUsuario);
-    if (!usuario) return {};
-
-    vector<string> comentarios;
-    for (Comentario* c : usuario->getComentarios()) {
-        comentarios.push_back(c->getTexto());
+    for (ComentarioArbol* arbol : arboles) {
+        delete arbol;
     }
-    return comentarios;
 }
 
-void ControlComentario::eliminarComentario(string mensaje) {
-    if (!UsuarioSeleccionado || !ProdSeleccionado) return;
+void ControlComentario::seleccionarUsuario(string nickUsuario) {
+    usuarioEnMemoria = controlUsuario->getUsuario(nickUsuario);
+}
 
-    Comentario* comentario = ProdSeleccionado->buscarComentario(mensaje);
-    if (comentario) {
-        ProdSeleccionado->eliminarComentario(comentario);
-        UsuarioSeleccionado->olvidarComentario(comentario);
+void ControlComentario::seleccionarProducto(int codigoProducto) {
+    productoEnMemoria = controlPromocion->getProductoByID(codigoProducto);
+}
+
+void ControlComentario::realizarComentario(string texto) {
+    if (usuarioEnMemoria != nullptr && productoEnMemoria != nullptr) {
+        DTFecha fechaActual = controlFecha->getFechaActual();
     }
-
-    UsuarioSeleccionado = nullptr;
-    ProdSeleccionado = nullptr;
 }
 
-bool ControlComentario::seleccionarUsuario(string nombreUsuario) {
-    UsuarioSeleccionado = ContrUsua->getUsuario(nombreUsuario);
-    return UsuarioSeleccionado != nullptr;
+string ControlComentario::listarComentarios() {
+    if (productoEnMemoria != nullptr) {
+    }
+    return "";
 }
 
-vector<DTProducto> ControlComentario::listarProductos() {
-    return ContrProm->listarProductos();
+bool ControlComentario::elegirComentario(string texto) {
+    if (productoEnMemoria != nullptr) {
+        ComentarioArbol* arbol = buscarArbol(productoEnMemoria->getCodigo());
+        if (arbol != nullptr) {
+            comentarioNodoEnMemoria = arbol->buscarComentario(texto.c_str());
+            if (comentarioNodoEnMemoria) {
+                comentarioEnMemoria = texto;
+                return true;
+            }
+        }
+    }
+    comentarioEnMemoria = "";
+    comentarioNodoEnMemoria = nullptr;
+    return false;
 }
 
-bool ControlComentario::seleccionarProducto(int IDProducto) {
-    ProdSeleccionado = ContrProm->getProductoByID(IDProducto);
-    return ProdSeleccionado != nullptr;
+bool ControlComentario::eliminarComentario() {
+    if (productoEnMemoria != nullptr && comentarioNodoEnMemoria != nullptr) {
+        ComentarioArbol* arbol = buscarArbol(productoEnMemoria->getCodigo());
+        if (arbol != nullptr) {
+            bool resultado = arbol->eliminarComentario(comentarioNodoEnMemoria);
+            if (resultado) {
+                comentarioEnMemoria = "";
+                comentarioNodoEnMemoria = nullptr;
+            }
+            return resultado;
+        }
+    }
+    return false;
 }
 
-void ControlComentario::realizarComentario(string texto, DTFecha fecha) {
-    if (!ProdSeleccionado || !UsuarioSeleccionado) return;
-
-    Comentario* nuevoComentario = new Comentario(texto, fecha);
-    ProdSeleccionado->agregarComentario(nuevoComentario);
-    UsuarioSeleccionado->addComentario(nuevoComentario);
-
-    UsuarioSeleccionado = nullptr;
-    ProdSeleccionado = nullptr;
-}
-
-vector<string> ControlComentario::listarComentarios() {
-    if (!ProdSeleccionado) return {};
-    return ProdSeleccionado->listarComentarios();
-}
-
-bool ControlComentario::elegirComentario(string mensaje) {
-    if (!ProdSeleccionado) return false;
-
-    AResponder = ProdSeleccionado->buscarComentario(mensaje);
-    return AResponder != nullptr;
-}
-
-void ControlComentario::responderComentario(string respuesta, DTFecha fecha) {
-    if (!UsuarioSeleccionado || !AResponder) return;
-
-    Comentario* nuevaRespuesta = new Comentario(respuesta, fecha);
-    AResponder->agregarRespuesta(nuevaRespuesta);
-    UsuarioSeleccionado->addComentario(nuevaRespuesta);
-
-    UsuarioSeleccionado = nullptr;
-    AResponder = nullptr;
+void ControlComentario::responderComentario(string texto) {
+    if (productoEnMemoria != nullptr && usuarioEnMemoria != nullptr && !comentarioEnMemoria.empty()) {
+        DTFecha fechaActual = controlFecha->getFechaActual();
+    }
 }

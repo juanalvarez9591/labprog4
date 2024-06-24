@@ -6,18 +6,17 @@
 #include "DTFecha.h"
 #include "DTProducto.h"
 
+using namespace std;
+
 class IControlComentario {
 public:
-    virtual vector<string> listarComentariosUsuario(string nombreUsuario) = 0;
-    virtual void eliminarComentario(string mensaje) = 0;
-
-    virtual bool seleccionarUsuario(string nombreUsuario) = 0;
-    virtual vector<DTProducto> listarProductos() = 0;
-    virtual bool seleccionarProducto(int IDProducto) = 0;
-    virtual void realizarComentario(string texto, DTFecha fecha) = 0;
-    virtual vector<string> listarComentarios() = 0;
-    virtual bool elegirComentario(string mensaje) = 0;
-    virtual void responderComentario(string respuesta, DTFecha fecha) = 0;
+    virtual void seleccionarUsuario(string nickUsuario) = 0;
+    virtual void seleccionarProducto(int codigoProducto) = 0;
+    virtual bool realizarComentario(string texto) = 0;
+    virtual string listarComentarios() = 0;
+    virtual bool elegirComentario(string texto) = 0;
+    virtual bool responderComentario(string texto) = 0;
+    virtual bool eliminarComentario() = 0;
 
     virtual ~IControlComentario() {}
 };

@@ -1,38 +1,47 @@
 #ifndef CONTROL_COMENTARIO_H
 #define CONTROL_COMENTARIO_H
 
-#include "IControlComentario.h"
-#include "ControlUsuario.h"
-#include "ControlPromocion.h"
+#include <string>
+#include <vector>
 #include "Usuario.h"
 #include "Producto.h"
-#include "Comentario.h"
+#include "ComentarioArbol.h"
+
+using namespace std;
+
+class ControlUsuario;
+class ControlPromocion;
+class ControlFecha;
 
 class ControlComentario : public IControlComentario {
-private:
-    static ControlComentario* instance;
-    ControlComentario();
-
-    ControlUsuario* ContrUsua;
-    ControlPromocion* ContrProm;
-    Usuario* UsuarioSeleccionado;
-    Producto* ProdSeleccionado;
-    Comentario* AResponder;
-
 public:
     static ControlComentario* getInstance();
-    virtual ~ControlComentario();
+    ~ControlComentario();
 
-    vector<string> listarComentariosUsuario(string nombreUsuario) override;
-    void eliminarComentario(string mensaje) override;
+    void seleccionarUsuario(string nickUsuario) override;
+    void seleccionarProducto(int codigoProducto) override;
+    bool realizarComentario(string texto) override;
+    string listarComentarios() override;
+    bool elegirComentario(string texto) override;
+    bool responderComentario(string texto) override;
+    bool eliminarComentario() override;
 
-    bool seleccionarUsuario(string nombreUsuario) override;
-    vector<DTProducto> listarProductos() override;
-    bool seleccionarProducto(int IDProducto) override;
-    void realizarComentario(string texto, DTFecha fecha) override;
-    vector<string> listarComentarios() override;
-    bool elegirComentario(string mensaje) override;
-    void responderComentario(string respuesta, DTFecha fecha) override;
+private:
+    ControlComentario();
+    static ControlComentario* instance;
+
+    ControlUsuario* controlUsuario;
+    ControlPromocion* controlPromocion;
+    ControlFecha* controlFecha;
+
+    Usuario* usuarioEnMemoria;
+    Producto* productoEnMemoria;
+    string comentarioEnMemoria;
+
+    vector<ComentarioArbol*> arboles;
+    ComentarioArbol* buscarArbol(int codigoProducto);
+    string listarComentariosRecursivo(ComentarioNodo* nodo, int nivel);
+    ComentarioNodo* comentarioNodoEnMemoria;
 };
 
 #endif // CONTROL_COMENTARIO_H

@@ -6,7 +6,6 @@
 #include "DTProducto.h"
 #include "DTInfoProducto.h"
 #include "Categoria.h"
-#include "Comentario.h"
 #include "DTDatosProducto.h"
 
 using namespace std;
@@ -28,10 +27,6 @@ public:
     void actualizarStock(int cantidad);
     ~Producto();
 
-    void agregarComentario(Comentario* comentario);
-    Comentario* buscarComentario(const string& texto);
-    void eliminarComentario(Comentario* comentario);
-    vector<string> listarComentarios();
 private:
     string descripcion;
     string nombre;
@@ -40,7 +35,6 @@ private:
     float precio;
     Categoria categoria;
     Vendedor* vendedor;
-    Comentario* raizComentarios;
 };
 
 #endif
