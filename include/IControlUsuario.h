@@ -6,9 +6,9 @@
 #include "DTFecha.h"
 #include "DTDataVendedor.h"
 #include "DTDataCliente.h"
-/*
 #include "DTComentario.h"
-*/
+
+
 using namespace std;
 
 class IControlUsuario {

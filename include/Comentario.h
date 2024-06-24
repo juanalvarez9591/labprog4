@@ -2,34 +2,36 @@
 #define COMENTARIO_H
 
 #include <string>
-using namespace std;
+#include <set>
+#include <vector>
+#include "DTComentario.h"
+#include "DTFecha.h"
 
 class Comentario {
+private:
+    string texto;
+    DTFecha fecha;
+    Comentario* Sigcomentario;
+    Comentario* Respuesta;
+
 public:
+    Comentario(string texto, DTFecha fecha);
+    ~Comentario();
 
-    //falta agregar lo de la fecha(En su DT) y crea un comentario que no es apuntado ni apunta a nada, el control se va a tener que hacer una funcion de agragar cuando se haga
-    Comentario(string texto);
+    set<Comentario*> getRespuestas();
+    void borrarRespuestas();
+    Comentario* buscarComentario(const string& mensaje);
+    void agregarRespuesta(Comentario* respuesta);
 
-    //Libera el DTfecha asociado
-    void Liberar();
-
-    Comentario* getSig();
     Comentario* getResp();
+    Comentario* getSig();
     void setSig(Comentario* Sig);
     void setRes(Comentario* Res);
-    DTFecha* getFecha();
+    string getTexto();
+    DTComentario getDTComentario();
+    bool UltimoDelNivel();
 
-    //Devuelve el puntero a la primera respuesta, y puedes navegar al resto luego
-    Comentario* borrarRespuestas();
-
-    //Crea y devuelve un DTComentario de este comentario
-    DTComentario getDTComentario()
-
-private:
-    DTFecha date;
-    string texto;
-    Comentario* Sigcomenario;
-    Comentario* Respuesta
+    void listarComentariosRecursivo(vector<string>& lista, int nivel);
 };
 
-#endif
+#endif // COMENTARIO_H

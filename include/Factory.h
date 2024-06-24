@@ -4,6 +4,7 @@
 #include "IControlUsuario.h"
 #include "IControlFecha.h"
 #include "IControlSuscripciones.h"
+#include "IControlComentario.h"
 #include "IControlPromocion.h"
 #include "IControlCompra.h"
 
@@ -14,6 +15,7 @@ public:
     static IControlSuscripciones* getControlSuscripciones();
     static IControlPromocion* getControlPromocion();
     static IControlCompra* getControlCompra();
+    static IControlComentario* getControlComentario();
 };
 
 #endif

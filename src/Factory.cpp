@@ -4,6 +4,7 @@
 #include "ControlSuscripciones.h"
 #include "ControlPromocion.h"
 #include "ControlCompra.h"
+#include "ControlComentario.h"
 
 IControlUsuario* Factory::getControlUsuario() {
     return ControlUsuario::getInstance();
@@ -24,3 +25,7 @@ IControlPromocion* Factory::getControlPromocion() {
  IControlCompra* Factory::getControlCompra(){
     return ControlCompra::getInstance();
  }
+
+IControlComentario* Factory::getControlComentario() {
+    return ControlComentario::getInstance();
+}

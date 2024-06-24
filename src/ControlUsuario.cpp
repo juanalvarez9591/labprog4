@@ -3,6 +3,9 @@
 #include "ControlCompra.h"
 #include "DTExpCliente.h"
 #include "DTExpVendedor.h"
+#include <sstream>
+#include "Comentario.h"
+#include "Producto.h"
 
 ControlUsuario* ControlUsuario::instance = nullptr;
 
@@ -10,7 +13,6 @@ ControlUsuario* ControlUsuario::instance = nullptr;
 ControlUsuario* ControlUsuario::getInstance() {
     if (instance == nullptr) {
      instance = new ControlUsuario();
-       
     }
     return instance;
 }
@@ -18,7 +20,6 @@ ControlUsuario* ControlUsuario::getInstance() {
 ControlUsuario::ControlUsuario() {
     clientes = vector<Cliente>();
     vendedores = vector<Vendedor>();
-  
 }
 
 DTInfoUsuarios* ControlUsuario::verExpedienteUsuario(string nickUsuario) {
@@ -37,7 +38,7 @@ DTInfoUsuarios* ControlUsuario::verExpedienteUsuario(string nickUsuario) {
                                                     expClienteOriginal.getCiudad(),
                                                     expClienteOriginal.getCompras());
         //Es correcto copiar DT mientras la copia sea en profundidad (visto en teórico)
-        
+
         return expCliente;
     }
 

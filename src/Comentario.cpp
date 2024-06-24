@@ -1,45 +1,109 @@
-/*
 #include "Comentario.h"
 #include "DTComentario.h"
 #include "DTFecha.h"
+#include <queue>
 
-Comentario Comentario(std::string texto){
-	this->texto = texto;
-	this->date = getDTFechaNow();
-	this->Sigcomenario = NULL;
-	this->Respuesta = NULL;
+using namespace std;
+
+Comentario::Comentario(string texto, DTFecha fecha) {
+    this->texto = texto;
+    this->fecha = fecha;
+    this->Sigcomentario = nullptr;
+    this->Respuesta = nullptr;
 }
 
-//Libera la el DTfecha asociado, hay que hacer delete aparte
-void Liberar(){
-	LiberarFecha(this->date);
+Comentario::~Comentario() {
 }
 
-//Devuelve el puntero a la primera respuesta
-Comentario* borrarRespuestas(){
-	return this->Respuesta;
+set<Comentario*> Comentario::getRespuestas() {
+    set<Comentario*> respuestas;
+    Comentario* i = this->Respuesta;
+    while (i != nullptr) {
+        respuestas.insert(i);
+        i = i->Sigcomentario;
+    }
+    return respuestas;
 }
 
-Comentario* getResp(){
-	return this->Respuesta;
+void Comentario::borrarRespuestas() {
+    queue<Comentario*> cola;
+    if (this->Respuesta) cola.push(this->Respuesta);
+
+    while (!cola.empty()) {
+        Comentario* actual = cola.front();
+        cola.pop();
+
+        if (actual->Sigcomentario) cola.push(actual->Sigcomentario);
+        if (actual->Respuesta) cola.push(actual->Respuesta);
+
+        delete actual;
+    }
+
+    this->Respuesta = nullptr;
 }
 
-Comentario* getSig(){
-	return this->Sigcomenario;
+Comentario* Comentario::buscarComentario(const string& mensaje) {
+    if (this->texto == mensaje) return this;
+
+    Comentario* encontrado = nullptr;
+    if (this->Sigcomentario) {
+        encontrado = this->Sigcomentario->buscarComentario(mensaje);
+    }
+    if (!encontrado && this->Respuesta) {
+        encontrado = this->Respuesta->buscarComentario(mensaje);
+    }
+    return encontrado;
 }
 
-void setSig(Comentario* Sig){
-	this->Sig = Sig;
-}
-void setRes(Comentario* Res){
-	this->Res = Res;
+void Comentario::agregarRespuesta(Comentario* respuesta) {
+    if (!this->Respuesta) {
+        this->Respuesta = respuesta;
+    } else {
+        Comentario* ultimo = this->Respuesta;
+        while (ultimo->Sigcomentario) {
+            ultimo = ultimo->Sigcomentario;
+        }
+        ultimo->Sigcomentario = respuesta;
+    }
 }
 
-string obtenerTexto(){
-
-	return this->texto;
+Comentario* Comentario::getResp() {
+    return this->Respuesta;
 }
 
-DTComentario getDTComentario(){
-	return DTComentario(this->autor , this->texto);
-}*/
+Comentario* Comentario::getSig() {
+    return this->Sigcomentario;
+}
+
+void Comentario::setSig(Comentario* Sig) {
+    this->Sigcomentario = Sig;
+}
+
+void Comentario::setRes(Comentario* Res) {
+    this->Respuesta = Res;
+}
+
+string Comentario::getTexto() {
+    return this->texto;
+}
+
+DTComentario Comentario::getDTComentario() {
+    return DTComentario(this->texto, this->fecha);
+}
+
+bool Comentario::UltimoDelNivel() {
+    return (this->Sigcomentario == nullptr);
+}
+
+void Comentario::listarComentariosRecursivo(vector<string>& lista, int nivel) {
+    string prefijo(nivel * 2, ' '); // esto es para que se lea bien
+    lista.push_back(prefijo + this->texto);
+
+    if (this->Respuesta) {
+        this->Respuesta->listarComentariosRecursivo(lista, nivel + 1);
+    }
+
+    if (this->Sigcomentario) {
+        this->Sigcomentario->listarComentariosRecursivo(lista, nivel);
+    }
+}
