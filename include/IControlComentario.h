@@ -16,7 +16,9 @@ public:
     virtual string listarComentarios() = 0;
     virtual bool elegirComentario(string texto) = 0;
     virtual bool responderComentario(string texto) = 0;
-    virtual bool eliminarComentario() = 0;
+    virtual bool eliminarComentario(string texto) = 0;
+    virtual string listarComentariosProducto(int codigoProducto) = 0;
+    virtual string listarComentariosDeUsuario(string nickUsuario) = 0;
 
     virtual ~IControlComentario() {}
 };

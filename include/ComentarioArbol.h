@@ -12,7 +12,7 @@ private:
     ComentarioNodo* raiz;
 
     ComentarioNodo* buscarComentarioRecursivo(ComentarioNodo* nodo, const char* texto);
-
+    string obtenerComentariosDeUsuarioRecursivo(ComentarioNodo* nodo, string nickUsuario, int nivel);
 public:
     ComentarioArbol(Producto* prod);
     ~ComentarioArbol();
@@ -23,6 +23,7 @@ public:
     void agregarComentario(const char* texto, Usuario* usuario, DTFecha fecha, ComentarioNodo* padre = nullptr);
     bool eliminarComentario(ComentarioNodo* nodo);
     ComentarioNodo* buscarComentario(const char* texto);
+    string obtenerComentariosDeUsuario(string nickUsuario);
 };
 
 #endif

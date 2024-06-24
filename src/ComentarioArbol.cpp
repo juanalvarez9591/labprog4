@@ -80,3 +80,24 @@ ComentarioNodo* ComentarioArbol::buscarComentarioRecursivo(ComentarioNodo* nodo,
 
     return buscarComentarioRecursivo(nodo->getHermano(), texto);
 }
+
+string ComentarioArbol::obtenerComentariosDeUsuario(string nickUsuario) {
+    return obtenerComentariosDeUsuarioRecursivo(raiz, nickUsuario, 0);
+}
+
+string ComentarioArbol::obtenerComentariosDeUsuarioRecursivo(ComentarioNodo* nodo, string nickUsuario, int nivel) {
+    if (!nodo) return "";
+
+    string resultado = "";
+    if (nodo->getUsuarioNick() == nickUsuario) {
+        string indentacion(nivel * 2, ' ');
+        resultado += indentacion + nodo->getTexto();
+        DTFecha fecha = nodo->getFecha();
+        resultado += " ("+to_string(fecha.getDia()) + "/" + to_string(fecha.getMes()) + "/" + to_string(fecha.getAnio()) + ")\n";
+    }
+
+    resultado += obtenerComentariosDeUsuarioRecursivo(nodo->getHijo(), nickUsuario, nivel + 1);
+    resultado += obtenerComentariosDeUsuarioRecursivo(nodo->getHermano(), nickUsuario, nivel);
+
+    return resultado;
+}

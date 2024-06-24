@@ -23,7 +23,9 @@ public:
     string listarComentarios() override;
     bool elegirComentario(string texto) override;
     bool responderComentario(string texto) override;
-    bool eliminarComentario() override;
+    bool eliminarComentario(string texto) override;
+    string listarComentariosProducto(int codigoProducto) override;
+    string listarComentariosDeUsuario(string nickUsuario) override;
 
 
 private:

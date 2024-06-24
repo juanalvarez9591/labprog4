@@ -1028,6 +1028,8 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
         cout << "Comentarios:" << endl;
         cout << "1. Dejar comentario" << endl;
         cout << "2. Eliminar comentario" << endl;
+        cout << "3. Listar comentarios de un producto" << endl;
+
         cout << "0. Volver al menú principal" << endl;
         cin >> choice;
         switch (choice) {
@@ -1068,6 +1070,7 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                         cout << "¿Comentar sobre el producto o responder otro comentario?" << endl;
                         cout << "1. Comentar sobre el producto" << endl;
                         cout << "2. Responder un comentario" << endl;
+
                         cin >> alt;
                         switch (alt) {
                             case '1':{
@@ -1123,33 +1126,42 @@ void ComentarioHandler(IControlComentario* controlComentario, IControlPromocion*
                         cout << usuario << endl;
                     }
                     cin >> usuarioElegido;
-                    controlComentario->seleccionarUsuario(usuarioElegido);
 
-                    string comentarios = controlComentario->listarComentarios();
-                    if (comentarios.empty()){
+                    string comentariosUsuario = controlComentario->listarComentariosDeUsuario(usuarioElegido);
+
+                    if (comentariosUsuario.empty()){
                         cout << "Este usuario no tiene comentarios por el momento" << endl;
                         break;
                     } else {
-                        cout << "¿Qué comentario quieres eliminar?" << endl;
-                        cout << comentarios << endl;
+                        cout << "Comentarios del usuario:" << endl;
+                        cout << comentariosUsuario << endl;
+
+                        cout << "Escribe el comentario que deseas eliminar:" << endl;
                         cin.ignore();
                         getline(cin, texto);
-                        sinError = controlComentario->elegirComentario(texto);
-                        if (!sinError) {
-                            cout << "No se encontró el comentario, asegurate de haberlo escrito correctamente" << endl;
-                            break;
-                        }
-                        sinError = controlComentario->eliminarComentario();
+
+                        sinError = controlComentario->eliminarComentario(texto);
                         if (sinError) {
                             cout << "¡Comentario eliminado con éxito!" << endl;
                         } else {
-                            cout << "Hubo un error al eliminar el comentario." << endl;
+                            cout << "No se encontró el comentario o hubo un error al eliminarlo." << endl;
                         }
-                        break;
                     }
+                    break;
+                }
+                case '3':{
+                    int codigoProducto;
+                    cout << "Ingrese el código del producto cuyos comentarios desea ver: ";
+                    cin >> codigoProducto;
+
+                    string comentariosProducto = controlComentario->listarComentariosProducto(codigoProducto);
+
+                    cout << "Comentarios del producto " << codigoProducto << ":" << endl;
+                    cout << comentariosProducto << endl;
+                    break;
                 }
             }
-            default:{
+                default:{
                 cout << "Opcion invalida, intenta de nuevo" << endl;
             }
         }
